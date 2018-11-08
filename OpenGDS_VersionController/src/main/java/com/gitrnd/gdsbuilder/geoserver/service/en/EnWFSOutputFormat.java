@@ -1,0 +1,62 @@
+package com.gitrnd.gdsbuilder.geoserver.service.en;
+
+/**
+ * WFSOutputFormat 타입
+ * @author SG.Lee
+ * @Date 2017. 6. 5. 오후 5:45:47
+ * */
+public enum EnWFSOutputFormat {
+	GML2("GML2", "gml2"), 
+	GML3("GML3", "gml3"), 
+	SHP("SHP", "shape-zip"),
+	JSON("JSON", "application/json"),
+	JSONP("JSONP", "text/javascript"),
+	CSV("CSV", "csv"),
+	UNKNOWN(null,null);
+	
+	
+	String type;
+	String typeName;
+	
+	private EnWFSOutputFormat(String type, String typeName) {
+		this.type = type;
+		this.typeName = typeName;
+	}
+	
+	public static EnWFSOutputFormat getFromType(String type) {
+		for (EnWFSOutputFormat format : values()) {
+			if(format == UNKNOWN)
+				continue;
+			if(format.type.equals(type.toUpperCase()))
+				return format;
+		}
+		return UNKNOWN;
+	}
+	
+	public static EnWFSOutputFormat getFromTypeName(String typeName) {
+		for (EnWFSOutputFormat format : values()) {
+			if(format == UNKNOWN)
+				continue;
+			if(format.typeName.equals(typeName.toLowerCase()))
+				return format;
+		}
+		return UNKNOWN;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+	
+}

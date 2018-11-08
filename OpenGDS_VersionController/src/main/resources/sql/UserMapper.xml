@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gitrnd.qaproducer.user.mapper.UserMapper">
+
+	<select id="retrieveUserById" parameterType="String"
+		resultType="com.gitrnd.qaproducer.user.domain.User">
+		SELECT
+		idx,
+		uid,
+		pw,
+		email,
+		auth,
+		fname,
+		lname,
+		active,
+		tb_user.aid
+		FROM
+		tb_user,
+		tb_auth
+		WHERE tb_user.uid =
+		#{uid}
+		AND
+		tb_user.aid =
+		tb_auth.aid
+		AND
+		tb_user.active = true
+	</select>
+
+	<select id="retrieveUserByIdx" parameterType="int"
+		resultType="com.gitrnd.qaproducer.user.domain.User">
+		SELECT
+		idx,
+		uid,
+		pw,
+		email,
+		auth,
+		fname,
+		lname,
+		active,
+		tb_user.aid
+		FROM
+		tb_user,
+		tb_auth
+		WHERE tb_user.idx =
+		#{idx}
+		AND
+		tb_user.aid =
+		tb_auth.aid
+		AND
+		tb_user.active = true
+	</select>
+
+	<insert id="createUser" parameterType="com.gitrnd.qaproducer.user.domain.User">
+		INSERT INTO tb_user (
+		uid,
+		email,
+		pw,
+		fname,
+		lname,
+		aid
+		)
+		VALUES (
+		#{uid},
+		#{email},
+		#{pw},
+		#{fname},
+		#{lname},
+		#{aid}
+		)
+	</insert>
+
+	<select id="checkUserById" parameterType="com.gitrnd.qaproducer.user.domain.User"
+		resultType="com.gitrnd.qaproducer.user.domain.User">
+		SELECT
+		idx,
+		uid,
+		email,
+		aid,
+		fname,
+		lname,
+		active
+		FROM tb_user,
+		tb_auth
+		WHERE
+		uid =
+		#{uid} AND pw = #{pw} AND tb_user.aid = tb_auth.aid
+		AND
+		tb_user.active = true
+	</select>
+
+	<select id="checkDuplicatedById" parameterType="String"
+		resultType="com.gitrnd.qaproducer.user.domain.User">
+		SELECT
+		idx,
+		uid,
+		email,
+		aid,
+		fname,
+		lname,
+		active
+		FROM tb_user
+		WHERE
+		uid =
+		#{uid}
+	</select>
+
+	<select id="checkUserByEmail" parameterType="com.gitrnd.qaproducer.user.domain.User"
+		resultType="com.gitrnd.qaproducer.user.domain.User">
+		SELECT
+		idx,
+		uid,
+		email,
+		aid,
+		fname,
+		lname,
+		active
+		FROM tb_user
+		WHERE email =
+		#{email} AND
+		pw = #{pw}
+		AND
+		tb_user.aid = tb_auth.aid
+		AND
+		tb_user.active = true
+	</select>
+
+	<select id="checkDuplicatedByEmail" parameterType="String"
+		resultType="com.gitrnd.qaproducer.user.domain.User">
+		SELECT
+		idx,
+		uid,
+		email,
+		aid,
+		fname,
+		lname,
+		active
+		FROM tb_user
+		WHERE
+		email =
+		#{email}
+	</select>
+
+	<update id="setActiveUserById" parameterType="com.gitrnd.qaproducer.user.domain.User">
+		update
+		tb_user
+		set
+		active = #{active}
+		where
+		uid = #{uid}
+	</update>
+</mapper>

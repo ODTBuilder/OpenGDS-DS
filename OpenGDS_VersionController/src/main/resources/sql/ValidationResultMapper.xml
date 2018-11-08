@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gitrnd.qaproducer.qa.mapper.ValidationResultMapper">
+
+	<select id="countValidationResultByUidx" parameterType="int"
+		resultType="int">
+		SELECT
+		count(*)
+		FROM
+		tb_progress,
+		tb_file
+		WHERE
+		tb_progress.uidx =
+		#{idx}
+		AND
+		tb_file.fid =
+		tb_progress.fidx
+	</select>
+	
+	<select id="retrieveValidationResultByUidx" parameterType="HashMap"
+		resultType="hashmap">
+		SELECT
+		ROW_NUMBER () OVER (ORDER BY ctime DESC) as "no",
+		p_idx as "pidx",
+		tb_file.uidx,
+		fidx,
+		tb_file.fname as
+		"zipName",
+		to_char(tb_file.ctime, 'YYYY-MM-DD HH24:MI:SS')
+		as
+		"createTime",
+		COALESCE(to_char(end_time, 'YYYY-MM-DD HH24:MI:SS'), '')
+		as
+		"endTime",
+		qa_type as
+		"qaType",
+		file_format
+		as "format",
+		state as "stateCode",
+		case when state=1 then 'Stand by'
+			when state=2 then 'Now Validating'
+			when state=3 then 'Success'
+			when state=4 then 'Fail'
+			else 'Unknown'
+		end as "state",
+		err_file_name as "errFileName",
+		'&lt;a href=' || COALESCE(err_file_dir, '#') || '&gt;' || COALESCE(err_file_name, '') || '&lt;/a&gt;' as "download",
+		COALESCE(tb_progress.comment, '') as "comment"
+		FROM
+		tb_progress,
+		tb_file
+		WHERE
+		tb_progress.uidx =
+		${idx}
+		AND
+		tb_file.fid =
+		tb_progress.fidx
+		ORDER BY
+		${order_idx} ${order_direct}
+		LIMIT
+		${length}
+		OFFSET
+		${start}
+	</select>
+
+	<select id="retrieveValidationResultByPidx" parameterType="int"
+		resultType="com.gitrnd.qaproducer.qa.domain.ValidationResult">
+		SELECT
+		p_idx as "pidx",
+		tb_progress.uidx,
+		tb_progress.fidx,
+		tb_file.fname as
+		"zipName",
+		date_trunc('second', tb_file.ctime)
+		as
+		"createTime",
+		date_trunc('second', end_time)
+		as
+		"endTime",
+		qa_type as
+		"qaType",
+		file_format
+		as "format",
+		state,
+		err_file_name as "errName",
+		err_file_dir
+		as
+		"errFileDir",
+		tb_file.comment as "comment"
+		FROM
+		tb_progress,
+		tb_file
+		WHERE
+		tb_progress.p_idx =
+		#{idx}
+		AND
+		tb_file.fid =
+		tb_progress.fidx
+	</select>
+
+	<delete id="deleteValidationResult">
+		DELETE FROM tb_progress
+		WHERE
+		p_idx IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			${list[index].pidx}
+		</foreach>
+		AND
+		uidx IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			${list[index].uidx}
+		</foreach>
+	</delete>
+</mapper>

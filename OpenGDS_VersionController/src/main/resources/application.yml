@@ -1,0 +1,55 @@
+spring:
+  rabbitmq:
+    host: 175.116.181.42
+    port: 5672
+    virtual-host: only_opengds
+    username: qaproducer
+    password: qaproducer
+    template:
+      exchange: opengds_qa_exchange
+      routing-key: opengds_qa_key
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://175.116.181.42:5432/opengds_2018?charSet=UTF-8&prepareThreshold=1
+    username: opensource
+    password: opensource
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-test-query: SELECT 1
+      minimum-idle: 3
+      maximum-pool-size: 20
+      pool-name: gdoDBPool_Prod
+      auto-commit: false
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  http:
+    multipart:
+      max-file-size: 10485760KB
+      max-request-size: 10485760KB
+server:
+  port: 8089
+  context-path: /geodt
+  servlet:
+    session:
+      timeout: 3600
+  jsp-servlet:
+    init-parameters:
+      development: true
+  error:
+    whitelabel:
+      enabled: false
+gitrnd:
+  serverhost: 175.116.181.32
+  apache:
+    host: 127.0.0.1
+    port: 8888
+    basedir: gdofiles
+    basedrive: C
+mybatis:
+  config-location: classpath:config/mybatis.xml
+  mapper-location: classpath:sql/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    use-column-label: true

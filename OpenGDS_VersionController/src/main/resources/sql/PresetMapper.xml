@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.gitrnd.qaproducer.preset.mapper.PresetMapper">
+
+	<select id="retrieveBasePreset" parameterType="int"
+		resultType="com.gitrnd.qaproducer.preset.domain.Preset">
+		SELECT
+		pid,
+		cat,
+		layerDef,
+		optionDef,
+		uidx,
+		name,
+		bflag
+		FROM
+		tb_preset
+		WHERE cat
+		=
+		#{cat}
+		AND bflag=true
+	</select>
+
+
+	<select id="retrievePridByBasePreset" parameterType="int"
+		resultType="com.gitrnd.qaproducer.preset.domain.Preset">
+		SELECT
+		pid,
+		cat,
+		uidx,
+		name,
+		bflag
+		FROM
+		tb_preset
+		WHERE cat
+		=
+		#{cat}
+		AND bflag=true
+	</select>
+
+	<select id="retrievePresetById" parameterType="int"
+		resultType="com.gitrnd.qaproducer.preset.domain.Preset">
+		SELECT
+		pid,
+		cat,
+		layerDef,
+		optionDef,
+		uidx,
+		name
+		FROM
+		tb_preset
+		WHERE pid
+		=
+		#{pid}
+	</select>
+
+	<select id="retrieveCatByPreset" parameterType="int"
+		resultType="com.gitrnd.qaproducer.preset.domain.Preset">
+		SELECT
+		cat
+		FROM
+		tb_preset
+		WHERE pid
+		=
+		#{pid}
+	</select>
+
+	<select id="retrievePresetByIdAndUidx"
+		parameterType="com.gitrnd.qaproducer.preset.domain.Preset"
+		resultType="com.gitrnd.qaproducer.preset.domain.Preset">
+		SELECT
+		pid,
+		cat,
+		layerDef,
+		optionDef,
+		uidx,
+		name,
+		tb_qa_category.title as
+		"title"
+		FROM
+		tb_preset,
+		tb_qa_category
+		WHERE pid
+		=
+		#{pid} AND uidx
+		=
+		#{uidx} AND tb_preset.cat
+		=
+		tb_qa_category.cid
+	</select>
+
+	<select id="retrievePresetByUidx" parameterType="int"
+		resultType="com.gitrnd.qaproducer.preset.domain.Preset">
+		SELECT
+		tp.pid,
+		tp.cat,
+		tp.uidx,
+		tp.name,
+		tqc.support
+		FROM
+		tb_preset tp
+		left join tb_qa_category tqc
+		on tp.cat = tqc.cid
+		WHERE uidx
+		=
+		#{uidx}
+	</select>
+
+	<select id="retrievePresetNamesByUidx" parameterType="int"
+		resultType="com.gitrnd.qaproducer.preset.domain.Preset">
+		SELECT
+		pid,
+		cat,
+		name,
+		tb_qa_category.title as
+		"title",
+		tb_qa_category.support
+		FROM
+		tb_preset,
+		tb_qa_category
+		WHERE uidx
+		=
+		#{uidx} AND tb_preset.cat =
+		tb_qa_category.cid
+	</select>
+
+	<insert id="createPreset"
+		parameterType="com.gitrnd.qaproducer.preset.domain.Preset"
+		keyProperty="pid" useGeneratedKeys="true">
+		INSERT INTO tb_preset (
+		cat,
+		layerDef,
+		optionDef,
+		uidx,
+		name,
+		bflag
+		)
+		VALUES (
+		#{cat},
+		#{layerDef}::jsonb,
+		#{optionDef}::jsonb,
+		#{uidx},
+		#{name},
+		#{bflag}
+		)
+	</insert>
+
+
+	<update id="updatePreset"
+		parameterType="com.gitrnd.qaproducer.preset.domain.Preset">
+		UPDATE
+		public.tb_preset
+		SET
+		cat=#{cat},
+		optiondef=#{optionDef}::jsonb,
+		layerdef=#{layerDef}::jsonb,
+		name=#{name}
+		WHERE
+		pid=#{pid}
+		AND
+		uidx=#{uidx}
+	</update>
+
+	<delete id="deletePresets">
+		DELETE FROM tb_preset
+		WHERE
+		pid IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			${list[index].pid}
+		</foreach>
+		AND
+		uidx IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			${list[index].uidx}
+		</foreach>
+	</delete>
+
+</mapper>

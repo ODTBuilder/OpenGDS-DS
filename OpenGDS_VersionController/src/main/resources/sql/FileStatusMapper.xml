@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gitrnd.qaproducer.filestatus.mapper.FileStatusMapper">
+
+	<select id="retrieveFileStatusById" parameterType="int"
+		resultType="com.gitrnd.qaproducer.filestatus.domain.FileStatus">
+		SELECT
+		fid,
+		fname,
+		ctime,
+		status,
+		uidx,
+		comment,
+		location
+		FROM
+		tb_file
+		WHERE fid =
+		#{fid}
+	</select>
+
+	<insert id="createFileStatus" parameterType="com.gitrnd.qaproducer.filestatus.domain.FileStatus"
+		keyProperty="fid" useGeneratedKeys="true">
+		INSERT INTO tb_file (
+		fname,
+		ctime,
+		status,
+		uidx,
+		comment,
+		location
+		)
+		VALUES (
+		#{fname},
+		CURRENT_TIMESTAMP,
+		#{status},
+		#{uidx},
+		#{comment},
+		#{location}
+		)
+	</insert>
+
+	<delete id="deleteFileStatus" parameterType="com.gitrnd.qaproducer.filestatus.domain.FileStatus">
+		DELETE FROM tb_file
+		WHERE
+		fid = #{fid}
+		AND
+		uidx = #{uidx}
+	</delete>
+</mapper>

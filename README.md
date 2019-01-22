@@ -56,8 +56,8 @@ Getting Started
 
 ### 6. Test 코드 작성 ###
 - src/test/com/git/gdsbuilder/VersionControlTest.java 클래스 생성
-<pre><code>// 1. Creating a GeoGig repository backed by PostgreSQL
-String baseURL = "http://localhost:9999/geoserver";
+- Creating a GeoGig repository backed by PostgreSQL
+<pre><code>String baseURL = "http://localhost:9999/geoserver";
 String username = "admin";
 String password = "geoserver";
 String repository = "github";
@@ -72,10 +72,9 @@ String authorEmail = "github@git.co.kr";
 
 InitRepository init = new InitRepository();
 init.executeCommand(baseURL, username, password, repository, dbHost, dbPort, dbName, dbSchema, dbUser,
-				dbPassword, authorName, authorEmail);
-
-// 2. Import PostGIS Table
-BeginTransaction beginTransaction = new BeginTransaction();
+				dbPassword, authorName, authorEmail);</code></pre>
+- Import PostGIS Table
+<pre><code>BeginTransaction beginTransaction = new BeginTransaction();
 GeogigTransaction transaction = beginTransaction.executeCommand(baseURL, username, password, repository);
 String transactionId = transaction.getTransaction().getId();
 
@@ -92,8 +91,8 @@ CommitRepository commitRepos = new CommitRepository();
 commitRepos.executeCommand(baseURL, username, password, repository, transactionId, "github test", authorName, authorEmail);
 
 EndTransaction endTransaction = new EndTransaction();
-endTransaction.executeCommand(baseURL, username, password, repository, transactionId);
+endTransaction.executeCommand(baseURL, username, password, repository, transactionId);</code></pre>
 
-// 3. List Repository Tree
-LsTreeRepository lsTree = new LsTreeRepository();
-GeogigRevisionTree geogigTree = lsTree.executeCommand(baseURL, username, dbPassword, repository, null, false);
+- List Repository Tree
+<pre><code>LsTreeRepository lsTree = new LsTreeRepository();
+GeogigRevisionTree geogigTree = lsTree.executeCommand(baseURL, username, dbPassword, repository, null, false);</code></pre>

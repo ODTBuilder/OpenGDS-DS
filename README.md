@@ -55,3 +55,47 @@ Getting Started
 - eclipse 실행 후 Project Import
 
 ### 6. Test 코드 작성 ###
+- src/test/com/git/gdsbuilder/VersionControlTest.java 클래스 생성
+<pre><code>  // 1. Creating a GeoGig repository backed by PostgreSQL
+		String baseURL = "http://localhost:9999/geoserver";
+		String username = "admin";
+		String password = "geoserver";
+		String repository = "github";
+		String dbHost = "localhost";
+		String dbPort = "5432";
+		String dbName = "geogig";
+		String dbSchema = "public";
+		String dbUser = "postgres";
+		String dbPassword = "postgis";
+		String authorName = "github";
+		String authorEmail = "github@git.co.kr";
+
+		InitRepository init = new InitRepository();
+		init.executeCommand(baseURL, username, password, repository, dbHost, dbPort, dbName, dbSchema, dbUser,
+				dbPassword, authorName, authorEmail);
+
+		BeginTransaction beginTransaction = new BeginTransaction();
+		GeogigTransaction transaction = beginTransaction.executeCommand(baseURL, username, password, repository);
+		String transactionId = transaction.getTransaction().getId();
+
+		// 2. Import PostGIS Table
+		String fidAttrib = "gid";
+		String table = "gis_osm_transport";
+
+		PostGISImport postgisImport = new PostGISImport();
+		postgisImport.executeCommand(baseURL, username, password, repository, transactionId, fidAttrib, table, dbHost,
+				dbPort, dbSchema, dbName, dbUser, dbPassword);
+
+		AddRepository addRepos = new AddRepository();
+		addRepos.executeCommand(baseURL, username, password, repository, transactionId);
+
+		CommitRepository commitRepos = new CommitRepository();
+		commitRepos.executeCommand(baseURL, username, password, repository, transactionId, "github test", authorName,
+				authorEmail);
+
+		EndTransaction endTransaction = new EndTransaction();
+		endTransaction.executeCommand(baseURL, username, password, repository, transactionId);
+
+		// 3. List Repository Tree
+		LsTreeRepository lsTree = new LsTreeRepository();
+		GeogigRevisionTree geogigTree = lsTree.executeCommand(baseURL, username, dbPassword, repository, null, false);

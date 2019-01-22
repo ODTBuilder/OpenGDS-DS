@@ -74,11 +74,11 @@ InitRepository init = new InitRepository();
 init.executeCommand(baseURL, username, password, repository, dbHost, dbPort, dbName, dbSchema, dbUser,
 				dbPassword, authorName, authorEmail);
 
+// 2. Import PostGIS Table
 BeginTransaction beginTransaction = new BeginTransaction();
 GeogigTransaction transaction = beginTransaction.executeCommand(baseURL, username, password, repository);
 String transactionId = transaction.getTransaction().getId();
 
-// 2. Import PostGIS Table
 String fidAttrib = "gid";
 String table = "gis_osm_transport";
 

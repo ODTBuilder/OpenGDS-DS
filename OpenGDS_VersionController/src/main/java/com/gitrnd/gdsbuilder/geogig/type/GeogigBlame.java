@@ -23,7 +23,7 @@ public class GeogigBlame {
 
 	private String error;
 
-	private List<Attribute> attributes;
+	private List<BlameAttribute> attributes;
 
 	@XmlElement(name = "success")
 	public String getSuccess() {
@@ -36,11 +36,11 @@ public class GeogigBlame {
 
 	@XmlElementWrapper(name = "Blame")
 	@XmlElement(name = "Attribute")
-	public List<Attribute> getAttributes() {
+	public List<BlameAttribute> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(List<Attribute> attributes) {
+	public void setAttributes(List<BlameAttribute> attributes) {
 		this.attributes = attributes;
 	}
 
@@ -54,7 +54,7 @@ public class GeogigBlame {
 	}
 
 	@XmlRootElement(name = "Attribute")
-	public static class Attribute {
+	public static class BlameAttribute {
 
 		private String name;
 		private String value;

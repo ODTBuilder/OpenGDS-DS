@@ -2,8 +2,6 @@ package com.gitrnd.gdsbuilder.geogig.command.repository;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -18,21 +16,13 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
-import com.gitrnd.gdsbuilder.geogig.type.GeogigDiff;
+import com.gitrnd.gdsbuilder.geogig.type.GeogigRepositoryInfo;
 
-public class DiffRepository {
-
-	private static final Log logger = LogFactory.getLog(DiffRepository.class);
+public class InfoRepository {
 
 	private static final String geogig = "geogig";
-	private static final String command = "diff";
-	private static final String param_oldRef = "oldRefSpec=";
-	private static final String param_newRef = "newRefSpec=";
-	private static final String param_pathFilter = "pathFilter="; // optional
-	private static final String param_page = "page="; // optional
 
-	public GeogigDiff executeCommand(String baseURL, String username, String password, String repository,
-			String newObjectId, String oldObjectId, String path, Integer page) {
+	public GeogigRepositoryInfo executeCommand(String baseURL, String username, String password, String repository) {
 
 		// restTemplate
 		HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
@@ -50,24 +40,13 @@ public class DiffRepository {
 		headers.add("Authorization", encodedAuth);
 
 		// url
-		String url = baseURL + "/" + geogig + "/repos/" + repository + "/" + command + "?" + param_oldRef + oldObjectId
-				+ "&" + param_newRef + newObjectId;
-
-		// path
-		if (path != null) {
-			url += "&" + param_pathFilter + path;
-		}
-
-		// page
-		if (page != null) {
-			url += "&" + param_page + page;
-		}
+		String url = baseURL + "/" + geogig + "/repos/" + repository;
 
 		// request
 		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(headers);
-		ResponseEntity<GeogigDiff> responseEntity = null;
+		ResponseEntity<GeogigRepositoryInfo> responseEntity = null;
 		try {
-			responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, GeogigDiff.class);
+			responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, GeogigRepositoryInfo.class);
 		} catch (RestClientResponseException e) {
 			throw new GeogigCommandException(e.getMessage(), e.getResponseBodyAsString(), e.getRawStatusCode());
 		} catch (ResourceAccessException e) {

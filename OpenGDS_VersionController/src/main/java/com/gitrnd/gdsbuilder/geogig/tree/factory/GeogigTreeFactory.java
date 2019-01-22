@@ -3,6 +3,8 @@
  */
 package com.gitrnd.gdsbuilder.geogig.tree.factory;
 
+import org.apache.http.conn.HttpHostConnectException;
+
 import com.gitrnd.gdsbuilder.geogig.tree.GeogigRemoteRepositoryTree;
 import com.gitrnd.gdsbuilder.geogig.tree.GeogigRemoteRepositoryTree.EnGeogigRemoteRepositoryTreeType;
 import com.gitrnd.gdsbuilder.geogig.tree.GeogigRepositoryTree;
@@ -22,9 +24,10 @@ public interface GeogigTreeFactory {
 	 * @param dtGeoManagers
 	 * @param type
 	 * @return
+	 * @throws HttpHostConnectException
 	 */
 	public GeogigRepositoryTree createGeogigRepositoryTree(DTGeoserverManagerList dtGeoManagers,
-			EnGeogigRepositoryTreeType type);
+			EnGeogigRepositoryTreeType type) throws HttpHostConnectException;
 
 	/**
 	 * Server type외

@@ -18,21 +18,20 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
-import com.gitrnd.gdsbuilder.geogig.type.GeogigDiff;
+import com.gitrnd.gdsbuilder.geogig.type.GeogigRemove;
 
-public class DiffRepository {
+public class RemovePath {
 
-	private static final Log logger = LogFactory.getLog(DiffRepository.class);
+	private static final Log logger = LogFactory.getLog(RemovePath.class);
 
 	private static final String geogig = "geogig";
-	private static final String command = "diff";
-	private static final String param_oldRef = "oldRefSpec=";
-	private static final String param_newRef = "newRefSpec=";
-	private static final String param_pathFilter = "pathFilter="; // optional
-	private static final String param_page = "page="; // optional
+	private static final String command = "remove";
+	private static final String param_transactionId = "transactionId=";
+	private static final String param_path = "path=";
+	private static final String param_recursive = "recursive=";
 
-	public GeogigDiff executeCommand(String baseURL, String username, String password, String repository,
-			String newObjectId, String oldObjectId, String path, Integer page) {
+	public GeogigRemove executeCommand(String baseURL, String username, String password, String repository,
+			String transactionId, String path, boolean recursive) {
 
 		// restTemplate
 		HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
@@ -50,24 +49,16 @@ public class DiffRepository {
 		headers.add("Authorization", encodedAuth);
 
 		// url
-		String url = baseURL + "/" + geogig + "/repos/" + repository + "/" + command + "?" + param_oldRef + oldObjectId
-				+ "&" + param_newRef + newObjectId;
-
-		// path
-		if (path != null) {
-			url += "&" + param_pathFilter + path;
+		String url = baseURL + "/" + geogig + "/repos/" + repository + "/" + command + "?" + param_transactionId
+				+ transactionId + "&" + param_path + path;
+		if (recursive == true) {
+			url += "&" + param_recursive + recursive;
 		}
-
-		// page
-		if (page != null) {
-			url += "&" + param_page + page;
-		}
-
 		// request
 		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(headers);
-		ResponseEntity<GeogigDiff> responseEntity = null;
+		ResponseEntity<GeogigRemove> responseEntity = null;
 		try {
-			responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, GeogigDiff.class);
+			responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, GeogigRemove.class);
 		} catch (RestClientResponseException e) {
 			throw new GeogigCommandException(e.getMessage(), e.getResponseBodyAsString(), e.getRawStatusCode());
 		} catch (ResourceAccessException e) {

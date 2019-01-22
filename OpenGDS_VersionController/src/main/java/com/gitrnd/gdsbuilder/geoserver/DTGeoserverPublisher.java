@@ -1,15 +1,17 @@
 
 package com.gitrnd.gdsbuilder.geoserver;
 
+import java.net.MalformedURLException;
 import java.nio.charset.Charset;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gitrnd.gdsbuilder.geoserver.data.DTGSGeogigDatastoreEncoder;
 import com.gitrnd.gdsbuilder.geoserver.net.DTHTTPUtils;
 import com.gitrnd.gdsbuilder.geoserver.service.en.EnLayerBboxRecalculate;
-import com.gitrnd.gdsbuilder.type.geoserver.layer.GeoLayerInfo;
+import com.gitrnd.gdsbuilder.geoserver.type.GeoLayerInfo;
 
 import it.geosolutions.geoserver.rest.GeoServerRESTPublisher;
 import it.geosolutions.geoserver.rest.HTTPUtils;
@@ -17,205 +19,189 @@ import it.geosolutions.geoserver.rest.encoder.GSLayerEncoder;
 import it.geosolutions.geoserver.rest.encoder.GSResourceEncoder;
 import it.geosolutions.geoserver.rest.encoder.feature.GSFeatureTypeEncoder;
 
-public class DTGeoserverPublisher extends GeoServerRESTPublisher
-{
-  private static final Logger LOGGER = LoggerFactory.getLogger(DTGeoserverPublisher.class);
-  private final String restURL;
-  private final String gsuser;
-  private final String gspass;
+public class DTGeoserverPublisher extends GeoServerRESTPublisher {
+	private static final Logger LOGGER = LoggerFactory.getLogger(DTGeoserverPublisher.class);
+	private final String restURL;
+	private final String gsuser;
+	private final String gspass;
 
-  public DTGeoserverPublisher(String restURL, String username, String password)
-  {
-    super(restURL, username, password);
-    this.restURL = HTTPUtils.decurtSlash(restURL);
-    this.gsuser = username;
-    this.gspass = password;
-  }
+	public DTGeoserverPublisher(String restURL, String username, String password) {
+		super(restURL, username, password);
+		this.restURL = HTTPUtils.decurtSlash(restURL);
+		this.gsuser = username;
+		this.gspass = password;
+	}
 
-  @SuppressWarnings("deprecation")
-  public boolean publishDBLayer(final String workspace, final String storename,
-          final GSFeatureTypeEncoder fte, final GSLayerEncoder layerEncoder){
-	  String ftypeXml = fte.toString();
-      StringBuilder postUrl = new StringBuilder(restURL).append("/rest/workspaces/")
-              .append(workspace).append("/datastores/").append(storename).append("/featuretypes");
+	@SuppressWarnings("deprecation")
+	public boolean publishDBLayer(final String workspace, final String storename, final GSFeatureTypeEncoder fte,
+			final GSLayerEncoder layerEncoder) {
+		String ftypeXml = fte.toString();
+		StringBuilder postUrl = new StringBuilder(restURL).append("/rest/workspaces/").append(workspace)
+				.append("/datastores/").append(storename).append("/featuretypes");
 
-      final String layername = fte.getName();
-      if (layername == null || layername.isEmpty()) {
-          if (LOGGER.isErrorEnabled())
-              LOGGER.error("GSFeatureTypeEncoder has no valid name associated, try using GSFeatureTypeEncoder.setName(String)");
-          return false;
-      }
+		final String layername = fte.getName();
+		if (layername == null || layername.isEmpty()) {
+			if (LOGGER.isErrorEnabled())
+				LOGGER.error(
+						"GSFeatureTypeEncoder has no valid name associated, try using GSFeatureTypeEncoder.setName(String)");
+			return false;
+		}
 
-      String configuredResult = HTTPUtils.postXml(postUrl.toString(), ftypeXml, this.gsuser,
-              this.gspass);
-      boolean published = configuredResult != null;
-      boolean configured = false;
+		String configuredResult = HTTPUtils.postXml(postUrl.toString(), ftypeXml, this.gsuser, this.gspass);
+		boolean published = configuredResult != null;
+		boolean configured = false;
 
-      if (!published) {
-          LOGGER.warn("Error in publishing (" + configuredResult + ") " + workspace + ":"
-                  + storename + "/" + layername);
-      } else {
-          LOGGER.info("DB layer successfully added (layer:" + layername + ")");
+		if (!published) {
+			LOGGER.warn(
+					"Error in publishing (" + configuredResult + ") " + workspace + ":" + storename + "/" + layername);
+		} else {
+			LOGGER.info("DB layer successfully added (layer:" + layername + ")");
 
-          if (layerEncoder == null) {
-              if (LOGGER.isErrorEnabled())
-                  LOGGER.error("GSLayerEncoder is null: Unable to find the defaultStyle for this layer");
-              return false;
-          }
+			if (layerEncoder == null) {
+				if (LOGGER.isErrorEnabled())
+					LOGGER.error("GSLayerEncoder is null: Unable to find the defaultStyle for this layer");
+				return false;
+			}
 
-          configured = configureLayer(workspace, layername, layerEncoder);
+			configured = configureLayer(workspace, layername, layerEncoder);
 
-          if (!configured) {
-              LOGGER.warn("Error in configuring (" + configuredResult + ") " + workspace + ":"
-                      + storename + "/" + layername);
-          } else {
-              LOGGER.info("DB layer successfully configured (layer:" + layername + ")");
-          }
-      }
-      return published && configured;
-  }
-  
-  public boolean publishErrLayer(String wsName, String dsName, GeoLayerInfo geoLayerInfo)
-  {
-    String fileName = geoLayerInfo.getFileName();
-    String src = geoLayerInfo.getOriginSrc();
- //   String fullName = "err_" +geoLayerInfo.getFileType()+"_"+ fileName;
-    String fullName = geoLayerInfo.getFileName();
+			if (!configured) {
+				LOGGER.warn("Error in configuring (" + configuredResult + ") " + workspace + ":" + storename + "/"
+						+ layername);
+			} else {
+				LOGGER.info("DB layer successfully configured (layer:" + layername + ")");
+			}
+		}
+		return published && configured;
+	}
 
-    GSFeatureTypeEncoder fte = new GSFeatureTypeEncoder();
-    GSLayerEncoder layerEncoder = new GSLayerEncoder();
+	public boolean removeLayers(String wsName, String storeName, List<String> layerNameList) {
+		boolean flag = false;
+		int flagCount = 0;
+		for (int i = 0; i < layerNameList.size(); i++) {
+			String layerName = (String) layerNameList.get(i);
+			flag = unpublishFeatureType(wsName, storeName, layerName);
+			if (!flag) {
+				flagCount++;
+			}
+		}
 
-    fte.setProjectionPolicy(GSResourceEncoder.ProjectionPolicy.REPROJECT_TO_DECLARED);
-    fte.setTitle(fullName);
-    fte.setNativeName(fullName);
-    fte.setName(fullName);
-    fte.setSRS(src);
+		if (flagCount > 0) {
+			flag = false;
+		} else {
+			flag = true;
+		}
+		return flag;
+	}
 
-    layerEncoder.setDefaultStyle("defaultStyle");
-    boolean flag = super.publishDBLayer(wsName, dsName, fte, layerEncoder);
-    return flag;
-  }
+	public boolean updateFeatureType(String workspace, String storename, String layername, GSFeatureTypeEncoder fte,
+			GSLayerEncoder layerEncoder, boolean attChangeFlag) {
+		String ftypeXml = fte.toString();
 
-  public boolean removeLayers(String wsName, List<String> layerNameList)
-  {
-    boolean flag = false;
-    int flagCount = 0;
-    for (int i = 0; i < layerNameList.size(); i++) {
-      String layerName = (String)layerNameList.get(i);
-      flag = removeLayer(wsName, layerName);
-      if (!flag) {
-        flagCount++;
-      }
-    }
+		StringBuilder putUrl = new StringBuilder(this.restURL).append("/rest/workspaces/").append(workspace)
+				.append("/datastores/").append(storename).append("/featuretypes/").append(layername + ".xml");
 
-    if (flagCount > 0) {
-      flag = false;
-    }
-    else {
-      flag = true;
-    }
-    return flag;
-  }
+		if ((layername == null) || (layername.isEmpty())) {
+			if (LOGGER.isErrorEnabled())
+				LOGGER.error(
+						"GSFeatureTypeEncoder has no valid name associated, try using GSFeatureTypeEncoder.setName(String)");
+			return false;
+		}
 
-  public boolean updateFeatureType(String workspace, String storename, String layername, GSFeatureTypeEncoder fte, GSLayerEncoder layerEncoder, boolean attChangeFlag)
-  {
-    String ftypeXml = fte.toString();
+		String configuredResult = HTTPUtils.putXml(putUrl.toString(), ftypeXml, this.gsuser, this.gspass);
+		boolean updated = configuredResult != null;
+		boolean configured = false;
 
-    StringBuilder putUrl = new StringBuilder(this.restURL).append("/rest/workspaces/")
-      .append(workspace).append("/datastores/").append(storename).append("/featuretypes/").append(layername + ".xml");
+		if (!updated) {
+			LOGGER.warn(
+					"Error in updating (" + configuredResult + ") " + workspace + ":" + storename + "/" + layername);
+		} else {
+			LOGGER.info("DB layer successfully updated (layer:" + layername + ")");
 
-    if ((layername == null) || (layername.isEmpty())) {
-      if (LOGGER.isErrorEnabled())
-        LOGGER.error("GSFeatureTypeEncoder has no valid name associated, try using GSFeatureTypeEncoder.setName(String)");
-      return false;
-    }
+			if (layerEncoder == null) {
+				if (LOGGER.isErrorEnabled())
+					LOGGER.error("GSLayerEncoder is null: Unable to find the defaultStyle for this layer");
+				return false;
+			}
 
-    String configuredResult = HTTPUtils.putXml(putUrl.toString(), ftypeXml, this.gsuser, 
-      this.gspass);
-    boolean updated = configuredResult != null;
-    boolean configured = false;
+			configured = configureLayer(workspace, layername, layerEncoder);
 
-    if (!updated) {
-      LOGGER.warn("Error in updating (" + configuredResult + ") " + workspace + ":" + 
-        storename + "/" + layername);
-    } else {
-      LOGGER.info("DB layer successfully updated (layer:" + layername + ")");
+			if (!configured)
+				LOGGER.warn("Error in configuring (" + configuredResult + ") " + workspace + ":" + storename + "/"
+						+ layername);
+			else {
+				if (attChangeFlag) {// attribute 수정시 서버 리로드
+					reload();
+				}
+				LOGGER.info("layer successfully configured (layer:" + layername + ")");
+			}
+		}
+		return (updated) && (configured);
+	}
 
-      if (layerEncoder == null) {
-        if (LOGGER.isErrorEnabled())
-          LOGGER.error("GSLayerEncoder is null: Unable to find the defaultStyle for this layer");
-        return false;
-      }
+	public boolean recalculate(String workspace, String storename, String layername, EnLayerBboxRecalculate type) {
+		String recalculateType = "";
+		GSFeatureTypeEncoder fte = new GSFeatureTypeEncoder();
+		fte.setName(layername);
 
-      configured = configureLayer(workspace, layername, layerEncoder);
+		if (type == null) {
+			if (LOGGER.isErrorEnabled())
+				LOGGER.error("EnLayerBBoxRecalculate has no valid value associated");
+			return false;
+		}
 
-      if (!configured)
-        LOGGER.warn("Error in configuring (" + configuredResult + ") " + workspace + ":" + 
-          storename + "/" + layername);
-      else {
-    	  if(attChangeFlag){// attribute 수정시 서버 리로드
-    		  reload();
-    	  }
-        LOGGER.info("layer successfully configured (layer:" + layername + ")");
-      }
-    }
-    return (updated) && (configured);
-  }
-  
+		recalculateType = type.getValue();
 
-  public boolean recalculate(String workspace, String storename, String layername, EnLayerBboxRecalculate type)
-  {
-    String recalculateType = "";
-    GSFeatureTypeEncoder fte = new GSFeatureTypeEncoder();
-    fte.setName(layername);
+		String ftypeXml = fte.toString();
+		StringBuilder putUrl = new StringBuilder(this.restURL).append("/rest/workspaces/").append(workspace)
+				.append("/datastores/").append(storename).append("/featuretypes/")
+				.append(layername + "?" + recalculateType);
 
-    if (type == null) {
-      if (LOGGER.isErrorEnabled())
-        LOGGER.error("EnLayerBBoxRecalculate has no valid value associated");
-      return false;
-    }
+		if ((layername == null) || (layername.isEmpty())) {
+			if (LOGGER.isErrorEnabled())
+				LOGGER.error("Please enter a layername");
+			return false;
+		}
+		String configuredResult = HTTPUtils.putXml(putUrl.toString(), ftypeXml, this.gsuser, this.gspass);
+		boolean updated = configuredResult != null;
+		boolean configured = false;
 
-    recalculateType = type.getValue();
+		if (!updated)
+			LOGGER.warn("Error in recalculating (" + configuredResult + ") " + workspace + ":" + storename + "/"
+					+ layername);
+		else {
+			LOGGER.info("layer successfully recalculated (layer:" + layername + ")");
+		}
+		return (updated) && (configured);
+	}
 
-    String ftypeXml = fte.toString();
-    StringBuilder putUrl = new StringBuilder(this.restURL).append("/rest/workspaces/")
-      .append(workspace).append("/datastores/").append(storename).append("/featuretypes/").append(layername + "?" + recalculateType);
+	public String requestWFSTransaction(String workspace, String wfstXml) {
+		StringBuilder postUrl = new StringBuilder(restURL).append("/" + workspace).append("/ows");
 
-    if ((layername == null) || (layername.isEmpty())) {
-      if (LOGGER.isErrorEnabled())
-        LOGGER.error("Please enter a layername");
-      return false;
-    }
-    String configuredResult = HTTPUtils.putXml(putUrl.toString(), ftypeXml, this.gsuser, 
-      this.gspass);
-    boolean updated = configuredResult != null;
-    boolean configured = false;
+		Charset charset = Charset.forName("utf-8");
 
-    if (!updated)
-      LOGGER.warn("Error in recalculating (" + configuredResult + ") " + workspace + ":" + 
-        storename + "/" + layername);
-    else {
-      LOGGER.info("layer successfully recalculated (layer:" + layername + ")");
-    }
-    return (updated) && (configured);
-  }
-  
-  
-  public String requestWFSTransaction(String workspace, String wfstXml){
-	  StringBuilder postUrl = new StringBuilder(restURL).append("/"+workspace).append("/ows");
-	  
-	  Charset charset = Charset.forName("utf-8");
-	  
-	  String configuredResult = DTHTTPUtils.postXml(postUrl.toString(), wfstXml, this.gsuser,
-              this.gspass, charset.name());
-	  
-      boolean requestFlag = configuredResult != null;
+		String configuredResult = DTHTTPUtils.postXml(postUrl.toString(), wfstXml, this.gsuser, this.gspass,
+				charset.name());
 
-      if (!requestFlag) {
-          LOGGER.warn("WFST 요청 실패");
-      } else {
-          LOGGER.info("WFST 요청 성공");
-      }
-	  return configuredResult;
-  }
+		boolean requestFlag = configuredResult != null;
+
+		if (!requestFlag) {
+			LOGGER.warn("WFST 요청 실패");
+		} else {
+			LOGGER.info("WFST 요청 성공");
+		}
+		return configuredResult;
+	}
+
+	public boolean updateDatastore(String workspace, String datastore, DTGSGeogigDatastoreEncoder dsEncoder) {
+
+		String dsXml = dsEncoder.toString();
+		StringBuilder putUrl = new StringBuilder(this.restURL).append("/rest/workspaces/").append(workspace)
+				.append("/datastores/").append(datastore).append(".xml");
+
+		String updateResult = HTTPUtils.putXml(putUrl.toString(), dsXml, this.gsuser, this.gspass);
+		boolean updated = updateResult != null;
+		updated = reload();
+		return updated;
+	}
 }

@@ -16,8 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
@@ -37,8 +37,30 @@ public class ConfigRepository {
 	private static final String command = "config";
 	private static final String param_name = "name="; // optional
 
+	public enum ConfigName {
+
+		REPO_NAME("repo.name"), USER_NAME("user.name"), USER_EMAIL("user.email"), STORAGE_REFS("storage.refs"),
+		STORAGE_GRAPH("storage.graph"), STORAGE_OBJECTS("storage.objects"), STORAGE_INDEX("storage.index"),
+		POSTGRES_VERSION("postgres.version"), ROCKSDB_VERSION("rocksdb.version"), FILE_VERSION("file.version");
+
+		private String type;
+
+		private ConfigName(String type) {
+			this.type = type;
+		}
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
+
+	}
+
 	public GeogigConfig executeCommand(String baseURL, String username, String password, String repository,
-			String configkey) {
+			ConfigName storageRefs) {
 
 		// restTemplate
 		HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
@@ -58,18 +80,18 @@ public class ConfigRepository {
 		// url
 		String url = baseURL + "/" + geogig + "/repos/" + repository + "/" + command;
 
-		if (configkey != null) {
-			url += "?" + param_name + configkey;
+		if (storageRefs != null) {
+			url += "?" + param_name + storageRefs.getType();
 		}
 		// request
 		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(headers);
 		ResponseEntity<GeogigConfig> responseEntity = null;
 		try {
 			responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, GeogigConfig.class);
-		} catch (HttpClientErrorException e) {
-			throw new GeogigCommandException(e.getResponseBodyAsString(), e.getStatusCode());
-		} catch (HttpServerErrorException e) {
-			throw new GeogigCommandException(e.getResponseBodyAsString(), e.getStatusCode());
+		} catch (RestClientResponseException e) {
+			throw new GeogigCommandException(e.getMessage(), e.getResponseBodyAsString(), e.getRawStatusCode());
+		} catch (ResourceAccessException e) {
+			throw new GeogigCommandException(e.getMessage());
 		}
 		return responseEntity.getBody();
 	}

@@ -16,8 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
@@ -95,10 +95,10 @@ public class LogRepository {
 		ResponseEntity<GeogigRepositoryLog> responseEntity = null;
 		try {
 			responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, GeogigRepositoryLog.class);
-		} catch (HttpClientErrorException e) {
-			throw new GeogigCommandException(e.getResponseBodyAsString(), e.getStatusCode());
-		} catch (HttpServerErrorException e) {
-			throw new GeogigCommandException(e.getResponseBodyAsString(), e.getStatusCode());
+		} catch (RestClientResponseException e) {
+			throw new GeogigCommandException(e.getMessage(), e.getResponseBodyAsString(), e.getRawStatusCode());
+		} catch (ResourceAccessException e) {
+			throw new GeogigCommandException(e.getMessage());
 		}
 		return responseEntity.getBody();
 	}

@@ -2,8 +2,12 @@ package com.gitrnd.gdsbuilder.geogig.type;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.gitrnd.gdsbuilder.geogig.type.GeogigRepositoryLog.Commit.ChangeType;
 
+@XmlRootElement(name = "response")
 public class GeogigFeatureSimpleLog {
 
 	private String success;
@@ -12,6 +16,7 @@ public class GeogigFeatureSimpleLog {
 
 	private List<SimpleCommit> simpleCommits;
 
+	@XmlElement(name = "error")
 	public String getError() {
 		return error;
 	}
@@ -20,6 +25,7 @@ public class GeogigFeatureSimpleLog {
 		this.error = error;
 	}
 
+	@XmlElement(name = "success")
 	public String getSuccess() {
 		return success;
 	}

@@ -254,24 +254,27 @@ public class DTGeoserverTree extends JSONArray {
 												dsTree.put("text", dsName);
 												dsTree.put("type", "datastore");
 												dsTree.put("storeType", storeType);
-												if (storeType.equals("GeoGIG")) {
-													Map<String, String> connetParams = dStore.getConnectionParameters();
-													String geogigRepos = connetParams.get("geogig_repository");
-													String reposName = geogigRepos.replace("geoserver://", "");
-													dsTree.put("geogigRepos", reposName);
-													String branchName = connetParams.get("branch");
-													dsTree.put("geogigBranch", branchName);
-													ListBranch listBranch = new ListBranch();
-													GeogigBranch geogigBranch = listBranch.executeCommand(
-															dtGeoManager.getRestURL(), dtGeoManager.getUsername(),
-															dtGeoManager.getPassword(), reposName, false);
-													List<Branch> branchList = geogigBranch.getLocalBranchList();
-													JSONArray branchArr = new JSONArray();
-													for (Branch branch : branchList) {
-														branchArr.add(branch.getName());
+												if (storeType != null) {
+													if (storeType.equals("GeoGIG")) {
+														Map<String, String> connetParams = dStore
+																.getConnectionParameters();
+														String geogigRepos = connetParams.get("geogig_repository");
+														String reposName = geogigRepos.replace("geoserver://", "");
+														dsTree.put("geogigRepos", reposName);
+														String branchName = connetParams.get("branch");
+														dsTree.put("geogigBranch", branchName);
+														ListBranch listBranch = new ListBranch();
+														GeogigBranch geogigBranch = listBranch.executeCommand(
+																dtGeoManager.getRestURL(), dtGeoManager.getUsername(),
+																dtGeoManager.getPassword(), reposName, false);
+														List<Branch> branchList = geogigBranch.getLocalBranchList();
+														JSONArray branchArr = new JSONArray();
+														for (Branch branch : branchList) {
+															branchArr.add(branch.getName());
+														}
+														dsTree.put("geogigBranches", branchArr);
+														System.out.println("");
 													}
-													dsTree.put("geogigBranches", branchArr);
-													System.out.println("");
 												}
 												RESTFeatureTypeList ftList = dtGeoserverReader
 														.getFeatureTypes(workspace, dsName);
@@ -284,7 +287,6 @@ public class DTGeoserverTree extends JSONArray {
 												} else {
 													dsTree.put("children", false);
 												}
-
 												super.add(dsTree);
 											}
 										}
@@ -306,13 +308,89 @@ public class DTGeoserverTree extends JSONArray {
 									for (DTGeoLayer dtGLayer : dtGLayerList) {
 										if (dtGLayer != null) {
 											JSONObject layerTree = new JSONObject();
-											layerTree.put("id", serverName + delimiter + wsName + delimiter + dsName
-													+ delimiter + dtGLayer.getlName());
-											layerTree.put("parent", parent);
-											layerTree.put("text", dtGLayer.getlName());
-											layerTree.put("type", dtGLayer.getGeomType().toLowerCase());
-											layerTree.put("children", false);
-											super.add(layerTree);
+
+											String krName = null;
+											String name = dtGLayer.getlName();
+
+											if (name.contains("A0080000")) {
+												krName = "교차로";
+											}
+											if (name.contains("A0070000")) {
+												krName = "교량";
+											}
+											if (name.contains("C0390000")) {
+												krName = "계단";
+											}
+											if (name.contains("D0010000")) {
+												krName = "경지계";
+											}
+											if (name.contains("B0010000")) {
+												krName = "건물경계";
+											}
+											if (name.contains("E0052114")) {
+												krName = "호수저수지";
+											}
+											if (name.contains("E0020000")) {
+												krName = "하천중심선";
+											}
+											if (name.contains("E0010001")) {
+												krName = "하천경계";
+											}
+											if (name.contains("D0020000")) {
+												krName = "지류계";
+											}
+											if (name.contains("C0430000")) {
+												krName = "주차장";
+											}
+											if (name.contains("C0423365")) {
+												krName = "주유소";
+											}
+											if (name.contains("C0050000")) {
+												krName = "제방";
+											}
+											if (name.contains("A0090000")) {
+												krName = "입체교차부";
+											}
+											if (name.contains("A0100000")) {
+												krName = "인터체인지";
+											}
+											if (name.contains("A0033320")) {
+												krName = "인도";
+											}
+											if (name.contains("A0053326")) {
+												krName = "안전지대";
+											}
+											if (name.contains("E0032111")) {
+												krName = "실폭하천";
+											}
+											if (name.contains("F0010000")) {
+												krName = "등고선";
+											}
+											if (name.contains("A0020000")) {
+												krName = "도로중심선";
+											}
+											if (name.contains("N3A_A0010000")) {
+												krName = "도로경계";
+											}
+											if (name.contains("N3L_A0010000")) {
+												krName = "소로";
+											}
+											if (name.contains("H0010000")) {
+												krName = "도곽";
+											}
+											if (name.contains("B0020000")) {
+												krName = "담장";
+											}
+											if (krName != null) {
+												layerTree.put("id", serverName + delimiter + wsName + delimiter + dsName
+														+ delimiter + name);
+												layerTree.put("parent", parent);
+												layerTree.put("text", krName);
+//												layerTree.put("kr", krName);
+												layerTree.put("type", dtGLayer.getGeomType().toLowerCase());
+												layerTree.put("children", false);
+												super.add(layerTree);
+											}
 										}
 									}
 								}

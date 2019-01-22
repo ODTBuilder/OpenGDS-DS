@@ -119,7 +119,7 @@ public class GeogigRepositoryLog {
 
 		public enum ChangeType {
 
-			ADDS, MODIFIES, REMOVES;
+			ADDED, MODIFIED, REMOVED;
 
 		}
 

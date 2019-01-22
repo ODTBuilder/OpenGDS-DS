@@ -6,21 +6,22 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.simple.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigRepositoryInit;
-
-import net.sf.json.JSONObject;
 
 public class InitRepository {
 
@@ -67,12 +68,10 @@ public class InitRepository {
 		ResponseEntity<GeogigRepositoryInit> responseEntity = null;
 		try {
 			responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, GeogigRepositoryInit.class);
-		} catch (HttpClientErrorException e) {
-			throw new GeogigCommandException(e.getResponseBodyAsString(), e.getStatusCode());
-		} catch (HttpServerErrorException e) {
-			throw new GeogigCommandException(e.getResponseBodyAsString(), e.getStatusCode());
+		} catch (RestClientResponseException e) {
+			throw new GeogigCommandException(e.getMessage(), e.getResponseBodyAsString(), e.getRawStatusCode());
 		} catch (ResourceAccessException e) {
-			throw e;
+			throw new GeogigCommandException(e.getMessage());
 		}
 		return responseEntity.getBody();
 	}

@@ -85,6 +85,7 @@ public class DTGeoLayer {
 	private String geomType = ""; // 공간정보타입
 	private JSONObject attInfo = new JSONObject(); // 속성정보
 	private String style = "";
+	private String styleWorkspace = "";
 	private String sld = "";
 
 	/**
@@ -127,9 +128,6 @@ public class DTGeoLayer {
 	public DTGeoLayer(Element layerElem) {
 		RESTFeatureType featureType = new RESTFeatureType(layerElem);
 		this.nativeName = featureType.getNativeName();
-		if (nativeName.endsWith("geo_shp_37712013_A0070000_POINT")) {
-			System.out.println("test");
-		}
 		this.lName = featureType.getName();
 		this.title = featureType.getTitle();
 		this.abstractContent = featureType.getAbstract();
@@ -137,14 +135,27 @@ public class DTGeoLayer {
 		this.attInfo = this.buildAttType(layerElem);
 		this.dsType = this.buildStoreType(layerElem);
 		this.srs = this.buildSRS(layerElem);
-		this.nbBox.put("minx", featureType.getNativeBoundingBox().getMinX());
-		this.nbBox.put("miny", featureType.getNativeBoundingBox().getMinY());
-		this.nbBox.put("maxx", featureType.getNativeBoundingBox().getMaxX());
-		this.nbBox.put("maxy", featureType.getNativeBoundingBox().getMaxY());
-		this.llbBox.put("minx", featureType.getLatLonBoundingBox().getMinX());
-		this.llbBox.put("miny", featureType.getLatLonBoundingBox().getMinY());
-		this.llbBox.put("maxx", featureType.getLatLonBoundingBox().getMaxX());
-		this.llbBox.put("maxy", featureType.getLatLonBoundingBox().getMaxY());
+		
+		try {
+			this.nbBox.put("minx", featureType.getNativeBoundingBox().getMinX());
+			this.nbBox.put("miny", featureType.getNativeBoundingBox().getMinY());
+			this.nbBox.put("maxx", featureType.getNativeBoundingBox().getMaxX());
+			this.nbBox.put("maxy", featureType.getNativeBoundingBox().getMaxY());
+			this.llbBox.put("minx", featureType.getLatLonBoundingBox().getMinX());
+			this.llbBox.put("miny", featureType.getLatLonBoundingBox().getMinY());
+			this.llbBox.put("maxx", featureType.getLatLonBoundingBox().getMaxX());
+			this.llbBox.put("maxy", featureType.getLatLonBoundingBox().getMaxY());
+		} catch (Exception e) {
+			// TODO: handle exception
+			this.nbBox.put("minx", null);
+			this.nbBox.put("miny", null);
+			this.nbBox.put("maxx", null);
+			this.nbBox.put("maxy", null);
+			this.llbBox.put("minx", null);
+			this.llbBox.put("miny", null);
+			this.llbBox.put("maxx", null);
+			this.llbBox.put("maxy", null);
+		}
 	}
 
 	/**
@@ -336,5 +347,12 @@ public class DTGeoLayer {
 
 	public void setGeomkey(String geomkey) {
 		this.geomkey = geomkey;
+	}
+	public String getStyleWorkspace() {
+		return styleWorkspace;
+	}
+
+	public void setStyleWorkspace(String styleWorkspace) {
+		this.styleWorkspace = styleWorkspace;
 	}
 }

@@ -117,7 +117,7 @@ public class GeogigCat {
 
 		private String id;
 		private String name;
-		private List<Attribute> attribute;
+		private List<CatAttribute> attribute;
 
 		/**
 		 * @return the id
@@ -139,7 +139,7 @@ public class GeogigCat {
 		 * @return the attribute
 		 */
 		@XmlElement(name = "attribute")
-		public List<Attribute> getAttribute() {
+		public List<CatAttribute> getAttribute() {
 			return attribute;
 		}
 
@@ -160,7 +160,7 @@ public class GeogigCat {
 		/**
 		 * @param attribute the attribute to set
 		 */
-		public void setAttribute(List<Attribute> attribute) {
+		public void setAttribute(List<CatAttribute> attribute) {
 			this.attribute = attribute;
 		}
 
@@ -418,7 +418,7 @@ public class GeogigCat {
 		private String objectid;
 		private String metadataid;
 
-		private List<Attribute> attribute;
+		private List<CatAttribute> attribute;
 
 		/**
 		 * @return the id
@@ -432,7 +432,7 @@ public class GeogigCat {
 		 * @return the attribute
 		 */
 		@XmlElement(name = "attribute")
-		public List<Attribute> getAttribute() {
+		public List<CatAttribute> getAttribute() {
 			return attribute;
 		}
 
@@ -478,7 +478,7 @@ public class GeogigCat {
 		/**
 		 * @param attribute the attribute to set
 		 */
-		public void setAttribute(List<Attribute> attribute) {
+		public void setAttribute(List<CatAttribute> attribute) {
 			this.attribute = attribute;
 		}
 
@@ -513,7 +513,7 @@ public class GeogigCat {
 	}
 
 	@XmlRootElement(name = "attribute")
-	public static class Attribute {
+	public static class CatAttribute {
 
 		private String type;
 		private String name;

@@ -148,7 +148,7 @@ if (mergeResult.getConflicts() != null) {
 // EndTransaction
 EndTransaction endMergeTransaction = new EndTransaction();
 transaction = endMergeTransaction.executeCommand(baseURL, username, password, repository, mergetTransactionId);</code></pre>
-- 기타 기능은 개발자 API 참고
+- 기타 기능 및 자세한 사용 방법은 개발자 API(업데이트 중) 참고 
 
 시스템 아키텍쳐 
 =====

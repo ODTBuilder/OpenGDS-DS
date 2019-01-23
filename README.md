@@ -114,47 +114,27 @@ String source = "master";
 // Creating Branch
 CreateBranch create = new CreateBranch();
 GeogigBranch branch = create.executeCommand(baseURL, username, password, repository, branchName, source);</code></pre>
-- 브랜치 병합
+- 브랜치 병합 및 충돌 관리 -> 충돌 객체에 대해 특정 브랜치의 객체로 덮어씀
 <pre><code>// Begin Transaction
-BeginTransaction beginTransaction = new BeginTransaction();
-GeogigTransaction transaction = beginTransaction.executeCommand(baseURL, username, password, repository);
-String transactionId = transaction.getTransaction().getId();
+BeginTransaction beginMergeTransaction = new BeginTransaction();
+GeogigTransaction MergeTransaction = beginMergeTransaction.executeCommand(baseURL, username, password, repository);
+String mergetTransactionId = MergeTransaction.getTransaction().getId();
 
 // Merge Branch Information
 String targetBranch = "master";
 String mergeBranch = "myBranch";
 
 // Switch to targetBranch
-CheckoutBranch checkout = new CheckoutBranch();
-GeogigCheckout checkout = checkout.executeCommand(baseURL, username, dbPassword, repository, transactionId, branchName);
+CheckoutBranch checkoutBranch = new CheckoutBranch();
+GeogigCheckout checkout = checkoutBranch.executeCommand(baseURL, username, dbPassword, repository,mergetTransactionId, targetName);
 
-// Merge into targetBranch 
-MergeBranch merge = new MergeBranch();
-GeogigMerge merge = merge.executeCommand(baseURL, username, password, repository, transactionId, branchName);
-
-// EndTransaction
-EndTransaction endTransaction = new EndTransaction();
-transaction = endTransaction.executeCommand(baseURL, username, password, repository, transactionId);</code></pre>
-- 브랜치 병합 충돌 관리 -> 충돌 객체에 대해 특정 브랜치의 객체로 덮어씀
-<pre><code>// Begin Transaction
-BeginTransaction beginTransaction = new BeginTransaction();
-GeogigTransaction transaction = beginTransaction.executeCommand(baseURL, username, password, repository);
-String transactionId = transaction.getTransaction().getId();
-
-// Merge Branch Information
-String targetBranch = "master";
-String mergeBranch = "myBranch";
-
-// Switch to targetBranch
-CheckoutBranch checkout = new CheckoutBranch();
-GeogigCheckout checkout = checkout.executeCommand(baseURL, username, dbPassword, repository, transactionId, branchName);
-
-// Merge into targetBranch 
-MergeBranch merge = new MergeBranch();
-GeogigMerge merge = merge.executeCommand(baseURL, username, password, repository, transactionId, branchName);
+// Merge into targetBranch
+MergeBranch mergeBranch = new MergeBranch();
+GeogigMerge merge = mergeBranch.executeCommand(baseURL, username, password, repository, mergetTransactionId, mergeName);
 
 Merge mergeResult = merge.getMerge();
-if (mergeResult.getConflicts() != null) { // 충돌 발생
+if (mergeResult.getConflicts() != null) { 
+    // Merge Conflict Resolution
     String version = "ours"; // ours : targetBranch, their : mergeBranch
     List<Feature> conflictFeatures = mergeResult.getFeatures();
     for (Feature conflict : conflictFeatures) {	

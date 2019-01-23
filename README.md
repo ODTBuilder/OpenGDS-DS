@@ -107,7 +107,7 @@ GeogigRevisionTree geogigTree = lsTree.executeCommand(baseURL, username, passwor
 - PostGIS Table 수정 후 위의 'Importing PostGIS Table'과 동일한 방식으로 ReImporting 
 - Geogig 저장소는 수정한 객체에 대해 편집 이력 저장
 - 브랜치 생성
-<code><pre>// Branch Information
+<pre><code>// Branch Information
 String branchName = "myBranch";
 String source = "master";
 
@@ -115,7 +115,7 @@ String source = "master";
 CreateBranch create = new CreateBranch();
 GeogigBranch branch = create.executeCommand(baseURL, username, password, repository, branchName, source);</code></pre>
 - 브랜치 병합
-<code><pre>// Begin Transaction
+<pre><code>// Begin Transaction
 BeginTransaction beginTransaction = new BeginTransaction();
 GeogigTransaction transaction = beginTransaction.executeCommand(baseURL, username, password, repository);
 String transactionId = transaction.getTransaction().getId();
@@ -136,7 +136,7 @@ GeogigMerge merge = merge.executeCommand(baseURL, username, password, repository
 EndTransaction endTransaction = new EndTransaction();
 transaction = endTransaction.executeCommand(baseURL, username, password, repository, transactionId);</code></pre>
 - 브랜치 병합 충돌 관리, 충돌 객체에 대해 특정 브랜치의 객체로 덮어씀
-<code><pre>// Begin Transaction
+<pre><code>// Begin Transaction
 BeginTransaction beginTransaction = new BeginTransaction();
 GeogigTransaction transaction = beginTransaction.executeCommand(baseURL, username, password, repository);
 String transactionId = transaction.getTransaction().getId();

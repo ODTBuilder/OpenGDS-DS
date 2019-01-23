@@ -135,7 +135,7 @@ GeogigMerge merge = merge.executeCommand(baseURL, username, password, repository
 // EndTransaction
 EndTransaction endTransaction = new EndTransaction();
 transaction = endTransaction.executeCommand(baseURL, username, password, repository, transactionId);</code></pre>
-- 브랜치 병합 충돌 관리, 충돌 객체에 대해 특정 브랜치의 객체로 덮어씀
+- 브랜치 병합 충돌 관리 -> 충돌 객체에 대해 특정 브랜치의 객체로 덮어씀
 <pre><code>// Begin Transaction
 BeginTransaction beginTransaction = new BeginTransaction();
 GeogigTransaction transaction = beginTransaction.executeCommand(baseURL, username, password, repository);

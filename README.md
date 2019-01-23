@@ -57,7 +57,7 @@ Getting Started
 ### 6. Test 코드 작성 ###
 - src/test/com/git/gdsbuilder/VersionControlTest.java 클래스 생성
 - Creating a GeoGig repository backed by PostgreSQL
-<pre><code> // Geogig Repository Information
+<pre><code>// Geogig Repository Information
 String baseURL = "http://localhost:9999/geoserver";
 String username = "admin";
 String password = "geoserver";
@@ -97,7 +97,7 @@ EndTransaction endTransaction = new EndTransaction();
 endTransaction.executeCommand(baseURL, username, password, repository, transactionId);</code></pre>
 
 - List Repository Tree
-<pre><code> // List All Layers In Geogig Repository
+<pre><code>// List All Layers In Geogig Repository
 LsTreeRepository lsTree = new LsTreeRepository();
 GeogigRevisionTree geogigTree = lsTree.executeCommand(baseURL, username, dbPassword, repository, null, false);</code></pre>
 

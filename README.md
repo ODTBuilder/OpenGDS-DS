@@ -172,7 +172,7 @@ transaction = endTransaction.executeCommand(baseURL, username, password, reposit
 
 시스템 아키텍쳐 
 =====
-<img src=https://user-images.githubusercontent.com/20291050/51577193-564d2900-1efc-11e9-8ad9-77d2edab08ea.png" alt="alt text" width="75%">
+<img src="https://user-images.githubusercontent.com/20291050/51577193-564d2900-1efc-11e9-8ad9-77d2edab08ea.png" alt="alt text" width="75%">
 
 사용 라이브러리
 =====

@@ -74,8 +74,7 @@ String authorEmail = "github@git.co.kr";
 
 // Creating a GeoGig repository backed by PostgreSQL
 InitRepository init = new InitRepository();
-init.executeCommand(baseURL, username, password, repository, dbHost, dbPort, dbName, dbSchema, dbUser,
-				dbPassword, authorName, authorEmail);</code></pre>
+init.executeCommand(baseURL, username, password, repository, dbHost, dbPort, dbName, dbSchema, dbUser, dbPassword, authorName, authorEmail);</code></pre>
 - Importing PostGIS Table
 <pre><code>// Begin Transaction
 BeginTransaction beginTransaction = new BeginTransaction();
@@ -101,12 +100,10 @@ GeogigCommit commit = commitRepos.executeCommand(baseURL, username, password, re
 // EndTransaction
 EndTransaction endTransaction = new EndTransaction();
 transaction = endTransaction.executeCommand(baseURL, username, password, repository, transactionId);</code></pre>
-
 - Geogig 저장소에 Import된 Layer 목록 조회
 <pre><code>// List All Layers In Geogig Repository
 LsTreeRepository lsTree = new LsTreeRepository();
 GeogigRevisionTree geogigTree = lsTree.executeCommand(baseURL, username, password, repository, null, false);</code></pre>
-
 - PostGIS Table 수정 후 위의 'Importing PostGIS Table'과 동일한 방식으로 ReImporting 
 - Geogig 저장소는 수정한 객체에 대해 편집 이력 저장
 - 브랜치 생성
@@ -117,7 +114,6 @@ String source = "master";
 // Creating Branch
 CreateBranch create = new CreateBranch();
 GeogigBranch branch = create.executeCommand(baseURL, username, password, repository, branchName, source);</code></pre>
-
 - 브랜치 병합
 <code><pre>// Begin Transaction
 BeginTransaction beginTransaction = new BeginTransaction();
@@ -139,7 +135,6 @@ GeogigMerge merge = merge.executeCommand(baseURL, username, password, repository
 // EndTransaction
 EndTransaction endTransaction = new EndTransaction();
 transaction = endTransaction.executeCommand(baseURL, username, password, repository, transactionId);</code></pre>
-
 - 브랜치 병합 충돌 관리, 충돌 객체에 대해 특정 브랜치의 객체로 덮어씀
 <code><pre>// Begin Transaction
 BeginTransaction beginTransaction = new BeginTransaction();
@@ -173,7 +168,6 @@ if (mergeResult.getConflicts() != null) { // 충돌 발생
 // EndTransaction
 EndTransaction endTransaction = new EndTransaction();
 transaction = endTransaction.executeCommand(baseURL, username, password, repository, transactionId);</code></pre>
-
 - 기타 기능은 개발자 API 참고
 
 사용 라이브러리

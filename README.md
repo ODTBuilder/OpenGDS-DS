@@ -170,6 +170,10 @@ EndTransaction endTransaction = new EndTransaction();
 transaction = endTransaction.executeCommand(baseURL, username, password, repository, transactionId);</code></pre>
 - 기타 기능은 개발자 API 참고
 
+시스템 아키텍쳐 
+=====
+<img src=https://user-images.githubusercontent.com/20291050/51577193-564d2900-1efc-11e9-8ad9-77d2edab08ea.png" alt="alt text" width="75%">
+
 사용 라이브러리
 =====
 1. Geogig 1.2.1 (Eclipse Distribution License (a BSD 3 Clause license)) http://geogig.org/

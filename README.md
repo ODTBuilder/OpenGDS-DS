@@ -16,7 +16,8 @@ OpenGeoDT 팀
 특징
 =====
 - OpenGDS/DS는 Java 기반의 Library로 Geogig 시스템에 접근하기 위한 REST Client Library 입니다. 
-- Geogig은 Geoserver 내에 Plug in 형태로 설치한 후 RESTAPI로 접근합니다. 
+- Geogig은 Git Flow와 동일한 방식의 분산 버전관리 시스템으로 저장소 Clone, 브랜치 병합, 저장소 Pull/Push, 버전 충돌 관리 등 기능을 제공합니다.
+- Geoserver 내에 Plug in 형태로 설치한 후 Geogig 시스템에 RESTAPI로 접근합니다. 
 - 모든 공간자료는 Geogig을 통해 PostgreSQL 저장소에 버전별로 저장됩니다. 
 - OpenGDS/DS는 공간자료 Import 및 삭제 기능을 제외한 편집 기능은 제공하지 않으므로 OpenGDS/Builder(공간자료 편집도구)를 연동하여 사용하는 것을 권장합니다. 
 
@@ -56,7 +57,7 @@ Getting Started
 
 ### 6. Test 코드 작성 ###
 - src/test/com/git/gdsbuilder/VersionControlTest.java 클래스 생성
-- Creating a GeoGig repository backed by PostgreSQL
+- PostgreSQL 타입의 Geogig 저장소 생성
 <pre><code>// Geogig Repository Information
 String baseURL = "http://localhost:9999/geoserver";
 String username = "admin";
@@ -71,12 +72,13 @@ String dbPassword = "postgis";
 String authorName = "github";
 String authorEmail = "github@git.co.kr";
 
-// create GeoGig repository
+// Creating a GeoGig repository backed by PostgreSQL
 InitRepository init = new InitRepository();
 init.executeCommand(baseURL, username, password, repository, dbHost, dbPort, dbName, dbSchema, dbUser,
 				dbPassword, authorName, authorEmail);</code></pre>
-- Import PostGIS Table
-<pre><code>BeginTransaction beginTransaction = new BeginTransaction();
+- Importing PostGIS Table
+<pre><code>// Begin Transaction
+BeginTransaction beginTransaction = new BeginTransaction();
 GeogigTransaction transaction = beginTransaction.executeCommand(baseURL, username, password, repository);
 String transactionId = transaction.getTransaction().getId();
 
@@ -84,22 +86,93 @@ String transactionId = transaction.getTransaction().getId();
 String fidAttrib = "gid";
 String table = "gis_osm_transport";
 
+// Importing GIS Data
 PostGISImport postgisImport = new PostGISImport();
-postgisImport.executeCommand(baseURL, username, password, repository, transactionId, fidAttrib, table, dbHost, dbPort, dbSchema, dbName, dbUser, dbPassword);
+GeogigTasks tastks = postgisImport.executeCommand(baseURL, username, password, repository, transactionId, fidAttrib, table, dbHost, dbPort, dbSchema, dbName, dbUser, dbPassword);
 
+// Adding Repostiroy
 AddRepository addRepos = new AddRepository();
-addRepos.executeCommand(baseURL, username, password, repository, transactionId);
+GeogigAdd add = addRepos.executeCommand(baseURL, username, password, repository, transactionId);
 
+// Committing Repository
 CommitRepository commitRepos = new CommitRepository();
-commitRepos.executeCommand(baseURL, username, password, repository, transactionId, "github test", authorName, authorEmail);
+GeogigCommit commit = commitRepos.executeCommand(baseURL, username, password, repository, transactionId, "github test", authorName, authorEmail);
 
+// EndTransaction
 EndTransaction endTransaction = new EndTransaction();
-endTransaction.executeCommand(baseURL, username, password, repository, transactionId);</code></pre>
+transaction = endTransaction.executeCommand(baseURL, username, password, repository, transactionId);</code></pre>
 
-- List Repository Tree
+- Geogig 저장소에 Import된 Layer 목록 조회
 <pre><code>// List All Layers In Geogig Repository
 LsTreeRepository lsTree = new LsTreeRepository();
-GeogigRevisionTree geogigTree = lsTree.executeCommand(baseURL, username, dbPassword, repository, null, false);</code></pre>
+GeogigRevisionTree geogigTree = lsTree.executeCommand(baseURL, username, password, repository, null, false);</code></pre>
+
+- PostGIS Table 수정 후 위의 'Importing PostGIS Table'과 동일한 방식으로 ReImporting 
+- Geogig 저장소는 수정한 객체에 대해 편집 이력 저장
+- 브랜치 생성
+<code><pre>// Branch Information
+String branchName = "myBranch";
+String source = "master";
+
+// Creating Branch
+CreateBranch create = new CreateBranch();
+GeogigBranch branch = create.executeCommand(baseURL, username, password, repository, branchName, source);</code></pre>
+
+- 브랜치 병합
+<code><pre>// Begin Transaction
+BeginTransaction beginTransaction = new BeginTransaction();
+GeogigTransaction transaction = beginTransaction.executeCommand(baseURL, username, password, repository);
+String transactionId = transaction.getTransaction().getId();
+
+// Merge Branch Information
+String targetBranch = "master";
+String mergeBranch = "myBranch";
+
+// Switch to targetBranch
+CheckoutBranch checkout = new CheckoutBranch();
+GeogigCheckout checkout = checkout.executeCommand(baseURL, username, dbPassword, repository, transactionId, branchName);
+
+// Merge into targetBranch 
+MergeBranch merge = new MergeBranch();
+GeogigMerge merge = merge.executeCommand(baseURL, username, password, repository, transactionId, branchName);
+
+// EndTransaction
+EndTransaction endTransaction = new EndTransaction();
+transaction = endTransaction.executeCommand(baseURL, username, password, repository, transactionId);</code></pre>
+
+- 브랜치 병합 충돌 관리, 충돌 객체에 대해 특정 브랜치의 객체로 덮어씀
+<code><pre>// Begin Transaction
+BeginTransaction beginTransaction = new BeginTransaction();
+GeogigTransaction transaction = beginTransaction.executeCommand(baseURL, username, password, repository);
+String transactionId = transaction.getTransaction().getId();
+
+// Merge Branch Information
+String targetBranch = "master";
+String mergeBranch = "myBranch";
+
+// Switch to targetBranch
+CheckoutBranch checkout = new CheckoutBranch();
+GeogigCheckout checkout = checkout.executeCommand(baseURL, username, dbPassword, repository, transactionId, branchName);
+
+// Merge into targetBranch 
+MergeBranch merge = new MergeBranch();
+GeogigMerge merge = merge.executeCommand(baseURL, username, password, repository, transactionId, branchName);
+
+Merge mergeResult = merge.getMerge();
+if (mergeResult.getConflicts() != null) { // 충돌 발생
+    String version = "ours"; // ours : targetBranch, their : mergeBranch
+    List<Feature> conflictFeatures = mergeResult.getFeatures();
+    for (Feature conflict : conflictFeatures) {	
+        if (conflict.getChange().equals("CONFLICT")) {
+             String path = conflict.getId();
+             checkoutBranch.executeCommand(baseURL, username, dbPassword, repository, transactionId, path, version);
+	 }
+    }
+}
+	
+// EndTransaction
+EndTransaction endTransaction = new EndTransaction();
+transaction = endTransaction.executeCommand(baseURL, username, password, repository, transactionId);</code></pre>
 
 - 기타 기능은 개발자 API 참고
 

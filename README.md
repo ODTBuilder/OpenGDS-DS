@@ -57,7 +57,8 @@ Getting Started
 ### 6. Test 코드 작성 ###
 - src/test/com/git/gdsbuilder/VersionControlTest.java 클래스 생성
 - Creating a GeoGig repository backed by PostgreSQL
-<pre><code>String baseURL = "http://localhost:9999/geoserver";
+<pre><code> // Geogig Repository Information
+String baseURL = "http://localhost:9999/geoserver";
 String username = "admin";
 String password = "geoserver";
 String repository = "github";
@@ -70,6 +71,7 @@ String dbPassword = "postgis";
 String authorName = "github";
 String authorEmail = "github@git.co.kr";
 
+// create GeoGig repository
 InitRepository init = new InitRepository();
 init.executeCommand(baseURL, username, password, repository, dbHost, dbPort, dbName, dbSchema, dbUser,
 				dbPassword, authorName, authorEmail);</code></pre>
@@ -78,6 +80,7 @@ init.executeCommand(baseURL, username, password, repository, dbHost, dbPort, dbN
 GeogigTransaction transaction = beginTransaction.executeCommand(baseURL, username, password, repository);
 String transactionId = transaction.getTransaction().getId();
 
+// PostGIS Table Information
 String fidAttrib = "gid";
 String table = "gis_osm_transport";
 
@@ -94,5 +97,23 @@ EndTransaction endTransaction = new EndTransaction();
 endTransaction.executeCommand(baseURL, username, password, repository, transactionId);</code></pre>
 
 - List Repository Tree
-<pre><code>LsTreeRepository lsTree = new LsTreeRepository();
+<pre><code> // List All Layers In Geogig Repository
+LsTreeRepository lsTree = new LsTreeRepository();
 GeogigRevisionTree geogigTree = lsTree.executeCommand(baseURL, username, dbPassword, repository, null, false);</code></pre>
+
+- 기타 기능은 개발자 API 참고
+
+사용 라이브러리
+=====
+1. Geogig 1.2.1 (Eclipse Distribution License (a BSD 3 Clause license)) http://geogig.org/
+2. ApachePOI 3.14 (Apache License 2.0) http://poi.apache.org
+3. ApacheCommons 1.3.3 (Apache License 2.0) commons.apache.org/proper/commons-logging/
+4. JACKSON 1.9.7 (Apache License (AL) 2.0, LGPL 2.1)
+5. JSON 20160212 (MIT License)
+6. JSON.simple 1.1.1 (The Apache Software License, Version 2.0) http://code.google.com/p/json-simple/
+
+Mail
+====
+Developer : SG.LEE
+ghre55@git.co.kr
+

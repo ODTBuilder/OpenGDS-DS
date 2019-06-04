@@ -8,6 +8,10 @@ import com.gitrnd.gdsbuilder.geoserver.service.inf.DTGeoserverInfo.EnGeoserverIn
 import com.gitrnd.gdsbuilder.geoserver.service.wfs.WFSGetFeature;
 import com.gitrnd.gdsbuilder.geoserver.service.wms.WMSGetMap;
 
+/**
+ * Geoserver Request 요청을 생성하는 클래스
+ * @author SG.LEE
+ */
 public class DTGeoserverServiceFactoryImpl implements DTGeoserverServiceFactory {
 	
 	/**

@@ -2,8 +2,6 @@ package com.gitrnd.gdsbuilder.geogig.command.repository;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -20,14 +18,44 @@ import org.springframework.web.client.RestTemplate;
 import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigAdd;
 
+/**
+ * Geogig Add Command 실행 클래스.
+ * 
+ * @author DY.Oh
+ *
+ */
 public class AddRepository {
 
-	private static final Log logger = LogFactory.getLog(AddRepository.class);
-
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
+	/**
+	 * command
+	 */
 	private static final String command = "add";
+	/**
+	 * transactionId parameter
+	 */
 	private static final String param_transactionId = "transactionId=";
 
+	/**
+	 * 현재 Checkout 상태인 Branch의 수정 사항을 Geogig Database에 Commit 하기 전 Staging Area에 Add
+	 * 함.
+	 * 
+	 * @param baseURL       Geogig Repository가 위치한 Geoserver BaseURL
+	 *                      <p>
+	 *                      (ex. http://localhost:8080/geoserver)
+	 * @param username      Geoserver 사용자 ID
+	 * @param password      Geoserver 사용자 PW
+	 * @param repository    Geogig Repository명
+	 * @param transactionId Geogig Repository 트랜잭션 ID
+	 * @return Command 실행 성공 - Success 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigAdd executeCommand(String baseURL, String username, String password, String repository,
 			String transactionId) {
 

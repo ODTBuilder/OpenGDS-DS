@@ -5,6 +5,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.gitrnd.gdsbuilder.geogig.type.GeogigMerge.Merge;
 
+/**
+ * Geogig RevertFeature Command 응답 xml 객체.
+ * 
+ * @author DY.Oh
+ *
+ */
 @XmlRootElement(name = "response")
 public class GeogigFeatureRevert {
 
@@ -18,8 +24,14 @@ public class GeogigFeatureRevert {
 	 */
 	private Merge merge;
 
+	/**
+	 * error message
+	 */
 	private String error;
 
+	/**
+	 * transactionId
+	 */
 	private String transactionId;
 
 	@XmlElement(name = "success")

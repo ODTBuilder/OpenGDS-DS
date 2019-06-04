@@ -19,11 +19,38 @@ import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.command.ResponseType;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigGeoserverWorkSpaceList;
 
+/**
+ * Geoserver WorkSpace List GET Command 실행 클래스.
+ * 
+ * @author DY.Oh
+ *
+ */
 public class ListGeoserverWorkSpace {
 
+	/**
+	 * rest
+	 */
 	private static final String rest = "rest";
+	/**
+	 * workspaces parameter
+	 */
 	private static final String command_workspaces = "workspaces";
 
+	/**
+	 * Geoserver에 존재하는 모든 Workspace 정보 목록을 반환함.
+	 * 
+	 * @param baseURL  Geoserver BaseURL
+	 *                 <p>
+	 *                 (ex. http://localhost:8080/geoserver)
+	 * @param username Geoserver 사용자 ID
+	 * @param password Geoserver 사용자 PW
+	 * @param type     응답 타입(xml 또는 json)
+	 * @return Command 실행 성공 - 모든 Workspace 정보 목록 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigGeoserverWorkSpaceList executeCommand(String baseURL, String username, String password,
 			ResponseType type) {
 

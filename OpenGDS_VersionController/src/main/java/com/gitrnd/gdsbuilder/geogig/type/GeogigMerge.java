@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Geogig Merge Command 응답 xml 객체.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 @XmlRootElement(name = "response")
@@ -24,6 +24,9 @@ public class GeogigMerge {
 	 */
 	private Merge merge;
 
+	/**
+	 * error message
+	 */
 	private String error;
 
 	@XmlElement(name = "success")
@@ -56,17 +59,35 @@ public class GeogigMerge {
 	/**
 	 * Merge 객체
 	 * 
-	 * @author GIT
+	 * @author DY.Oh
 	 *
 	 */
 	@XmlRootElement(name = "Merge")
 	public static class Merge {
 
+		/**
+		 * 현재 Checkout 중인 Branch의 Commit Object ID
+		 */
 		private String ours;
+		/**
+		 * 병합하고자 하는 Branch의 Commit Object ID
+		 */
 		private String theirs;
+		/**
+		 * 현재 Checkout 중인 Branch의 상위 버전 Commit Object ID
+		 */
 		private String ancestor;
+		/**
+		 * 병합 완료 후 새로 생성된 버전의 Commit Object ID
+		 */
 		private String mergedCommit;
+		/**
+		 * 병합 시 충돌 발생 객체 수
+		 */
 		private String conflicts;
+		/**
+		 * 병합 시 충돌 발생 객체 목록
+		 */
 		private List<Feature> features;
 
 		@XmlElement(name = "ours")
@@ -126,19 +147,37 @@ public class GeogigMerge {
 	}
 
 	/**
-	 * Feature 객체
+	 * Feature 객체.
 	 * 
-	 * @author GIT
+	 * @author DY.Oh
 	 *
 	 */
 	@XmlRootElement(name = "Feature")
 	public static class Feature {
 
+		/**
+		 * 병합 결과(ADDED, MODIFIED, REMOVED, CONFLICT)
+		 */
 		private String change;
+		/**
+		 * 객체 경로
+		 */
 		private String id;
+		/**
+		 * Checkout 중인 Branch의 객체 Object ID
+		 */
 		private String ourvalue;
+		/**
+		 * 병합하고자 하는 Branch의 객체 Object ID
+		 */
 		private String theirvalue;
+		/**
+		 * Geometry (ex.POINT (-61.42671331549701 -16.869396995266598))
+		 */
 		private String geometry;
+		/**
+		 * 좌표계 (ex.EPSG:4326)
+		 */
 		private String crs;
 
 		@XmlElement(name = "change")

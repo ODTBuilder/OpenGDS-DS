@@ -3,25 +3,50 @@ package com.gitrnd.gdsbuilder.geogig.type;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Geogig Repository Command 응답 xml 객체.
+ * 
+ * @author DY.Oh
+ *
+ */
 @XmlRootElement(name = "repository")
 public class GeogigRepositoryInfo {
 
+	/**
+	 * Geogig Command 응답 성공 여부
+	 */
 	private String success;
-
+	/**
+	 * error message
+	 */
 	private String error;
-
+	/**
+	 * Repository ID
+	 */
 	private String id;
-
+	/**
+	 * Repository명
+	 */
 	private String name;
-
+	/**
+	 * Repository 주소
+	 */
 	private String url;
-
+	/**
+	 * Repository 위치
+	 */
 	private String location;
-
+	/**
+	 * Repository 저장소 타입
+	 */
 	private String storage;
-
+	/**
+	 * 사용자명
+	 */
 	private String user;
-
+	/**
+	 * 사용자 Email 주소
+	 */
 	private String email;
 
 	@XmlElement(name = "id")

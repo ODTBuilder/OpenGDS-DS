@@ -6,13 +6,28 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Geogig Fetch Command 응답 xml 객체.
+ * 
+ * @author DY.Oh
+ *
+ */
 @XmlRootElement(name = "response")
 public class GeogigFetch {
 
+	/**
+	 * Geogig Command 응답 성공 여부
+	 */
 	private String success;
 
+	/**
+	 * Remote 목록
+	 */
 	private List<Remote> remotes;
 
+	/**
+	 * error message
+	 */
 	private String error;
 
 	@XmlElement(name = "success")
@@ -43,11 +58,23 @@ public class GeogigFetch {
 		this.error = error;
 	}
 
+	/**
+	 * Remote 객체.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "Remote")
 	public static class Remote {
 
+		/**
+		 * Remote Repository url
+		 */
 		private String remoteURL;
 
+		/**
+		 * Remote Repository Branch Updeate 목록
+		 */
 		private List<Branch> branchs;
 
 		@XmlElement(name = "remoteURL")
@@ -68,15 +95,33 @@ public class GeogigFetch {
 			this.branchs = branchs;
 		}
 
+		/**
+		 * Branch 객체.
+		 * 
+		 * @author DY.Oh
+		 *
+		 */
 		@XmlRootElement(name = "Branch")
 		public static class Branch {
 
+			/**
+			 * change type(ADDED_REF, MODIFYED_REF, REMOVED_REF)
+			 */
 			private String changeType;
 
+			/**
+			 * Branch명
+			 */
 			private String name;
 
+			/**
+			 * 최신 버전의 Branch Object ID
+			 */
 			private String newValue;
 
+			/**
+			 * 이전 버전의 Branch Object ID
+			 */
 			private String oldValue;
 
 			@XmlElement(name = "changeType")

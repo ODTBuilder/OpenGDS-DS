@@ -19,12 +19,44 @@ import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.command.ResponseType;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigGeoserverDataStore;
 
+/**
+ * Geoserver DataStore GET Command 실행 클래스.
+ * 
+ * @author DY.Oh
+ *
+ */
 public class GeoserverDataStore {
 
+	/**
+	 * rest
+	 */
 	private static final String rest = "rest";
+	/**
+	 * workspaces parameter
+	 */
 	private static final String command_workspaces = "workspaces";
+	/**
+	 * datastores parameter
+	 */
 	private static final String command_datastores = "datastores";
 
+	/**
+	 * WorkSpace에 존재하는 1개의 DataStore 정보를 반환함.
+	 * 
+	 * @param baseURL   Geoserver BaseURL
+	 *                  <p>
+	 *                  (ex. http://localhost:8080/geoserver)
+	 * @param username  Geoserver 사용자 ID
+	 * @param password  Geoserver 사용자 PW
+	 * @param workspace Geoserver workspace명
+	 * @param datastore 조회할 Geoserver datastore명
+	 * @param type      응답 타입(xml 또는 json)
+	 * @return Command 실행 성공 - datastore에 해당하는 DataStore 정보 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigGeoserverDataStore executeCommand(String baseURL, String username, String password, String workspace,
 			String datastore, ResponseType type) {
 

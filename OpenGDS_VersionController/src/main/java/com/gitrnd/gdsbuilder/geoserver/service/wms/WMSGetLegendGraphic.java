@@ -2,24 +2,90 @@ package com.gitrnd.gdsbuilder.geoserver.service.wms;
 
 import com.gitrnd.gdsbuilder.geoserver.service.en.EnWMSOutputFormat;
 
+/**
+ * WMS GetLegendGraphic 정보를 받아 요청 URL을 생성해주는 클래스
+ * <p> 
+ * WMS 의 역량의 LegendURL 참조를 넘어서 범례 그래픽을 이미지로 생성하기
+ * 위한 메커니즘을 제공합니다
+ * @author SG.LEE
+ *
+ */
 public class WMSGetLegendGraphic {
 
+	/**
+	 * 서비스명
+	 */
 	private final static String SERVICE = "WMS";
+	/**
+	 * 작업명
+	 */
 	private final static String REQUEST = "GetLegendGraphic";
+	/**
+	 * 서버 URL
+	 */
 	private String serverURL = "";
+	/**
+	 * Geoserver 버전
+	 */
 	private String version = "1.0.0";
+	/**
+	 * {@link EnWMSOutputFormat} PNG, PNG8, JPEG, GIF, TIFF, TIFF8, GeoTIFF, GeoTIFF8, SVG, PDF, GEORSS, KML, KMZ
+	 */
 	private EnWMSOutputFormat format = null;
-	private int width = 0;
-	private int height = 0;
+	/**
+	 * Map 너비
+	 */
+	private int width=0;
+	/**
+	 * Map 높이
+	 */
+	private int height=0;
+	/**
+	 * 레이어명
+	 */
 	private String layer = "";
+	/**
+	 * 범례 사이즈
+	 */
 	private int scale = 0;
+	/**
+	 * 상세 옵션
+	 */
 	private String legend_options = "";
+	/**
+	 * 스타일
+	 */
 	private String style = "";
-	private String sld = "";
-	private String sld_body= "";
+	/**
+	 * SLD 스타일 형식
+	 */
+	private String sld="";
+	/**
+	 * SLD 스타일 형식 body
+	 */
+	private String sld_body="";
+	/**
+	 * 예외 형식
+	 */
 	private String exceptions="";
 	
 	
+	/**
+	 * {@link WMSGetLegendGraphic} 생성자
+	 * @author SG.LEE
+	 * @param serverURL 서버 URL
+	 * @param version Geoserver 버전
+	 * @param format {@link EnWMSOutputFormat} PNG, PNG8, JPEG, GIF, TIFF, TIFF8, GeoTIFF, GeoTIFF8, SVG, PDF, GEORSS, KML, KMZ
+	 * @param width Map 너비
+	 * @param height Map 높이
+	 * @param layer 레이어명
+	 * @param scale 범례 사이즈
+	 * @param legend_options 상세 옵션
+	 * @param style 스타일
+	 * @param sld SLD 스타일 형식
+	 * @param sld_body SLD 스타일 형식 body
+	 * @param exceptions 예외 형식
+	 */
 	public WMSGetLegendGraphic(String serverURL, String version, EnWMSOutputFormat format, int width, int height, String layer, int scale, String legend_options, String style, String sld, String sld_body, String exceptions){
 		super();
 		if (!serverURL.trim().equals("")) {
@@ -117,6 +183,11 @@ public class WMSGetLegendGraphic {
 		return REQUEST;
 	}
 	
+	/**
+	 * WMS GetLegendGraphic 서비스 URL 생성
+	 * @author SG.LEE
+	 * @return WMS GetLegendGraphic URL
+	 */
 	public String getWMSGetLegendGraphicURL() {
 		StringBuffer urlBuffer = new StringBuffer();
 		if (!this.serverURL.equals("")) {
@@ -144,6 +215,8 @@ public class WMSGetLegendGraphic {
 			if (!this.style.equals("")) {
 				urlBuffer.append("&");
 				urlBuffer.append("style=" + style);
+				urlBuffer.append("&");
+				urlBuffer.append("STRICT=false");
 			}
 			if (!this.sld.equals("")) {
 				urlBuffer.append("&");

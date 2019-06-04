@@ -49,21 +49,38 @@ import it.geosolutions.geoserver.rest.decoder.RESTLayerGroup;
 import it.geosolutions.geoserver.rest.decoder.utils.JDOMBuilder;
 
 /**
- * DTGeoGroupLayer에 대한 정보를 담고있는 클래스
+ * {@link RESTLayerGroup} 확장클래스
+ * Geoserver Group레이어 정보
  * @author SG.Lee
- * @Date 2017. 2
+ * @Since 2017. 2
  * */
 public class DTGeoGroupLayer extends RESTLayerGroup{
 
+	/**
+	 * Geoserver REST Response 결과를 {@link DTGeoGroupLayer} 클래스로 변환
+	 * @author SG.LEE
+	 * @param response
+	 * @return
+	 */
 	public static DTGeoGroupLayer build(String response) {
         Element elem = JDOMBuilder.buildElement(response);
         return elem == null? null : new DTGeoGroupLayer(elem);
 	}
 
+	/**
+	 * {@link DTGeoGroupLayer} 생성자
+	 * @author SG.LEE
+	 * @param layerElem 단일 GroupLayer {@link Element}
+	 */
 	public DTGeoGroupLayer(Element layerElem) {
 		super(layerElem);
 	}
 
+	/**
+	 * GroupLayer 레이어의 BBOX 
+	 * @author SG.LEE
+	 * @return 영역좌표
+	 */
 	@SuppressWarnings("unchecked")
 	public JSONObject getBBox() {
 		JSONObject bbox = new JSONObject();
@@ -73,7 +90,4 @@ public class DTGeoGroupLayer extends RESTLayerGroup{
 		bbox.put("maxy", super.getMaxY());
 		return bbox;
 	}
-	
-	
-	
 }

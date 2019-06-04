@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Geogig Checkout Command 응답 xml 객체.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 @XmlRootElement(name = "response")
@@ -19,17 +19,29 @@ public class GeogigCheckout {
 	 * Geogig Command 응답 성공 여부
 	 */
 	private String success;
-
+	/**
+	 * transaction Id
+	 */
 	private String transactionId;
-
+	/**
+	 * Check out 전 Branch명
+	 */
 	private String oldTarget;
-
+	/**
+	 * Check out 후 Branch명
+	 */
 	private String newTarget;
-
+	/**
+	 * 충돌 해결 객체 경로
+	 */
 	private String path;
-
+	/**
+	 * 충돌 해결 방식(ours 또는 theirs)
+	 */
 	private String strategy;
-
+	/**
+	 * 오류 메세지
+	 */
 	private String error;
 
 	@XmlElement(name = "success")

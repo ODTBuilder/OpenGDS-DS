@@ -5,8 +5,6 @@ package com.gitrnd.gdsbuilder.geogig.command.repository.branch;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -24,26 +22,69 @@ import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigCheckout;
 
 /**
- * Geogig Branch Checkout Command Execution Class
+ * Geogig Branch Checkout Command 실행 클래스.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 public class CheckoutBranch {
 
-	private static final Log logger = LogFactory.getLog(CheckoutBranch.class);
-
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
+	/**
+	 * command
+	 */
 	private static final String command = "checkout";
+	/**
+	 * transactionId parameter
+	 */
 	private static final String param_transactionId = "transactionId=";
+	/**
+	 * branch parameter
+	 */
 	private static final String param_branch = "branch=";
+	/**
+	 * path parameter
+	 */
 	private static final String param_path = "path=";
+	/**
+	 * ours parameter
+	 */
 	private static final String param_ours = "ours=";
+	/**
+	 * theirs parameter
+	 */
 	private static final String param_theirs = "theirs=";
-
+	/**
+	 * oursparameter
+	 */
 	public static final String CHEKCOUT_OURS = "ours";
+	/**
+	 * theirs parameter
+	 */
 	public static final String CHEKCOUT_THEIRS = "theirs";
 
+	/**
+	 * 특정 Branch를 수정하기 위해 현재 Branch에서 수정하고자 하는 Branch로 이동함.
+	 * 
+	 * @param baseURL       Geogig Repository가 위치한 Geoserver BaseURL
+	 *                      <p>
+	 *                      (ex. http://localhost:8080/geoserver)
+	 * @param username      Geoserver 사용자 ID
+	 * @param password      Geoserver 사용자 PW
+	 * @param repository    Geogig Repository명
+	 * @param transactionId Geogig Repository 트랜잭션 ID
+	 *                      <p>
+	 *                      해당 트랜잭선 ID가 존재하지 않는 경우 Command 실행 실패
+	 * @param branchName    Checkout Branch명
+	 * @return Command 실행 성공 - Checkout 전,후의 Branch명 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigCheckout executeCommand(String baseURL, String username, String password, String repository,
 			String transactionId, String branchName) {
 
@@ -79,6 +120,31 @@ public class CheckoutBranch {
 		return responseEntity.getBody();
 	}
 
+	/**
+	 * 두 Branch 병합시 발생한 충돌을 특정 Branch의 객체로 덮어씌워 충돌을 해결함.
+	 * 
+	 * @param baseURL       Geogig Repository가 위치한 Geoserver BaseURL
+	 *                      <p>
+	 *                      (ex. http://localhost:8080/geoserver)
+	 * @param username      Geoserver 사용자 ID
+	 * @param password      Geoserver 사용자 PW
+	 * @param repository    Geogig Repository명
+	 * @param transactionId Geogig Repository 트랜잭션 ID
+	 *                      <p>
+	 *                      해당 트랜잭선 ID가 존재하지 않는 경우 Command 실행 실패
+	 * @param path          현재 Checkout된 Branch의 충돌이 발생한 객체의 경로
+	 * @param version       "ours" 또는 "theirs" 문자열만 입력 가능
+	 *                      <p>
+	 *                      "ours" : 현재 Checkout된 Branch의 객체로 덮어씌움
+	 *                      <p>
+	 *                      "theirs" : 다른 Branch의 객체로 현재 현재 Checkout된 Branch의 객체를
+	 *                      덮어씌움
+	 * @return Command 실행 성공 - Checkout을 성공한 객체의 경로와 version("ours" 또는 "theirs") 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigCheckout executeCommand(String baseURL, String username, String password, String repository,
 			String transactionId, String path, String version) {
 

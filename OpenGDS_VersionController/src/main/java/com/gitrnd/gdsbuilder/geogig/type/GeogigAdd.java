@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Geogig Add Command 응답 xml 객체.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 @XmlRootElement(name = "response")
@@ -24,34 +24,25 @@ public class GeogigAdd {
 	 */
 	private String add;
 
+	/**
+	 * 오류 메세지
+	 */
 	private String error;
 
-	/**
-	 * @return the success
-	 */
 	@XmlElement(name = "success")
 	public String getSuccess() {
 		return success;
 	}
 
-	/**
-	 * @param success the success to set
-	 */
 	public void setSuccess(String success) {
 		this.success = success;
 	}
 
-	/**
-	 * @return the add
-	 */
 	@XmlElement(name = "Add")
 	public String getAdd() {
 		return add;
 	}
 
-	/**
-	 * @param add the add to set
-	 */
 	public void setAdd(String add) {
 		this.add = add;
 	}

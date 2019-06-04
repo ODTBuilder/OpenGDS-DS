@@ -26,7 +26,10 @@ import com.gitrnd.gdsbuilder.geogig.type.GeogigRemoteRepository.Remote;
 import com.gitrnd.gdsbuilder.geoserver.DTGeoserverManager;
 
 /**
- * @author GIT
+ * Geogig Repository에 등록된 Remote Repository 및 Remote Branch를 {@link JSONArray}
+ * 형태의 Tree로 생성하는 클래스.
+ * 
+ * @author DY.Oh
  *
  */
 @SuppressWarnings("serial")
@@ -34,9 +37,29 @@ public class GeogigRemoteRepositoryTree extends JSONArray {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	/**
+	 * 원격 Repository 트리 생성 요청 타입 enum.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	public enum EnGeogigRemoteRepositoryTreeType {
-		REMOTEREPOSITORY("remoteRepository"), REMOTEBRANCH("remoteBranch"), UNKNOWN(null);
+		/**
+		 * Geogig Remote Repository 목록 조회
+		 */
+		REMOTEREPOSITORY("remoteRepository"),
+		/**
+		 * Geogig Remote Repository의 Branch 목록 조회
+		 */
+		REMOTEBRANCH("remoteBranch"),
+		/**
+		 * Unknown
+		 */
+		UNKNOWN(null);
 
+		/**
+		 * 조회 형태
+		 */
 		String type;
 
 		private EnGeogigRemoteRepositoryTreeType(String type) {
@@ -62,16 +85,37 @@ public class GeogigRemoteRepositoryTree extends JSONArray {
 		}
 	}
 
+	/**
+	 * {@link GeogigRemoteRepositoryTree} 생성자.
+	 * 
+	 * @param dtGeoserver Geoserver REST Manager 및 Geoserver 접속 정보
+	 * @param serverName  Geoserver 이름
+	 * @param type        조회 타입
+	 * @param node        상위 노드
+	 * @param local       Geogig Repository ID
+	 * @param fetch       버전 갱신 여부
+	 */
 	public GeogigRemoteRepositoryTree(DTGeoserverManager dtGeoserver, String serverName,
 			EnGeogigRemoteRepositoryTreeType type, String node, String local, boolean fetch) {
 		this.build(dtGeoserver, serverName, type, node, local, fetch);
 	}
 
+	/**
+	 * Geogig Repository에 등록된 Remote Repository 및 Remote Branch를 {@link JSONArray}
+	 * 형태의 Tree로 반환함.
+	 * 
+	 * @param dtGeoserver Geoserver REST Manager 및 Geoserver 접속 정보
+	 * @param serverName  Geoserver 이름
+	 * @param type        조회 타입
+	 * @param node        상위 노드
+	 * @param local       Geogig Repository ID
+	 * @param fetch       버전 갱신 여부
+	 * @return Remote Repository 및 Remote Branch를 {@link JSONArray} 형태의 Tree
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigRemoteRepositoryTree build(DTGeoserverManager dtGeoserver, String serverName,
 			EnGeogigRemoteRepositoryTreeType type, String node, String local, boolean fetch) {
-
-		// node : repos_postgress_master
-		// local : geoserver32:fetchtest_postgres
 
 		if (dtGeoserver == null || serverName == null || node == null) {
 			JSONObject errorJSON = new JSONObject();
@@ -280,9 +324,6 @@ public class GeogigRemoteRepositoryTree extends JSONArray {
 
 	}
 
-	/**
-	 * @param repo
-	 */
 	private void addDefaultRepo(String repo, String text) {
 		JSONObject repoJson = new JSONObject();
 		repoJson.put("parent", "#");
@@ -292,13 +333,6 @@ public class GeogigRemoteRepositoryTree extends JSONArray {
 		super.add(repoJson);
 	}
 
-	/**
-	 * @param id
-	 * @param text
-	 * @param url
-	 * @param children
-	 * @param ping
-	 */
 	private void addRemoteRepo(String id, String text, String url, boolean children, boolean ping) {
 		JSONObject remoteRepoJson = new JSONObject();
 		remoteRepoJson.put("parent", "#");
@@ -311,11 +345,6 @@ public class GeogigRemoteRepositoryTree extends JSONArray {
 		super.add(remoteRepoJson);
 	}
 
-	/**
-	 * @param parent
-	 * @param id
-	 * @param text
-	 */
 	private void addRemoteBranch(String parent, String id, String text) {
 		JSONObject remoteBranchJson = new JSONObject();
 		remoteBranchJson.put("parent", parent);
@@ -325,12 +354,6 @@ public class GeogigRemoteRepositoryTree extends JSONArray {
 		super.add(remoteBranchJson);
 	}
 
-	/**
-	 * @param parent
-	 * @param id
-	 * @param text
-	 * @param fetchSize
-	 */
 	private void addFeatchRemoteBranch(String parent, String id, String text, Integer fetchSize) {
 		JSONObject remoteBranchJson = new JSONObject();
 		remoteBranchJson.put("parent", parent);

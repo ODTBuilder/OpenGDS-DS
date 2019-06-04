@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.conn.HttpHostConnectException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -39,16 +38,68 @@ import it.geosolutions.geoserver.rest.decoder.RESTDataStoreList;
 import it.geosolutions.geoserver.rest.decoder.RESTWorkspaceList;
 
 /**
- * @author GIT
+ * Geoserver내에 존재하는 모든 Geogig Repository, Branch, Layer를 {@link JSONArray} 형태의
+ * Tree로 생성하는 클래스.
+ * 
+ * @author DY.Oh
  *
  */
 @SuppressWarnings("serial")
 public class GeogigRepositoryTree extends JSONArray {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	/**
+	 * 조회 성공 여부
+	 */
+	private String success;
+	/**
+	 * 실패 시 오류 메세지
+	 */
+	private String error;
 
+	public String getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(String success) {
+		this.success = success;
+	}
+
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	/**
+	 * Repository 트리 생성 요청 타입 enum
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	public enum EnGeogigRepositoryTreeType {
-		SERVER("server"), REPOSITORY("repository"), BRANCH("branch"), LAYER("layer"), UNKNOWN(null);
+		/**
+		 * Geoserver 목록 조회
+		 */
+		SERVER("server"),
+		/**
+		 * Geogig Repository 목록 조회
+		 */
+		REPOSITORY("repository"),
+		/**
+		 * Branch 목록 조회
+		 */
+		BRANCH("branch"),
+		/**
+		 * Layer 목록 조회
+		 */
+		LAYER("layer"),
+		/**
+		 * Unknown
+		 */
+		UNKNOWN(null);
 
 		String type;
 
@@ -75,32 +126,11 @@ public class GeogigRepositoryTree extends JSONArray {
 		}
 	}
 
-	private String success;
-
-	private String error;
-
-	public String getSuccess() {
-		return success;
-	}
-
-	public void setSuccess(String success) {
-		this.success = success;
-	}
-
-	public String getError() {
-		return error;
-	}
-
-	public void setError(String error) {
-		this.error = error;
-	}
-
 	/**
-	 * type이 EnTreeType.SERVER 일경우에
+	 * EnGeogigRepositoryTreeType이 SERVER 일 경우 {@link GeogigRepositoryTree} 생성자
 	 * 
-	 * @param dtGeoManagers
-	 * @param type
-	 * @throws HttpHostConnectException
+	 * @param dtGeoManagers Geoserver REST Manager 및 Geoserver 접속 정보
+	 * @param type          조회 타입
 	 */
 	public GeogigRepositoryTree(DTGeoserverManagerList dtGeoManagers, EnGeogigRepositoryTreeType type) {
 		if (type == EnGeogigRepositoryTreeType.SERVER) {
@@ -110,11 +140,30 @@ public class GeogigRepositoryTree extends JSONArray {
 		}
 	}
 
+	/**
+	 * EnGeogigRepositoryTreeType이 REPOSITORY, BRANCH, LAYER 일 경우
+	 * {@link GeogigRepositoryTree} 생성자
+	 * 
+	 * @param dtGeoserver   Geoserver REST Manager 및 Geoserver 접속 정보
+	 * @param serverName    Geoserver 이름
+	 * @param type          조회 타입
+	 * @param parent        상위 노드
+	 * @param transactionId Geogig Repository Transaction ID
+	 */
 	public GeogigRepositoryTree(DTGeoserverManager dtGeoserver, String serverName, EnGeogigRepositoryTreeType type,
 			String parent, String transactionId) {
 		this.build(dtGeoserver, serverName, type, parent, transactionId);
 	}
 
+	/**
+	 * Geoserver 접속 정보 목록에 해당하는 각각의 Geoserver명을 JSONArray 형태의 Tree로 생성 후 반환함.
+	 * 
+	 * @param dtGeoserverMList Geoserver REST Manager 및 Geoserver 접속 정보 목록
+	 * @param type             조회 타입
+	 * @return Geoserver 접속 정보 목록에 해당하는 각각의 Geoserver명을 JSONArray 형태의 Tree
+	 * 
+	 * @author DY.Oh
+	 */
 	@SuppressWarnings("unchecked")
 	public GeogigRepositoryTree build(DTGeoserverManagerList dtGeoserverMList, EnGeogigRepositoryTreeType type) {
 		if (dtGeoserverMList != null && type != null) {
@@ -171,6 +220,19 @@ public class GeogigRepositoryTree extends JSONArray {
 		return this;
 	}
 
+	/**
+	 * 특정 Geoserver 접속 정보에 해당하는 하위의 Repository, Branch, Layer를 조회 형태에 따라 JSONArray
+	 * 형태의 Tree로 생성 후 반환함.
+	 * 
+	 * @param dtGeoserver   Geoserver REST Manager 및 Geoserver 접속 정보
+	 * @param serverName    Geoserver 이름
+	 * @param type          조회 형태
+	 * @param parent        상위 노드
+	 * @param transactionId Geogig Repository Transaction ID
+	 * @return 조회 형태에 따라 JSONArray 형태의 Tree
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigRepositoryTree build(DTGeoserverManager dtGeoserver, String serverName,
 			EnGeogigRepositoryTreeType type, String parent, String transactionId) {
 		String[] param = parent.split(":");// ex)
@@ -348,10 +410,6 @@ public class GeogigRepositoryTree extends JSONArray {
 		return this;
 	}
 
-	/**
-	 * @param server
-	 * @param serverName
-	 */
 	private void addServer(String serverName, boolean children) {
 		JSONObject geoserver = new JSONObject(); // baseURL
 		geoserver.put("id", serverName);
@@ -362,11 +420,6 @@ public class GeogigRepositoryTree extends JSONArray {
 		super.add(geoserver);
 	}
 
-	/**
-	 * @param parent
-	 * @param text
-	 * @param type
-	 */
 	private void addRepository(String parent, String id, String text, String type, boolean children) {
 		JSONObject repoJson = new JSONObject();
 		repoJson.put("parent", parent);
@@ -378,11 +431,6 @@ public class GeogigRepositoryTree extends JSONArray {
 		super.add(repoJson);
 	}
 
-	/**
-	 * @param parent
-	 * @param text
-	 * @param status
-	 */
 	private void addBranch(String parent, String id, String text, String status, Boolean children, Boolean geoserver) {
 		JSONObject branchJson = new JSONObject();
 		branchJson.put("parent", parent);
@@ -395,10 +443,6 @@ public class GeogigRepositoryTree extends JSONArray {
 		super.add(branchJson);
 	}
 
-	/**
-	 * @param parent
-	 * @param text
-	 */
 	private void addLayer(String parent, String id, String text) {
 		JSONObject repoJson = new JSONObject();
 		repoJson.put("parent", parent);

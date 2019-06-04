@@ -19,20 +19,76 @@ import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.command.ResponseType;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigGeoserverLayerList;
 
+/**
+ * Geoserver Layer List GET Command 실행 클래스.
+ * 
+ * @author DY.Oh
+ *
+ */
 public class ListGeoserverLayer {
 
+	/**
+	 * rest
+	 */
 	private static final String rest = "rest";
+	/**
+	 * workspaces parameter
+	 */
 	private static final String command_workspaces = "workspaces";
+	/**
+	 * datastores parameter
+	 */
 	private static final String command_datastores = "datastores";
+	/**
+	 * featuretypes parameter
+	 */
 	private static final String command_featuretypes = "featuretypes";
+	/**
+	 * list parameter
+	 */
 	private static final String command_list = "list=";
 
+	/**
+	 * DataStore Layer 목록 조회 방식 enum
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	public enum ListParam {
 
-		CONFIGURED, AVAILABLE, ALL;
+		/**
+		 * Geoserver 발행 Layer 목록 조회
+		 */
+		CONFIGURED,
+		/**
+		 * Geoserver 미발행 Layer 목록 조회
+		 */
+		AVAILABLE,
+		/**
+		 * Geoserver 발행, 미발행 Layer 목록 조회
+		 */
+		ALL;
 
 	}
 
+	/**
+	 * DataStore에 존재하는 모든 Layer 정보 목록을 반환함.
+	 * 
+	 * @param baseURL   Geoserver BaseURL
+	 *                  <p>
+	 *                  (ex. http://localhost:8080/geoserver)
+	 * @param username  Geoserver 사용자 ID
+	 * @param password  Geoserver 사용자 PW
+	 * @param workspace Geoserver workspace명
+	 * @param datasotre Geoserver datastore명
+	 * @param type      응답 타입(xml 또는 json)
+	 * @param listParam 조회 형태
+	 * @return Command 실행 성공 - datastore에 존재하는 모든 Layer 정보 목록 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigGeoserverLayerList executeCommand(String baseURL, String username, String password, String workspace,
 			String datasotre, ResponseType type, ListParam listParam) {
 

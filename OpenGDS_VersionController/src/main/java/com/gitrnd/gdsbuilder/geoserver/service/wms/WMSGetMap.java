@@ -5,30 +5,116 @@ import java.net.URLEncoder;
 
 import com.gitrnd.gdsbuilder.geoserver.service.en.EnWMSOutputFormat;
 
+/**
+ * WMSGetMap 정보를 받아 요청 URL을 생성해주는 클래스
+ * <p> 
+ * GetMap 작업은 GetMap 작업은 서버에 맵을 생성하도록 요청합니다 . 주요 파라미터를 통해 하나 이상의
+ * 레이어 및 맵상에 표출되는 스타일 , 맵 크기 ( 를 정의하는 범위 (bounding box), 목표 (target) 공간 참조 시스템 ,
+ * 그리고 산출물의 너비 (width), 높이 (height), 형식(format) 을 설정
+ * @author SG.LEE
+ *
+ */
 public class WMSGetMap {
+	/**
+	 * 서비스명
+	 */
 	private final static String SERVICE = "WMS";
+	/**
+	 * 작업명
+	 */
 	private final static String REQUEST = "GetMap";
 	
+	/**
+	 * 서버URL
+	 */
 	private String serverURL ="";
+	/**
+	 * Geoserver 버전
+	 */
 	private String version="1.0.0";
+	/**
+	 * {@link EnWMSOutputFormat} PNG, PNG8, JPEG, GIF, TIFF, TIFF8, GeoTIFF, GeoTIFF8, SVG, PDF, GEORSS, KML, KMZ
+	 */
 	private EnWMSOutputFormat format=null;
+	/**
+	 * 레이어명
+	 */
 	private String layers="";
+	/**
+	 * Tile 서비스 적용여부
+	 */
 	private String tiled="";
+	/**
+	 * 투명도 true or false
+	 */
 	private String transparent="";
+	/**
+	 * Map 이미지 배경색
+	 */
 	private String bgcolor="";
+	/**
+	 * 좌표계
+	 */
 	private String crs=""; //1.0.0 , 1.1.0 , 1.1.1 버전일경우
+	/**
+	 * 좌표계
+	 */
 	private String srs=""; //1.3.0 버전일경우
+	/**
+	 * Map 크기
+	 */
 	private String bbox="";
+	/**
+	 * Map 너비
+	 */
 	private int width=0;
+	/**
+	 * Map 높이
+	 */
 	private int height=0;
+	/**
+	 * 레이어 스타일
+	 */
 	private String styles="";
+	/**
+	 * 예외 형식
+	 */
 	private String exceptions = "application/vnd.ogc.se_xml"; 
+	/**
+	 * data 시간값 또는 기간
+	 */
 	private String time="";
+	/**
+	 * SLD 스타일 형식
+	 */
 	private String sld="";
+	/**
+	 * SLD 스타일 형식 body
+	 */
 	private String sld_body="";
 	
-	public WMSGetMap(){};
 	
+	/**
+	 * {@link WMSGetMap} 생성자
+	 * @author SG.LEE
+	 * @param serverURL 서버 URL
+	 * @param version Geoserver 버전
+	 * @param format {@link EnWMSOutputFormat} PNG, PNG8, JPEG, GIF, TIFF, TIFF8, GeoTIFF, GeoTIFF8, SVG, PDF, GEORSS, KML, KMZ
+	 * @param layers 레이어명
+	 * @param tiled Tile 서비스 적용여부
+	 * @param transparent 투명도 true or false
+	 * @param bgcolor Map 이미지 배경색
+	 * @param crs 좌표계 Geoserver 버전이 1.0.0 or 1.1.0 or 1.1.1 일 경우
+	 * @param srs 좌표계 Geoserver 버전이 1.3.0
+	 * @param bbox Map 크기
+	 * @param width Map 너비
+	 * @param height Map 높이
+	 * @param styles 레이어 스타일
+	 * @param exceptions 예외 형식
+	 * @param time data 시간값 또는 기간
+	 * @param sld 스타일 형식
+	 * @param sld_body 스타일 형식 body
+	 */
 	public WMSGetMap(String serverURL, String version, EnWMSOutputFormat format, String layers, String tiled, String transparent,
 			String bgcolor, String crs, String srs, String bbox, int width, int height, String styles, String exceptions,
 			String time, String sld, String sld_body) {
@@ -84,6 +170,21 @@ public class WMSGetMap {
 		
 	}
 	
+	/**
+	 * {@link WMSGetMap} 생성자
+	 * @author SG.LEE
+	 * @param serverURL 서버 URL
+	 * @param version Geoserver 버전
+	 * @param format {@link EnWMSOutputFormat} PNG, PNG8, JPEG, GIF, TIFF, TIFF8, GeoTIFF, GeoTIFF8, SVG, PDF, GEORSS, KML, KMZ
+	 * @param layers 레이어명
+	 * @param tiled Tile 서비스 적용여부
+	 * @param crs 좌표계 Geoserver 버전이 1.0.0 or 1.1.0 or 1.1.1 일 경우
+	 * @param srs 좌표계 Geoserver 버전이 1.3.0
+	 * @param bbox Map 크기
+	 * @param width Map 너비
+	 * @param height Map 높이
+	 * @param styles 레이어 스타일
+	 */
 	public WMSGetMap(String serverURL, String version, EnWMSOutputFormat format, String layers, String tiled, String crs, String srs, String bbox, int width, int height, String styles) {
 		super();
 		if (!serverURL.trim().equals("")) {
@@ -238,6 +339,11 @@ public class WMSGetMap {
 		return transparent;
 	}
 	
+	/**
+	 * WMS GetMap 서비스 URL 생성
+	 * @author SG.LEE
+	 * @return WMS GetMap URL
+	 */
 	public String getWMSGetMapURL(){
 		StringBuffer urlBuffer = new StringBuffer();
 		if(!this.serverURL.trim().equals("")){

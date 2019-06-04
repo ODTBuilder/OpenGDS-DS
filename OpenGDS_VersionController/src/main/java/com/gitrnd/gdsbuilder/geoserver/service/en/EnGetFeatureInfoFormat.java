@@ -1,9 +1,10 @@
 package com.gitrnd.gdsbuilder.geoserver.service.en;
 
 /**
+ * WMS GetFeatureInfo Export 포맷
  * EnGetFeatureInfo 타입
  * @author SG.Lee
- * @Date 2017. 6. 5. 오후 5:45:47
+ * @Since 2017. 6. 5. 오후 5:45:47
  * */
 public enum EnGetFeatureInfoFormat {
 	GML2("GML2", "application/vnd.ogc.gml"), 
@@ -23,6 +24,12 @@ public enum EnGetFeatureInfoFormat {
 		this.typeName = typeName;
 	}
 	
+	/**
+	 * type명으로 부터 {@link EnGetFeatureInfoFormat} 조회
+	 * @author SG.LEE
+	 * @param type type명
+	 * @return {@link EnGetFeatureInfoFormat}
+	 */
 	public static EnGetFeatureInfoFormat getFromType(String type) {
 		for (EnGetFeatureInfoFormat format : values()) {
 			if(format == UNKNOWN)
@@ -33,6 +40,12 @@ public enum EnGetFeatureInfoFormat {
 		return UNKNOWN;
 	}
 	
+	/**
+	 * typename명으로 부터 {@link EnGetFeatureInfoFormat} 조회
+	 * @author SG.LEE
+	 * @param typeName typeName명
+	 * @return {@link EnGetFeatureInfoFormat}
+	 */
 	public static EnGetFeatureInfoFormat getFromTypeName(String typeName) {
 		for (EnGetFeatureInfoFormat format : values()) {
 			if(format == UNKNOWN)

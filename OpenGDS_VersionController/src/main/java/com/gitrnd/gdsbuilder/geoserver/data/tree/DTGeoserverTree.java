@@ -67,9 +67,11 @@ import it.geosolutions.geoserver.rest.decoder.RESTFeatureTypeList;
 import it.geosolutions.geoserver.rest.decoder.RESTWorkspaceList;
 
 /**
- * @Description GeoserverLayer Tree 관련 클래스
+ * {@link DTGeoserverManagerList}에 해당하는 서버에 대해 
+ * {@link EnTreeType}에 맞는 정보를 
+ * jsTree(https://www.jstree.com/) 형식에 맞게 변환해주는 클래스
  * @author SG.Lee
- * @Date 2018. 7. 12. 오후 6:56:21
+ * @Since 2018. 7. 12. 오후 6:56:21
  */
 @SuppressWarnings("serial")
 public class DTGeoserverTree extends JSONArray {
@@ -78,6 +80,10 @@ public class DTGeoserverTree extends JSONArray {
 
 	static final String delimiter = ":";
 
+	/**
+	 * jsTree 출력 타입
+	 * @author SG.LEE
+	 */
 	public enum EnTreeType {
 		SERVER("server"), WORKSPACE("workspace"), DATASTORE("datastore"), LAYER("layer"), UNKNOWN(null);
 
@@ -87,6 +93,12 @@ public class DTGeoserverTree extends JSONArray {
 			this.type = type;
 		}
 
+		/**
+		 * type명으로 부터 {@link EnTreeType} 조회
+		 * @author SG.LEE
+		 * @param type type명
+		 * @return {@link EnTreeType}
+		 */
 		public static EnTreeType getFromType(String type) {
 			for (EnTreeType tt : values()) {
 				if (tt == UNKNOWN)
@@ -109,8 +121,8 @@ public class DTGeoserverTree extends JSONArray {
 	/**
 	 * type이 EnTreeType.SERVER 일경우에
 	 * 
-	 * @param dtGeoManagers
-	 * @param type
+	 * @param dtGeoManagers {@link DTGeoserverManagerList} 서버정보 리스트
+	 * @param type EnTreeType.SERVER
 	 */
 	public DTGeoserverTree(DTGeoserverManagerList dtGeoManagers, EnTreeType type) {
 		if (type == EnTreeType.SERVER) {
@@ -123,21 +135,22 @@ public class DTGeoserverTree extends JSONArray {
 	/**
 	 * type이 EnTreeType.SERVER가 아닐때
 	 * 
-	 * @param dtGeoManagers
-	 * @param parent
-	 * @param serverName
-	 * @param type
+	 * @param dtGeoManagers {@link DTGeoserverManagerList} 서버정보 리스트
+	 * @param parent 상위 트리명
+	 * @param serverName 서버이름
+	 * @param type EnTreeType.SERVER을 제외한 {@link EnTreeType}
 	 */
 	public DTGeoserverTree(DTGeoserverManagerList dtGeoManagers, String parent, String serverName, EnTreeType type) {
 		build(dtGeoManagers, parent, serverName, type);
 	}
 
 	/**
-	 * @Description Server type
+	 * {@link DTGeoserverManagerList}를 {@link DTGeoserverTree} 형태로 변환
+	 * EnTreeType.SERVER 타입일 경우
 	 * @author SG.Lee
-	 * @Date 2018. 7. 19. 오후 3:42:51
-	 * @param dtGeoManagers
-	 * @return DTGeoserverTree
+	 * @Since 2018. 7. 19. 오후 3:42:51
+	 * @param dtGeoManagers {@link DTGeoserverManagerList} 서버정보 리스트
+	 * @return {@link DTGeoserverTree}
 	 */
 	@SuppressWarnings("unchecked")
 	public DTGeoserverTree build(DTGeoserverManagerList dtGeoManagers) {
@@ -188,14 +201,14 @@ public class DTGeoserverTree extends JSONArray {
 	}
 
 	/**
-	 * @Description server Type 외
+	 * {@link DTGeoserverManagerList}를 {@link DTGeoserverTree} 형태로 변환
 	 * @author SG.Lee
-	 * @Date 2018. 7. 19. 오후 3:46:01
-	 * @param dtGeoManagers
-	 * @param parent        jstree parent ID
-	 * @param serverName    서버이름
-	 * @param type
-	 * @return DTGeoserverTree
+	 * @Since 2018. 7. 19. 오후 3:46:01
+	 * @param dtGeoManagers {@link DTGeoserverManagerList} 서버정보 리스트
+	 * @param parent jstree parent ID
+	 * @param serverName 서버이름
+	 * @param type jsTree 출력 타입
+	 * @return DTGeoserverTree {@link DTGeoserverTree}
 	 */
 	@SuppressWarnings("unchecked")
 	public DTGeoserverTree build(DTGeoserverManagerList dtGeoManagers, String parent, String serverName,
@@ -254,10 +267,9 @@ public class DTGeoserverTree extends JSONArray {
 												dsTree.put("text", dsName);
 												dsTree.put("type", "datastore");
 												dsTree.put("storeType", storeType);
-												if (storeType != null) {
+												if(storeType!=null){
 													if (storeType.equals("GeoGIG")) {
-														Map<String, String> connetParams = dStore
-																.getConnectionParameters();
+														Map<String, String> connetParams = dStore.getConnectionParameters();
 														String geogigRepos = connetParams.get("geogig_repository");
 														String reposName = geogigRepos.replace("geoserver://", "");
 														dsTree.put("geogigRepos", reposName);
@@ -308,89 +320,13 @@ public class DTGeoserverTree extends JSONArray {
 									for (DTGeoLayer dtGLayer : dtGLayerList) {
 										if (dtGLayer != null) {
 											JSONObject layerTree = new JSONObject();
-
-											String krName = null;
-											String name = dtGLayer.getlName();
-
-											if (name.contains("A0080000")) {
-												krName = "교차로";
-											}
-											if (name.contains("A0070000")) {
-												krName = "교량";
-											}
-											if (name.contains("C0390000")) {
-												krName = "계단";
-											}
-											if (name.contains("D0010000")) {
-												krName = "경지계";
-											}
-											if (name.contains("B0010000")) {
-												krName = "건물경계";
-											}
-											if (name.contains("E0052114")) {
-												krName = "호수저수지";
-											}
-											if (name.contains("E0020000")) {
-												krName = "하천중심선";
-											}
-											if (name.contains("E0010001")) {
-												krName = "하천경계";
-											}
-											if (name.contains("D0020000")) {
-												krName = "지류계";
-											}
-											if (name.contains("C0430000")) {
-												krName = "주차장";
-											}
-											if (name.contains("C0423365")) {
-												krName = "주유소";
-											}
-											if (name.contains("C0050000")) {
-												krName = "제방";
-											}
-											if (name.contains("A0090000")) {
-												krName = "입체교차부";
-											}
-											if (name.contains("A0100000")) {
-												krName = "인터체인지";
-											}
-											if (name.contains("A0033320")) {
-												krName = "인도";
-											}
-											if (name.contains("A0053326")) {
-												krName = "안전지대";
-											}
-											if (name.contains("E0032111")) {
-												krName = "실폭하천";
-											}
-											if (name.contains("F0010000")) {
-												krName = "등고선";
-											}
-											if (name.contains("A0020000")) {
-												krName = "도로중심선";
-											}
-											if (name.contains("N3A_A0010000")) {
-												krName = "도로경계";
-											}
-											if (name.contains("N3L_A0010000")) {
-												krName = "소로";
-											}
-											if (name.contains("H0010000")) {
-												krName = "도곽";
-											}
-											if (name.contains("B0020000")) {
-												krName = "담장";
-											}
-											if (krName != null) {
-												layerTree.put("id", serverName + delimiter + wsName + delimiter + dsName
-														+ delimiter + name);
-												layerTree.put("parent", parent);
-												layerTree.put("text", krName);
-//												layerTree.put("kr", krName);
-												layerTree.put("type", dtGLayer.getGeomType().toLowerCase());
-												layerTree.put("children", false);
-												super.add(layerTree);
-											}
+											layerTree.put("id", serverName + delimiter + wsName + delimiter + dsName
+													+ delimiter + dtGLayer.getlName());
+											layerTree.put("parent", parent);
+											layerTree.put("text", dtGLayer.getlName());
+											layerTree.put("type", dtGLayer.getGeomType().toLowerCase());
+											layerTree.put("children", false);
+											super.add(layerTree);
 										}
 									}
 								}

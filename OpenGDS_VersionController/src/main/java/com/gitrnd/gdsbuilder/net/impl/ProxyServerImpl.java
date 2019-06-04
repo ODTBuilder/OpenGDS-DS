@@ -19,21 +19,31 @@ import javax.servlet.http.HttpServletResponse;
 import com.gitrnd.gdsbuilder.net.ProxyServer;
 
 /**
- * 프록시서버 요청을 처리한다.
+ * 프록시요청을 지원하는 클래스
  * @author SG.Lee
- * @Date 2017. 5. 29. 오전 11:07:49
+ * @Since 2017. 5. 29. 오전 11:07:49
  * */
 public class ProxyServerImpl implements ProxyServer{
 	private HttpServletRequest request=null;
 	private HttpServletResponse response=null;
 	private String urlParam="";
 	
+	/**
+	 * ProxyServerImpl 생성자
+	 * @author SG.LEE
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
+	 * @param url 요청 URL
+	 */
 	public ProxyServerImpl(HttpServletRequest request, HttpServletResponse response, String url){
 		this.request = request;
 		this.response = response;
 		this.urlParam = url;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.gitrnd.gdsbuilder.net.ProxyServer#requestProxyService()
+	 */
 	public void requestProxyService() throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");

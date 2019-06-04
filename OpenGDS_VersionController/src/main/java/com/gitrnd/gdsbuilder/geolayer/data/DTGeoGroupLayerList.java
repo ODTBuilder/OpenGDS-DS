@@ -52,22 +52,21 @@ import org.jdom.Element;
 import it.geosolutions.geoserver.rest.decoder.utils.JDOMBuilder;
 
 /**
- * DTGeoGroupLayer의 리스트 정보를 담고있는 클래스
+ * {@link DTGeoGroupLayer} 리스트(Geoserver 레이어 정보 리스트)
  * @author SG.Lee
- * @Date 2017. 2
+ * @Since 2017. 2
  * */
 public class DTGeoGroupLayerList extends ArrayList<DTGeoGroupLayer> implements Serializable{
 
 	private static final long serialVersionUID = -8414210792543933648L;
 
 	/**
-	 * DTGeoGroupLayerList Build
-	 * @author SG.Lee
-	 * @Date 2017. 2
+	 * Geoserver REST Response 결과를 {@link DTGeoGroupLayerList} 클래스로 변환 
+	 * @author SG.LEE
+	 * @Since 2017. 2
 	 * @param responses
 	 * @return DTGeoGroupLayerList
-	 * @throws
-	 * */
+	 */
 	public DTGeoGroupLayerList build(List<String> responses){
 		List<Element> elements = new ArrayList<Element>();
 		for(String response : responses){
@@ -80,8 +79,8 @@ public class DTGeoGroupLayerList extends ArrayList<DTGeoGroupLayer> implements S
 	public DTGeoGroupLayerList(){};
 	
 	/**
-	 * DTGeoGroupLayerList 생성자
-	 * @param groupLayerElem
+	 * {@link DTGeoGroupLayerList} 생성자
+	 * @param groupLayerElem Group Layer 리스트 {@link Element}
 	 */
 	public DTGeoGroupLayerList(List<Element> groupLayerElem){
 		for(Element element : groupLayerElem){
@@ -92,9 +91,9 @@ public class DTGeoGroupLayerList extends ArrayList<DTGeoGroupLayer> implements S
 	
 	
 	/**
-	 * 리스트에서 해당 그룹이름에 대한 DTGeoGroupLayer을 반환
+	 * {@link DTGeoGroupLayer}에서 해당 그룹레이어명에 대한 {@link DTGeoGroupLayer}를 반환
 	 * @author SG.Lee
-	 * @Date 2017. 5. 10. 오후 10:08:58
+	 * @Since 2017. 5. 10. 오후 10:08:58
 	 * @param groupName - 그룹이름
 	 * @return DTGeoGroupLayer
 	 * @throws

@@ -1,9 +1,9 @@
 package com.gitrnd.gdsbuilder.geoserver.service.en;
 
 /**
- * WFSOutputFormat 타입
+ * Geoserver WFS Output 포맷타입
  * @author SG.Lee
- * @Date 2017. 6. 5. 오후 5:45:47
+ * @Since 2017. 6. 5. 오후 5:45:47
  * */
 public enum EnWFSOutputFormat {
 	GML2("GML2", "gml2"), 
@@ -23,6 +23,12 @@ public enum EnWFSOutputFormat {
 		this.typeName = typeName;
 	}
 	
+	/**
+	 * type명으로 부터 {@link EnWFSOutputFormat} 조회
+	 * @author SG.LEE
+	 * @param type명
+	 * @return
+	 */
 	public static EnWFSOutputFormat getFromType(String type) {
 		for (EnWFSOutputFormat format : values()) {
 			if(format == UNKNOWN)
@@ -33,6 +39,12 @@ public enum EnWFSOutputFormat {
 		return UNKNOWN;
 	}
 	
+	/**
+	 * typename으로 부터 {@link EnWFSOutputFormat} 조회
+	 * @author SG.LEE
+	 * @param typeName명
+	 * @return
+	 */
 	public static EnWFSOutputFormat getFromTypeName(String typeName) {
 		for (EnWFSOutputFormat format : values()) {
 			if(format == UNKNOWN)

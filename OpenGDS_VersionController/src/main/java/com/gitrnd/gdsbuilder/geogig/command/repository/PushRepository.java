@@ -5,8 +5,6 @@ package com.gitrnd.gdsbuilder.geogig.command.repository;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -24,20 +22,48 @@ import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigPush;
 
 /**
- * Geogig Repository Push Command Execution Class
+ * Geogig Repository Push Command 실행 클래스.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 public class PushRepository {
 
-	private static final Log logger = LogFactory.getLog(PushRepository.class);
-
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
+	/**
+	 * command
+	 */
 	private static final String command = "push";
+	/**
+	 * remoteName parameter
+	 */
 	private static final String param_remoteName = "remoteName=";
+	/**
+	 * ref parameter
+	 */
 	private static final String param_ref = "ref=";
 
+	/**
+	 * 해당 Repository의 Branch의 변동 사항을 Remote Repository로 등록된 Geogig Repositor에 반영함.
+	 * 
+	 * @param baseURL          Geogig Repository가 위치한 Geoserver BaseURL
+	 *                         <p>
+	 *                         (ex. http://localhost:8080/geoserver)
+	 * @param username         Geoserver 사용자 ID
+	 * @param password         Geoserver 사용자 PW
+	 * @param repository       Geogig Repository명
+	 * @param remoteName       Remote Geogig Repository명
+	 * @param branchName       Geogig Repository의 Branch명
+	 * @param remoteBranchName Remote Geogig Repository의 Branch명
+	 * @return Command 실행 성공 - Success 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigPush executeCommand(String baseURL, String username, String password, String repository,
 			String remoteName, String branchName, String remoteBranchName) {
 

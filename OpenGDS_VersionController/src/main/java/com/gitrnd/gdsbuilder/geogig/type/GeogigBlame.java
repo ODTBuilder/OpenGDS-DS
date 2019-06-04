@@ -11,7 +11,7 @@ import com.gitrnd.gdsbuilder.geogig.type.GeogigRepositoryLog.Commit;
 /**
  * Geogig Blame Command 응답 xml 객체.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 @XmlRootElement(name = "response")
@@ -21,8 +21,14 @@ public class GeogigBlame {
 	 */
 	private String success;
 
+	/**
+	 * 오류 메세지
+	 */
 	private String error;
 
+	/**
+	 * {@link BlameAttribute} 목록
+	 */
 	private List<BlameAttribute> attributes;
 
 	@XmlElement(name = "success")
@@ -53,11 +59,26 @@ public class GeogigBlame {
 		this.error = error;
 	}
 
+	/**
+	 * BlameAttribute 객체.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "Attribute")
 	public static class BlameAttribute {
 
+		/**
+		 * 속성명
+		 */
 		private String name;
+		/**
+		 * 속성값
+		 */
 		private String value;
+		/**
+		 * Commit 버전 목록
+		 */
 		private List<Commit> commits;
 
 		@XmlElement(name = "name")

@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Geogig Status Command 응답 xml 객체.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 @XmlRootElement(name = "response")
@@ -21,15 +21,25 @@ public class GeogigStatus {
 	 * Geogig Command 응답 성공 여부
 	 */
 	private String success;
-
+	/**
+	 * 현재 Checktout 중인 Branch
+	 */
 	private Header header;
-
+	/**
+	 * Staged 상태의 객체 목록
+	 */
 	private List<Staged> staged;
-
+	/**
+	 * Unstaged 상태의 객체 목록
+	 */
 	private List<Unstaged> unstaged;
-
+	/**
+	 * Unmerged 상태의 객체 목록
+	 */
 	private List<Unmerged> unmerged;
-
+	/**
+	 * 오류 메세지
+	 */
 	private String error;
 
 	@XmlElement(name = "success")
@@ -86,9 +96,18 @@ public class GeogigStatus {
 		this.unmerged = unmerged;
 	}
 
+	/**
+	 * Header 객체.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "header")
 	public static class Header {
 
+		/**
+		 * Branch 명
+		 */
 		private String branch;
 
 		@XmlElement(name = "branch")
@@ -102,13 +121,34 @@ public class GeogigStatus {
 
 	}
 
+	/**
+	 * Unstaged 객체.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "unstaged")
 	public static class Unstaged {
 
+		/**
+		 * changeType(ADDED,MODIFIED,REMOVED)
+		 */
 		private String changeType;
+		/**
+		 * 최신 경로(changeType이 ADDED,MODIFIED일 경우만 해당)
+		 */
 		private String newPath;
+		/**
+		 * 최신 ObjectID(changeType이 ADDED,MODIFIED일 경우만 해당)
+		 */
 		private String newObjectId;
+		/**
+		 * 이전 경로(changeType이 MODIFIED, REMOVED일 경우만 해당)
+		 */
 		private String path;
+		/**
+		 * 이전 ObjectID(changeType이 MODIFIED, REMOVED일 경우만 해당)
+		 */
 		private String oldObjectId;
 
 		@XmlElement(name = "changeType")
@@ -158,12 +198,34 @@ public class GeogigStatus {
 
 	}
 
+	/**
+	 * Staged 객체.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "staged")
 	public static class Staged {
+
+		/**
+		 * changeType(ADDED,MODIFIED,REMOVED)
+		 */
 		private String changeType;
+		/**
+		 * 최신 경로(changeType이 ADDED,MODIFIED일 경우만 해당)
+		 */
 		private String newPath;
+		/**
+		 * 최신 ObjectID(changeType이 ADDED,MODIFIED일 경우만 해당)
+		 */
 		private String newObjectId;
+		/**
+		 * 이전 경로(changeType이 MODIFIED, REMOVED일 경우만 해당)
+		 */
 		private String path;
+		/**
+		 * 이전 ObjectID(changeType이 MODIFIED, REMOVED일 경우만 해당)
+		 */
 		private String oldObjectId;
 
 		@XmlElement(name = "changeType")
@@ -213,12 +275,34 @@ public class GeogigStatus {
 
 	}
 
+	/**
+	 * Unmerged 객체.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "unmerged")
 	public static class Unmerged {
+
+		/**
+		 * changeType(CONFLICT)
+		 */
 		private String changeType;
+		/**
+		 * 충돌 객체 경로
+		 */
 		private String path;
+		/**
+		 * 충돌 객체 이전 버전 Commit ID
+		 */
 		private String ours;
+		/**
+		 * 충돌 객체 최신 버전 Commit ID
+		 */
 		private String theirs;
+		/**
+		 * 상위 버전 Commit ID
+		 */
 		private String ancestor;
 
 		@XmlElement(name = "changeType")

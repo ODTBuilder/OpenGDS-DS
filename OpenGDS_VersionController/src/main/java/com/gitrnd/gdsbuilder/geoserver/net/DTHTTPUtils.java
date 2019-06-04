@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.servlet.http.HttpUtils;
+
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpConnectionManager;
@@ -24,6 +26,10 @@ import org.slf4j.LoggerFactory;
 
 import it.geosolutions.geoserver.rest.HTTPUtils;
 
+/**
+ * Http 통신 Utils {@link HttpUtils} 확장
+ * @author SG.LEE
+ */
 public class DTHTTPUtils extends HTTPUtils{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DTHTTPUtils.class);

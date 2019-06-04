@@ -5,8 +5,6 @@ package com.gitrnd.gdsbuilder.geogig.command.repository;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -24,18 +22,36 @@ import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigRepository;
 
 /**
- * Geogig Repos Command Execution Class
+ * Geogig repos 명령어 실행 클래스.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 public class ListRepository {
 
-	private static final Log logger = LogFactory.getLog(ListRepository.class);
-
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
+	/**
+	 * command
+	 */
 	private static final String command = "repos";
 
+	/**
+	 * Geogig에 생성된 모든 Repository 목록을 조회함.
+	 * 
+	 * @param baseURL  Geogig Repository가 위치한 Geoserver BaseURL
+	 *                 <p>
+	 *                 (ex. http://localhost:8080/geoserver)
+	 * @param username Geoserver 사용자 ID
+	 * @param password Geoserver 사용자 PW
+	 * @return Command 실행 성공 - Repository 목록 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigRepository executeCommand(String baseURL, String username, String password) {
 
 		// restTemplate

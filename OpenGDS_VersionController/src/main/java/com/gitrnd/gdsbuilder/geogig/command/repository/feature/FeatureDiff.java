@@ -2,8 +2,6 @@ package com.gitrnd.gdsbuilder.geogig.command.repository.feature;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -20,19 +18,59 @@ import org.springframework.web.client.RestTemplate;
 import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigFeatureDiff;
 
+/**
+ * Geogig Repository Diff Command 실행 클래스.
+ * 
+ * @author DY.Oh
+ *
+ */
 public class FeatureDiff {
 
-	private static final Log logger = LogFactory.getLog(FeatureDiff.class);
-
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
+	/**
+	 * command
+	 */
 	private static final String command = "featurediff";
+	/**
+	 * path parameter
+	 */
 	private static final String param_path = "path=";
+	/**
+	 * oldTreeish parameter
+	 */
 	private static final String param_oldTreeish = "oldTreeish=";
+	/**
+	 * newTreeish parameter
+	 */
 	private static final String param_newTreeish = "newTreeish=";
-	private static final String param_all = "all="; // optional
+	/**
+	 * all parameter (선택)
+	 */
+	private static final String param_all = "all=";
 
+	/**
+	 * 서로 다른 두 버전(CommitID)의 객체의 비교 내용을 반환함.
+	 * 
+	 * @param baseURL    Geogig Repository가 위치한 Geoserver BaseURL
+	 *                   <p>
+	 *                   (ex. http://localhost:8080/geoserver)
+	 * @param username   Geoserver 사용자 ID
+	 * @param password   Geoserver 사용자 PW
+	 * @param repository Geogig Repository명
+	 * @param path       객체 경로
+	 * @param newTreeish 최신 버전의 Commit ID
+	 * @param oldTreeish 이전 버전의 Commit ID
+	 * @return Command 실행 성공 - 두 Branch의 Merge 목록 또는 UnMerged 목록 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigFeatureDiff executeCommand(String baseURL, String username, String password, String repository,
-			String path, String oldTreeish, String newTreeish) {
+			String path, String newTreeish, String oldTreeish) {
 
 		// restTemplate
 		HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();

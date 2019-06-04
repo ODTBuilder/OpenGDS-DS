@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Geogig Push Command 응답 xml 객체.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 @XmlRootElement(name = "response")
@@ -29,49 +29,34 @@ public class GeogigPush {
 	 */
 	private String dataPushed;
 
+	/**
+	 * error message
+	 */
 	private String error;
 
-	/**
-	 * @return the success
-	 */
 	@XmlElement(name = "success")
 	public String getSuccess() {
 		return success;
 	}
 
-	/**
-	 * @return the push
-	 */
 	@XmlElement(name = "Push")
 	public String getPush() {
 		return push;
 	}
 
-	/**
-	 * @return the dataPushed
-	 */
 	@XmlElement(name = "dataPushed")
 	public String getDataPushed() {
 		return dataPushed;
 	}
 
-	/**
-	 * @param success the success to set
-	 */
 	public void setSuccess(String success) {
 		this.success = success;
 	}
 
-	/**
-	 * @param push the push to set
-	 */
 	public void setPush(String push) {
 		this.push = push;
 	}
 
-	/**
-	 * @param dataPushed the dataPushed to set
-	 */
 	public void setDataPushed(String dataPushed) {
 		this.dataPushed = dataPushed;
 	}

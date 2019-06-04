@@ -11,24 +11,51 @@ import javax.xml.bind.annotation.XmlValue;
 
 import com.gitrnd.gdsbuilder.geogig.type.GeogigGeoserverWorkSpace.Workspace;
 
+/**
+ * Geoserver DataStore 조회 결과 객체.
+ * 
+ * @author DY.Oh
+ *
+ */
 @XmlRootElement(name = "dataStore")
 public class GeogigGeoserverDataStore {
 
+	/**
+	 * Command 응답 성공 여부
+	 */
 	private String success;
 
+	/**
+	 * error message
+	 */
 	private String error;
 
+	/**
+	 * Geoserver DataStore명
+	 */
 	private String name;
 
+	/**
+	 * Geoserver DataStore 타입
+	 */
 	private String type;
 
+	/**
+	 * Geoserver DataStore 상태
+	 */
 	private String enabled;
 
+	/**
+	 * Geoserver DataStore를 포함한 Workspace 명
+	 */
 	private Workspace workspace;
 
 	private String _default;
 
-	private ConnectionParameters connetParams;
+	/**
+	 * Geoserver DataStore 생성 파라미터
+	 */
+	ConnectionParameters connetParams;
 
 	public String getSuccess() {
 		return success;
@@ -100,6 +127,12 @@ public class GeogigGeoserverDataStore {
 		this.connetParams = connetParams;
 	}
 
+	/**
+	 * Geoserver DataStore 정보.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "workspace")
 	public static class DataStore {
 
@@ -116,6 +149,12 @@ public class GeogigGeoserverDataStore {
 
 	}
 
+	/**
+	 * Geoserver DataStore 생성 파라미터.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "connectionParameters")
 	public static class ConnectionParameters {
 
@@ -132,6 +171,12 @@ public class GeogigGeoserverDataStore {
 
 	}
 
+	/**
+	 * Geoserver DataStore 접근 정보.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class Entry {
 

@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Geogig Config Command 응답 xml 객체.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 @XmlRootElement(name = "response")
@@ -31,49 +31,34 @@ public class GeogigConfig {
 	 */
 	private String value;
 
+	/**
+	 * 오류 메세지
+	 */
 	private String error;
 
-	/**
-	 * @return the success
-	 */
 	@XmlElement(name = "success")
 	public String getSuccess() {
 		return success;
 	}
 
-	/**
-	 * @return the configs
-	 */
 	@XmlElement(name = "config")
 	public List<Config> getConfigs() {
 		return configs;
 	}
 
-	/**
-	 * @return the value
-	 */
 	@XmlElement(name = "value")
 	public String getValue() {
 		return value;
 	}
 
-	/**
-	 * @param success the success to set
-	 */
 	public void setSuccess(String success) {
 		this.success = success;
 	}
 
-	/**
-	 * @param configs the configs to set
-	 */
 	public void setConfigs(List<Config> configs) {
 		this.configs = configs;
 	}
 
-	/**
-	 * @param value the value to set
-	 */
 	public void setValue(String value) {
 		this.value = value;
 	}
@@ -87,6 +72,12 @@ public class GeogigConfig {
 		this.error = error;
 	}
 
+	/**
+	 * Config 정보.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "config")
 	public static class Config {
 
@@ -99,32 +90,20 @@ public class GeogigConfig {
 		 */
 		private String value;
 
-		/**
-		 * @return the name
-		 */
 		@XmlElement(name = "name")
 		public String getName() {
 			return name;
 		}
 
-		/**
-		 * @param name the name to set
-		 */
 		public void setName(String name) {
 			this.name = name;
 		}
 
-		/**
-		 * @return the value
-		 */
 		@XmlElement(name = "value")
 		public String getValue() {
 			return value;
 		}
 
-		/**
-		 * @param value the value to set
-		 */
 		public void setValue(String value) {
 			this.value = value;
 		}

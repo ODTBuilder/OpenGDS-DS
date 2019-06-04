@@ -52,10 +52,9 @@ import it.geosolutions.geoserver.rest.decoder.utils.JDOMBuilder;
 
 
 /**
- * DTGeoLayer List Object
- * 
+ * {@link DTGeoLayer} 리스트(Geoserver 레이어 정보 리스트)
  * @author SG.Lee
- * @Date 2016.08
+ * @Since 2016.08
  * */
 public class DTGeoLayerList extends ArrayList<DTGeoLayer> implements Serializable  {
 	
@@ -63,12 +62,12 @@ public class DTGeoLayerList extends ArrayList<DTGeoLayer> implements Serializabl
 	private static final long serialVersionUID = -4772221710449542370L;
 
 	
-	/**
-	 * DTGeoLayerList Build
+	/* *
+	 * Geoserver REST Response 결과를 {@link DTGeoLayerList} 클래스로 변환 
 	 * @author SG.Lee
-	 * @Date 2017. 2
-	 * @param responses
-	 * @return DTGeoLayerList
+	 * @Since 2017. 2
+	 * @param responses 요청결과(XML)
+	 * @return DTGeoLayerList 레이어 정보 리스트
 	 * @throws
 	 * */
 	public static DTGeoLayerList build(List<String> responses){
@@ -80,12 +79,15 @@ public class DTGeoLayerList extends ArrayList<DTGeoLayer> implements Serializabl
 		return elements.size() == 0 ? null : new DTGeoLayerList(elements);
 	}
 	
+	/**
+	 * 기본 생성자
+	 * @author SG.LEE
+	 */
 	public DTGeoLayerList(){}
 	
-	
 	/**
-	 * DTGeoLayerList 생성자
-	 * @param groupLayerElem
+	 * {@link DTGeoLayerList} 생성자
+	 * @param groupLayerElem 레이어 리스트 {@link Element}
 	 */
 	public DTGeoLayerList(List<Element> groupLayerElem){
 		for(Element element : groupLayerElem){
@@ -96,11 +98,11 @@ public class DTGeoLayerList extends ArrayList<DTGeoLayer> implements Serializabl
 	
 	
 	/**
-	 * 리스트에서 해당 그룹이름에 대한 DTGeoLayer을 반환
+	 * {@link DTGeoLayerList}에서 해당 레이어이름에 대한 그룹 {@link DTGeoLayer}를 반환
 	 * @author SG.Lee
-	 * @Date 2017. 5. 10. 오후 10:08:58
+	 * @Since 2017. 5. 10. 오후 10:08:58
 	 * @param layerName - 레이어 이름
-	 * @return DTGeoLayer
+	 * @return DTGeoLayer 레이어 정보
 	 * @throws
 	 * */
 	public DTGeoLayer getDTGeoGroupLayer(String layerName){

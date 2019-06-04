@@ -15,15 +15,53 @@ import org.springframework.web.client.RestTemplate;
 
 import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 
+/**
+ * Geoserver Layer Publish POST Command 실행 클래스.
+ * 
+ * @author DY.Oh
+ *
+ */
 public class PublishGeoserverLayer {
 
+	/**
+	 * rest
+	 */
 	private static final String rest = "rest";
+	/**
+	 * workspaces parameter
+	 */
 	private static final String command_workspaces = "workspaces";
+	/**
+	 * datastores parameter
+	 */
 	private static final String command_datastores = "datastores";
+	/**
+	 * featuretypes parameter
+	 */
 	private static final String command_featuretypes = "featuretypes";
 
+	/**
+	 * isSuccess. 요청 성공 여부
+	 */
 	private boolean isSuccess = false;
 
+	/**
+	 * Geoserver Workspace에 해당 Layer 발행.
+	 * 
+	 * @param baseURL   Geoserver BaseURL
+	 *                  <p>
+	 *                  (ex. http://localhost:8080/geoserver)
+	 * @param username  Geoserver 사용자 ID
+	 * @param password  Geoserver 사용자 PW
+	 * @param workspace Geoserver workspace명
+	 * @param datastore datastore workspace명
+	 * @param layerName Geoserver layer명
+	 * @param src       좌표계 (ex.EPSG:4326)
+	 * @param enabled   Geoserver 발행 여부
+	 * @return 요청 성공 여부
+	 * 
+	 * @author DY.Oh
+	 */
 	public boolean executeCommand(String baseURL, String username, String password, String workspace, String datastore,
 			String layerName, String src, boolean enabled) {
 

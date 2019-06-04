@@ -3,32 +3,125 @@ package com.gitrnd.gdsbuilder.geoserver.service.wms;
 import com.gitrnd.gdsbuilder.geoserver.service.en.EnGetFeatureInfoFormat;
 
 /**
- * @Description  
- * @author SG.Lee
- * @Date 2018. 7. 17. 오후 1:26:26
- * */
+ * WMS GetFeatureInfo 정보를 받아 요청 URL을 생성해주는 클래스
+ * <p> 
+ * 맵 상의 특정 위치에 있는 피처에 대한 공간 및 속성 데이터를 요청
+ * WFS 의GetFeature 작업과 유사하지만 , 입력 및 출력 면에서 융통성이 부족
+ * GeoServer 가 WFS 서비스를 제공하고 있으므로 가능한 GetFeatureInfo 대신 GetFeature 를 이용할 것을 권장함
+ * @author SG.LEE
+ * @Since 2018. 7. 17. 오후 1:26:26
+ */
 public class WMSGetFeatureInfo {
+	/**
+	 * 서비스명
+	 */
 	private final static String SERVICE = "WMS";
+	/**
+	 * 작업명
+	 */
 	private final static String REQUEST = "GetFeatureInfo";
+	/**
+	 * 서버 URL
+	 */
 	private String serverURL = "";
+	/**
+	 * Geoserver 버전
+	 */
 	private String version = "1.0.0";
+	/**
+	 * 레이어명
+	 */
 	private String layers = "";
+	/**
+	 * 스타일
+	 */
 	private String styles = "";
-	private String srs = "";
-	private String crs = "";
+	/**
+	 * 좌표계
+	 */
+	private String crs=""; //1.0.0 , 1.1.0 , 1.1.1 버전일경우
+	/**
+	 * 좌표계
+	 */
+	private String srs=""; //1.3.0 버전일경우
+	/**
+	 * Map 크기
+	 */
 	private String bbox = "";
-	private int width = 0;
+	/**
+	 * Map 너비
+	 */
+	private int width=0;
+	/**
+	 * Map 높이
+	 */
 	private int height = 0;
+	/**
+	 * 쿼리할 하나 이상의 레이어를 쉼표로 구분
+	 */
 	private String query_layers = "";
+	/**
+	 * FeatureInfo Output Format
+	 * {@link EnGetFeatureInfoFormat} GML2, GML3, TEXT, HTML, JSON, JSONP
+	 */
 	private EnGetFeatureInfoFormat info_format = null;
+	/**
+	 * 포맷 옵션
+	 */
 	private String format_options = "";
+	/**
+	 * 반환할 피처 최대 개수
+	 */
 	private int feature_count = 0;
+	/**
+	 * 지도상의 X 좌표의 픽셀값
+	 */
 	private Integer x = null;
+	/**
+	 * 지도상의 Y 좌표의 픽셀값
+	 */
 	private Integer y = null;
-	private Integer i = null; //1.3.0 버전일경우 x->i
-	private Integer j = null; //1.3.0 버전일경우 y->j
+	/**
+	 * 지도상의 X 좌표의 픽셀값
+	 * 1.3.0 버전일경우 x->i
+	 */
+	private Integer i = null; //
+	/**
+	 * 지도상의 Y 좌표의 픽셀값
+	 * 1.3.0 버전일경우 y->j
+	 */
+	private Integer j = null; 
+	/**
+	 * 예외 보고 형식
+	 * 기본값 application/vnd.ogc.se_xml
+	 */
 	private String exceptions = "";
 
+	/**
+	 * {@link WMSGetFeatureInfo} 생성자
+	 * @author SG.LEE
+	 * @param serverURL 서버 URL
+	 * @param version Geoserver 버전
+	 * @param layers 레이어명
+	 * @param styles 스타일
+	 * @param crs 좌표계 Geoserver 버전이 1.0.0 or 1.1.0 or 1.1.1 일 경우
+	 * @param srs 좌표계 Geoserver 버전이 1.3.0
+	 * @param bbox Map 크기
+	 * @param width Map 너비
+	 * @param height Map 높이
+	 * @param query_layers 쿼리할 하나 이상의 레이어를 쉼표로 구분
+	 * @param info_format {@link EnGetFeatureInfoFormat} GML2, GML3, TEXT, HTML, JSON, JSONP
+	 * @param format_options 포맷 옵션
+	 * @param feature_count 반환할 피처 최대 개수
+	 * @param x 지도상의 X 좌표의 픽셀값
+	 * @param y 지도상의 Y 좌표의 픽셀값
+	 * @param i 지도상의 X 좌표의 픽셀값
+	 *          1.3.0 버전일경우 x->i
+	 * @param j 지도상의 Y 좌표의 픽셀값
+	 *          1.3.0 버전일경우 y->j
+	 * @param exceptions 예외 보고 형식
+	 *                   기본값 application/vnd.ogc.se_xml
+	 */
 	public WMSGetFeatureInfo(String serverURL, String version, String layers, String styles, String srs, String crs,String bbox,
 			int width, int height, String query_layers, EnGetFeatureInfoFormat info_format,String format_options,  int feature_count, Integer x, Integer y, Integer i, Integer j, String exceptions) {
 		super();
@@ -90,6 +183,26 @@ public class WMSGetFeatureInfo {
 	
 	
 
+	/**
+	 * {@link WMSGetFeatureInfo} 생성자
+	 * @author SG.LEE
+	 * @param serverURL 서버 URL
+	 * @param version Geoserver 버전
+	 * @param layers 레이어명
+	 * @param styles 스타일
+	 * @param crs 좌표계 Geoserver 버전이 1.0.0 or 1.1.0 or 1.1.1 일 경우
+	 * @param srs 좌표계 Geoserver 버전이 1.3.0
+	 * @param bbox Map 크기
+	 * @param width Map 너비
+	 * @param height Map 높이
+	 * @param query_layers 쿼리할 하나 이상의 레이어를 쉼표로 구분
+     * @param x 지도상의 X 좌표의 픽셀값
+	 * @param y 지도상의 Y 좌표의 픽셀값
+	 * @param i 지도상의 X 좌표의 픽셀값
+	 *          1.3.0 버전일경우 x->i
+	 * @param j 지도상의 Y 좌표의 픽셀값
+	 *          1.3.0 버전일경우 y->j
+	 */
 	public WMSGetFeatureInfo(String serverURL, String version, String layers, String styles, String srs, String crs, String bbox,
 			int width, int height, String query_layers, Integer x, Integer y, Integer i, Integer j) {
 		super();
@@ -286,6 +399,11 @@ public class WMSGetFeatureInfo {
 		this.exceptions = exceptions;
 	}
 
+	/**
+	 * WMS GetFeatureInfo URL 생성
+	 * @author SG.LEE
+	 * @return WMS GetFeatureInfo URL
+	 */
 	public String getWMSGetFeatureInfoURL() {
 		StringBuffer urlBuffer = new StringBuffer();
 		if (!this.serverURL.equals("")) {

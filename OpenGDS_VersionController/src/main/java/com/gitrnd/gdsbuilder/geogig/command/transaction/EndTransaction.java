@@ -5,8 +5,6 @@ package com.gitrnd.gdsbuilder.geogig.command.transaction;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -24,19 +22,47 @@ import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigTransaction;
 
 /**
- * Geogig EndTransaction Execution Class
+ * Geogig EndTransaction 실행 클래스.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 public class EndTransaction {
 
-	private static final Log logger = LogFactory.getLog(CancelTransaction.class);
-
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
+	/**
+	 * 실행 command
+	 */
 	private static final String command = "endTransaction";
+	/**
+	 * transactionId Parameter
+	 */
 	private static final String param_transactionId = "transactionId=";
 
+	/**
+	 * 생성한 Geogig Repository 트랜잭션을 종료함.
+	 * <p>
+	 * Geogig Repository를 수정하기 위해 생성하였던 트랜잭션을 종료하며 해당 Geogig Repository의 수정사항은 모두
+	 * Geogig Repository에 반영됨.
+	 * 
+	 * @param baseURL       Geogig Repository가 위치한 Geoserver BaseURL
+	 *                      <p>
+	 *                      (ex. http://localhost:8080/geoserver)
+	 * @param username      Geoserver 사용자 ID
+	 * @param password      Geoserver 사용자 PW
+	 * @param repository    Geogig Repository명
+	 * @param transactionId 생성한 Geogig Repository 트랜잭션 ID
+	 *                      <p>
+	 *                      해당 트랜잭선 ID가 존재하지 않는 경우 Command 실행 실패
+	 * @return Command 실행 성공 - 트랜잭선 ID 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigTransaction executeCommand(String baseURL, String username, String password, String repository,
 			String transactionId) {
 

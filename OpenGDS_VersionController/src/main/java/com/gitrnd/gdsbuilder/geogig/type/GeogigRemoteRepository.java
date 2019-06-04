@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Geogig Remote Command 응답 xml 객체.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 @XmlRootElement(name = "response")
@@ -22,12 +22,24 @@ public class GeogigRemoteRepository {
 	 */
 	private String success;
 
+	/**
+	 * Remote Repository명
+	 */
 	private String name;
 
+	/**
+	 * error message
+	 */
 	private String error;
 
+	/**
+	 * Ping 정보
+	 */
 	private Ping ping;
 
+	/**
+	 * Remote Repository 목록
+	 */
 	private List<Remote> remotes;
 
 	@XmlElement(name = "success")
@@ -75,8 +87,18 @@ public class GeogigRemoteRepository {
 		this.remotes = remotes;
 	}
 
+	/**
+	 * Ping 객체.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "ping")
 	public static class Ping {
+
+		/**
+		 * Geogig Command 응답 성공 여부
+		 */
 		private String success;
 
 		@XmlElement(name = "success")
@@ -89,11 +111,23 @@ public class GeogigRemoteRepository {
 		}
 	}
 
+	/**
+	 * Remote 객체.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "Remote")
 	public static class Remote {
 
+		/**
+		 * Remote Repository명
+		 */
 		private String name;
 
+		/**
+		 * Remote Repository 주소
+		 */
 		private String url;
 
 		@XmlElement(name = "name")

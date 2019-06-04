@@ -32,54 +32,31 @@ public class GeogigTasks {
 	 * result
 	 */
 	private Result result;
-
+	/**
+	 * error message
+	 */
 	private String error;
 
-	/**
-	 * tasks Id 반환
-	 * 
-	 * @return String
-	 */
 	@XmlElement(name = "id")
 	public String getId() {
 		return id;
 	}
 
-	/**
-	 * tasks status 반환
-	 * 
-	 * @return String
-	 */
 	@XmlElement(name = "status")
 	public String getStatus() {
 		return status;
 	}
 
-	/*
-	 * transactionId 반환
-	 * 
-	 * @return String
-	 */
 	@XmlElement(name = "transactionId")
 	public String getTransactionId() {
 		return transactionId;
 	}
 
-	/**
-	 * description 반환
-	 * 
-	 * @return String
-	 */
 	@XmlElement(name = "description")
 	public String getDescription() {
 		return description;
 	}
 
-	/**
-	 * Result 객체 반환
-	 * 
-	 * @return Result
-	 */
 	@XmlElement(name = "result")
 	public Result getResult() {
 		return result;
@@ -117,7 +94,7 @@ public class GeogigTasks {
 	/**
 	 * Result 객체
 	 * 
-	 * @author GIT
+	 * @author DY.Oh
 	 *
 	 */
 	public static class Result {
@@ -126,11 +103,6 @@ public class GeogigTasks {
 		 */
 		private RevTree revTree;
 
-		/**
-		 * RevTree 객체 반환
-		 * 
-		 * @return RevTree
-		 */
 		@XmlElement(name = "RevTree")
 		public RevTree getRevTree() {
 			return revTree;
@@ -156,11 +128,6 @@ public class GeogigTasks {
 		 */
 		private String treeId;
 
-		/**
-		 * treeId 반환
-		 * 
-		 * @return String
-		 */
 		@XmlElement(name = "treeId")
 		public String getTreeId() {
 			return treeId;

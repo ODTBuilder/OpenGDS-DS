@@ -11,12 +11,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Geogig Repository Command 응답 xml 객체
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 @XmlRootElement(name = "repos")
 public class GeogigRepository {
 
+	/**
+	 * Repo 목록
+	 */
 	List<Repo> repos;
 
 	@XmlElement(name = "repo")
@@ -31,7 +34,7 @@ public class GeogigRepository {
 	/**
 	 * repo 객체
 	 * 
-	 * @author GIT
+	 * @author DY.Oh
 	 *
 	 */
 	@XmlRootElement(name = "repo")

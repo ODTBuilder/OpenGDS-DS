@@ -5,8 +5,6 @@ package com.gitrnd.gdsbuilder.geogig.command.repository.branch;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -24,20 +22,50 @@ import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigBranch;
 
 /**
- * Geogig Branch Create Command Execution Class
+ * Geogig Branch Create Command 실행 클래스.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 public class CreateBranch {
 
-	private static final Log logger = LogFactory.getLog(CreateBranch.class);
-
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
+	/**
+	 * command
+	 */
 	private static final String command = "branch";
+	/**
+	 * branchName parameter
+	 */
 	private static final String param_branchName = "branchName=";
+	/**
+	 * source parameter (선택적)
+	 */
 	private static final String param_source = "source="; // optional
 
+	/**
+	 * Geogig Repository 내 새로운 Branch를 생성함.
+	 * <p>
+	 * 동일한 Repository의 Branch를 Source로 지정하여 Clone 함.
+	 * 
+	 * @param baseURL    Geogig Repository가 위치한 Geoserver BaseURL
+	 *                   <p>
+	 *                   (ex. http://localhost:8080/geoserver)
+	 * @param username   Geoserver 사용자 ID
+	 * @param password   Geoserver 사용자 PW
+	 * @param repository Geogig Repository명
+	 * @param branchName 생성할 Branch명
+	 * @param source     Source Branch명. {@code null}일 경우 Master Branch(Default)를
+	 *                   Source로 함.
+	 * @return Command 실행 성공 - Branch 생성 성공 여부 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigBranch executeCommand(String baseURL, String username, String password, String repository,
 			String branchName, String source) {
 

@@ -1,9 +1,9 @@
 package com.gitrnd.gdsbuilder.geoserver.service.en;
 
 /**
- * GeoserverService 타입
+ * Geoserver WMS Output 포맷타입
  * @author SG.Lee
- * @Date 2017. 6. 5. 오후 5:45:47
+ * @Since 2017. 6. 5. 오후 5:45:47
  * */
 public enum EnWMSOutputFormat {
 	PNG("PNG", "image/png"), 
@@ -29,6 +29,12 @@ public enum EnWMSOutputFormat {
 		this.typeName = typeName;
 	}
 	
+	/**
+	 * type명으로 부터 {@link EnWMSOutputFormat} 조회
+	 * @author SG.LEE
+	 * @param type type명
+	 * @return {@link EnWMSOutputFormat}
+	 */
 	public static EnWMSOutputFormat getFromType(String type) {
 		for (EnWMSOutputFormat format : values()) {
 			if(format == UNKNOWN)
@@ -39,6 +45,12 @@ public enum EnWMSOutputFormat {
 		return UNKNOWN;
 	}
 	
+	/**
+	 * typename으로 부터 {@link EnWMSOutputFormat} 조회 
+	 * @author SG.LEE
+	 * @param typeName명
+	 * @return {@link EnWMSOutputFormat}
+	 */
 	public static EnWMSOutputFormat getFromTypeName(String typeName) {
 		for (EnWMSOutputFormat format : values()) {
 			if(format == UNKNOWN)

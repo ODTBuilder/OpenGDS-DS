@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Geogig Branch Command 응답 xml 객체.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 @XmlRootElement(name = "response")
@@ -39,60 +39,33 @@ public class GeogigBranch {
 	 */
 	private String error;
 
-	/**
-	 * Geogig Command 응답 성공 여부 반환
-	 * 
-	 * @return String
-	 */
 	@XmlElement(name = "success")
 	public String getSuccess() {
 		return success;
 	}
 
-	/**
-	 * branch 생성 성공 여부 반환
-	 * 
-	 * @return BranchCreated
-	 */
 	@XmlElement(name = "BranchCreated")
 	public BranchCreated getBranchCreated() {
 		return branchCreated;
 	}
 
-	/**
-	 * local branch 목록 반환
-	 * 
-	 * @return List<Branch>
-	 */
 	@XmlElementWrapper(name = "Local")
 	@XmlElement(name = "Branch")
 	public List<Branch> getLocalBranchList() {
 		return localBranchList;
 	}
 
-	/**
-	 * remote branch 목록 반환
-	 * 
-	 * @return List<Branch>
-	 */
 	@XmlElementWrapper(name = "Remote")
 	@XmlElement(name = "Branch")
 	public List<Branch> getRemoteBranchList() {
 		return remoteBranchList;
 	}
 
-	/**
-	 * @return the error
-	 */
 	@XmlElement(name = "error")
 	public String getError() {
 		return error;
 	}
 
-	/**
-	 * @param error
-	 *            the error to set
-	 */
 	public void setError(String error) {
 		this.error = error;
 	}
@@ -116,7 +89,7 @@ public class GeogigBranch {
 	/**
 	 * BranchCreated 객체
 	 * 
-	 * @author GIT
+	 * @author DY.Oh
 	 *
 	 */
 	@XmlRootElement(name = "BranchCreated")
@@ -131,21 +104,11 @@ public class GeogigBranch {
 		 */
 		private String source;
 
-		/**
-		 * branch명 반환
-		 * 
-		 * @return String
-		 */
 		@XmlElement(name = "name")
 		public String getName() {
 			return name;
 		}
 
-		/**
-		 * branch source 반환
-		 * 
-		 * @return String
-		 */
 		@XmlElement(name = "source")
 		public String getSource() {
 			return source;
@@ -164,7 +127,7 @@ public class GeogigBranch {
 	/**
 	 * Branch 객체
 	 * 
-	 * @author GIT
+	 * @author DY.Oh
 	 *
 	 */
 	@XmlRootElement(name = "Branch")
@@ -183,31 +146,16 @@ public class GeogigBranch {
 		 */
 		private String source;
 
-		/**
-		 * local branch명 반환
-		 * 
-		 * @return String
-		 */
 		@XmlElement(name = "name")
 		public String getName() {
 			return name;
 		}
 
-		/**
-		 * remote branch명 반환
-		 * 
-		 * @return String
-		 */
 		@XmlElement(name = "remoteName")
 		public String getRemoteName() {
 			return remoteName;
 		}
 
-		/**
-		 * local branch source 반환
-		 * 
-		 * @return String
-		 */
 		@XmlElement(name = "source")
 		public String getSource() {
 			return source;

@@ -5,8 +5,6 @@ package com.gitrnd.gdsbuilder.geogig.command.repository;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -24,22 +22,65 @@ import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigRepositoryLog;
 
 /**
- * Geogig Log Command Execution Class
+ * Geogig Log Command 실행 클래스.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 public class LogRepository {
 
-	private static final Log logger = LogFactory.getLog(LogRepository.class);
-
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
+	/**
+	 * command
+	 */
 	private static final String command = "log";
+	/**
+	 * path parameter (선택적), Geogig Repository, Layer, Feature의 경로
+	 */
 	private static final String param_path = "path="; // optional
+	/**
+	 * limit parameter (선택적), Geogig Commit 이력 개수 지정
+	 */
 	private static final String param_limit = "limit="; // optional
+	/**
+	 * until parameter (선택적), Geogig Commit 이력 목록의 마지막 인덱스
+	 */
 	private static final String param_until = "until="; // optional
+	/**
+	 * countChanges parameter (선택적), Geogig Commit 변화 이력 조회 여부
+	 */
 	private static final String param_countChanges = "countChanges="; // optional
 
+	/**
+	 * Geogig Repository의 Master Branch의 Commit 이력 목록 반환.
+	 * <p>
+	 * Master Branch의 변경 사항을 Repository Database에 저장 및 반영한 이력을 Commit 이력이라 함.
+	 * 
+	 * @param baseURL      Geogig Repository가 위치한 Geoserver BaseURL
+	 *                     <p>
+	 *                     (ex. http://localhost:8080/geoserver)
+	 * @param username     Geoserver 사용자 ID
+	 * @param password     Geoserver 사용자 PW
+	 * @param repository   Geogig Repository명
+	 * @param path         Geogig Repository, Layer, Feature의 경로
+	 *                     <p>
+	 *                     Geogig Repository 경로 입력 시 Geogig Repository Master
+	 *                     Branch의 모든 레이어의 Commit 이력 조회
+	 *                     <p>
+	 *                     Layer 경로 입력 시 해당 레이어의 Commit 이력만 조회하며 Feature 경로 입력 시 해당
+	 *                     Feature의 Commit 이력만 조회
+	 * @param limit        Geogig Commit 이력 개수
+	 * @param until        Geogig Commit 이력 목록의 마지막 인덱스
+	 * @param countChanges Geogig Commit 변화 이력 조회 여부
+	 * @return Command 실행 성공 - Geogig Commit 목록 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigRepositoryLog executeCommand(String baseURL, String username, String password, String repository,
 			String path, String limit, String until, boolean countChanges) {
 

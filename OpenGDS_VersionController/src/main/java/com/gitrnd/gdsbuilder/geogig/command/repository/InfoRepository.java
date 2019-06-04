@@ -18,10 +18,34 @@ import org.springframework.web.client.RestTemplate;
 import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigRepositoryInfo;
 
+/**
+ * Geogig repos Command 실행 클래스.
+ * 
+ * @author DY.Oh
+ *
+ */
 public class InfoRepository {
 
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
 
+	/**
+	 * 특정 Geogig Repository의 저장소 위치, 사용자 이름, 이메일 등의 정보를 조회함.
+	 * 
+	 * @param baseURL    Geogig Repository가 위치한 Geoserver BaseURL
+	 *                   <p>
+	 *                   (ex. http://localhost:8080/geoserver)
+	 * @param username   Geoserver 사용자 ID
+	 * @param password   Geoserver 사용자 PW
+	 * @param repository Geogig Repository명
+	 * @return Command 실행 성공 - Repository 정보 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigRepositoryInfo executeCommand(String baseURL, String username, String password, String repository) {
 
 		// restTemplate

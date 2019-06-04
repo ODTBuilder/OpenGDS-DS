@@ -5,8 +5,6 @@ package com.gitrnd.gdsbuilder.geogig.command.repository;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -16,8 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -26,19 +22,52 @@ import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigStatus;
 
 /**
- * Geogig Status Command Execution Class
+ * Geogig Status Command 실행 클래스.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 public class StatusRepository {
 
-	private static final Log logger = LogFactory.getLog(StatusRepository.class);
-
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
+	/**
+	 * command
+	 */
 	private static final String command = "status";
+	/**
+	 * transactionId parameter
+	 */
 	private static final String param_transactionId = "transactionId=";
 
+	/**
+	 * 현재 Checkout 상태인 Branch들의 목록과 각 Branch의 상태(staged, unstaged, unmerged,
+	 * merged)를 반환함.
+	 * <p>
+	 * staged : Branch 수정 완료 후 Repository Database에 Commit 하기 전 상태.
+	 * <p>
+	 * unstaged : Branch 수정이 완료 되지 않은 상태.
+	 * <p>
+	 * unmerged : Repository Database에 Commit 실패 상태. 수정 사항 반영이 안되어있음.
+	 * 
+	 * 
+	 * @param baseURL       Geogig Repository가 위치한 Geoserver BaseURL
+	 *                      <p>
+	 *                      (ex. http://localhost:8080/geoserver)
+	 * @param username      Geoserver 사용자 ID
+	 * @param password      Geoserver 사용자 PW
+	 * @param repository    Geogig Repository명
+	 * @param transactionId Geogig Repository 트랜잭션 ID
+	 *                      <p>
+	 *                      해당 트랜잭선 ID가 존재하지 않는 경우 Command 실행 실패
+	 * @return Command 실행 성공 - 해당 Branch의 상태 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigStatus executeCommand(String baseURL, String username, String password, String repository,
 			String transactionId) {
 

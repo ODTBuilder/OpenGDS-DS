@@ -5,8 +5,6 @@ package com.gitrnd.gdsbuilder.geogig.command.repository.remote;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -24,20 +22,49 @@ import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigRemoteRepository;
 
 /**
- * Geogig Remote Repository Remove Command Execution Class
+ * Geogig Remote Repository Remove Command 실행 클래스.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 public class RemoveRemoteRepository {
 
-	private static final Log logger = LogFactory.getLog(RemoveRemoteRepository.class);
-
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
+	/**
+	 * command
+	 */
 	private static final String command = "remote";
+	/**
+	 * remove parameter
+	 */
 	private static final String param_remove = "remove=";
+	/**
+	 * remoteName parameter
+	 */
 	private static final String param_remoteName = "remoteName=";
 
+	/**
+	 * 등록된 Remote Repository를 삭제함.
+	 * <p>
+	 * Remote Repository가 실제 저장소에서 삭제되는 것이 아니며 Remote Repository의 연결을 제거한다는 것을 의미함.
+	 * 
+	 * @param baseURL    Geogig Repository가 위치한 Geoserver BaseURL
+	 *                   <p>
+	 *                   (ex. http://localhost:8080/geoserver)
+	 * @param username   Geoserver 사용자 ID
+	 * @param password   Geoserver 사용자 PW
+	 * @param repository Geogig Repository명
+	 * @param remoteName Remote Geogig Repository명 (실제 Geogig Repository명이 아닌 등록을 위한
+	 *                   별칭을 의미함)
+	 * @return Command 실행 성공 - 삭제 성공한 Remote Repository명 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigRemoteRepository executeCommand(String baseURL, String username, String password, String repository,
 			String remoteName) {
 

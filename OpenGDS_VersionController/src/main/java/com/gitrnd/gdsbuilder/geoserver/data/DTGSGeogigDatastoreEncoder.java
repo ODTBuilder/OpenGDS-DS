@@ -4,23 +4,24 @@ import java.util.Map;
 
 import it.geosolutions.geoserver.rest.decoder.RESTDataStore;
 
+/**
+ * Geogig Repository 기반 Geoserver Datastore Encoder.
+ * 
+ * @author DY.Oh
+ *
+ */
 public class DTGSGeogigDatastoreEncoder extends DTGSAbstractDatastoreEncoder {
 
+	/**
+	 * Geoserver Datastore 타입
+	 */
 	static final String TYPE = "GeoGIG";
 
-//	static final String DEFALUT_GEOGIG_REPOSITORY = "repository";
-//	static final String DEFALUT_BRANCH = "branch";
-//	static final String DEFALUT_NAMESPACE = "namespace";
-//	static final String DEFALUT_AUTOINDEXING = "false";
-//
-//	public DTGSGeogigDatastoreEncoder(String storeName) {
-//		super(storeName);
-//		setRepository(DEFALUT_GEOGIG_REPOSITORY);
-//		setAutoIndexing(DEFALUT_AUTOINDEXING);
-//		setNamespace(DEFALUT_NAMESPACE);
-//		setBranch(DEFALUT_BRANCH);
-//	}
-
+	/**
+	 * Geogig Repository 기반 Geoserver Datastore Encoder 생성.
+	 * 
+	 * @param store Geogig Datastore 생성 요청 XML REST Object
+	 */
 	public DTGSGeogigDatastoreEncoder(RESTDataStore store) {
 		super(store);
 		setName(store.getName());

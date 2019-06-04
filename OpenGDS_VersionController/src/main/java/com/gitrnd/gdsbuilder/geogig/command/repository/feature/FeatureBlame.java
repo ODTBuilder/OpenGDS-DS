@@ -2,8 +2,6 @@ package com.gitrnd.gdsbuilder.geogig.command.repository.feature;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -20,15 +18,50 @@ import org.springframework.web.client.RestTemplate;
 import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigBlame;
 
+/**
+ * Geogig Feature Blame Command 실행 클래스.
+ * 
+ * @author DY.Oh
+ *
+ */
 public class FeatureBlame {
 
-	private static final Log logger = LogFactory.getLog(FeatureBlame.class);
-
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
+	/**
+	 * command
+	 */
 	private static final String command = "blame";
+	/**
+	 * path parameter
+	 */
 	private static final String param_path = "path=";
-	private static final String param_commit = "commit="; // optional
+	/**
+	 * commit parameter (선택)
+	 */
+	private static final String param_commit = "commit=";
 
+	/**
+	 * 객체의 특정 시점에 Commit 된 속성을 반환.
+	 * <p>
+	 * 특정 버전의 객체 속성 반환.
+	 * 
+	 * @param baseURL    Geogig Repository가 위치한 Geoserver BaseURL
+	 *                   <p>
+	 *                   (ex. http://localhost:8080/geoserver)
+	 * @param username   Geoserver 사용자 ID
+	 * @param password   Geoserver 사용자 PW
+	 * @param repository Geogig Repository명
+	 * @param path       속성을 조회할 객체 경로
+	 * @param commit     Commit 버전
+	 * @return Command 실행 성공 - 객체의 모든 속성 목록 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigBlame executeCommand(String baseURL, String username, String password, String repository, String path,
 			String commit) {
 

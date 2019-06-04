@@ -2,13 +2,28 @@ package com.gitrnd.gdsbuilder.geogig;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Geogig Command 실행 시 발생하는 GeogigCommandException 객체.
+ * 
+ * @author DY.Oh
+ *
+ */
 @SuppressWarnings("serial")
 public class GeogigCommandException extends IllegalArgumentException {
 
+	/**
+	 * rawStatusCode, 500
+	 */
 	private int rawStatusCode = HttpStatus.INTERNAL_SERVER_ERROR.value();
 
+	/**
+	 * error message
+	 */
 	private String responseBodyAsString;
 
+	/**
+	 * 응답 타입이 xml인 경우 {@code true}
+	 */
 	private boolean xml;
 
 	public GeogigCommandException(String message) {

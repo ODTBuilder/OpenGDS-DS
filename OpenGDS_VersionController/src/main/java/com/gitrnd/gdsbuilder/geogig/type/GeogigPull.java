@@ -13,7 +13,7 @@ import com.gitrnd.gdsbuilder.geogig.type.GeogigMerge.Merge;
 /**
  * Geogig Pull Command 응답 xml 객체.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 @XmlRootElement(name = "response")
@@ -32,322 +32,266 @@ public class GeogigPull {
 	 */
 	private Merge merge;
 	/**
-	 * Geogig Command 실패 여부
+	 * error message
 	 */
 	private String error;
 
-	/**
-	 * @return the success
-	 */
 	@XmlElement(name = "success")
 	public String getSuccess() {
 		return success;
 	}
 
-	/**
-	 * @return the pull
-	 */
 	@XmlElement(name = "Pull")
 	public Pull getPull() {
 		return pull;
 	}
 
-	/**
-	 * @return the error
-	 */
 	@XmlElement(name = "error")
 	public String getError() {
 		return error;
 	}
 
-	/**
-	 * @return the merge
-	 */
 	@XmlElement(name = "Merge")
 	public Merge getMerge() {
 		return merge;
 	}
 
-	/**
-	 * @param success
-	 *            the success to set
-	 */
 	public void setSuccess(String success) {
 		this.success = success;
 	}
 
-	/**
-	 * @param pull
-	 *            the pull to set
-	 */
 	public void setPull(Pull pull) {
 		this.pull = pull;
 	}
 
-	/**
-	 * @param error
-	 *            the error to set
-	 */
 	public void setError(String error) {
 		this.error = error;
 	}
 
-	/**
-	 * @param merge
-	 *            the merge to set
-	 */
 	public void setMerge(Merge merge) {
 		this.merge = merge;
 	}
 
+	/**
+	 * Pull 객체.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "Pull")
 	public static class Pull {
 
+		/**
+		 * Fetch 정보
+		 */
 		private Fetch fetch;
 
+		/**
+		 * Remote Repository 위치
+		 */
 		private String remote;
 
+		/**
+		 * Remote Repository Branch명
+		 */
 		private String ref;
 
+		/**
+		 * 새로 추가된 객체 수
+		 */
 		private String added;
 
+		/**
+		 * 수정된 객체 수
+		 */
 		private String modified;
 
+		/**
+		 * 삭제된 객체 수
+		 */
 		private String removed;
 
+		/**
+		 * 병합 결과
+		 */
 		private Merge merge;
 
-		/**
-		 * @return the fetch
-		 */
 		@XmlElement(name = "Fetch")
 		public Fetch getFetch() {
 			return fetch;
 		}
 
-		/**
-		 * @return the remote
-		 */
 		@XmlElement(name = "Remote")
 		public String getRemote() {
 			return remote;
 		}
 
-		/**
-		 * @return the ref
-		 */
 		@XmlElement(name = "Ref")
 		public String getRef() {
 			return ref;
 		}
 
-		/**
-		 * @return the added
-		 */
 		@XmlElement(name = "Added")
 		public String getAdded() {
 			return added;
 		}
 
-		/**
-		 * @return the modified
-		 */
 		@XmlElement(name = "Modified")
 		public String getModified() {
 			return modified;
 		}
 
-		/**
-		 * @return the removed
-		 */
 		@XmlElement(name = "Removed")
 		public String getRemoved() {
 			return removed;
 		}
 
-		/**
-		 * @return the merge
-		 */
 		@XmlElement(name = "Merge")
 		public Merge getMerge() {
 			return merge;
 		}
 
-		/**
-		 * @param merge
-		 *            the merge to set
-		 */
 		public void setMerge(Merge merge) {
 			this.merge = merge;
 		}
 
-		/**
-		 * @param fetch
-		 *            the fetch to set
-		 */
 		public void setFetch(Fetch fetch) {
 			this.fetch = fetch;
 		}
 
-		/**
-		 * @param remote
-		 *            the remote to set
-		 */
 		public void setRemote(String remote) {
 			this.remote = remote;
 		}
 
-		/**
-		 * @param ref
-		 *            the ref to set
-		 */
 		public void setRef(String ref) {
 			this.ref = ref;
 		}
 
-		/**
-		 * @param added
-		 *            the added to set
-		 */
 		public void setAdded(String added) {
 			this.added = added;
 		}
 
-		/**
-		 * @param modified
-		 *            the modified to set
-		 */
 		public void setModified(String modified) {
 			this.modified = modified;
 		}
 
-		/**
-		 * @param removed
-		 *            the removed to set
-		 */
 		public void setRemoved(String removed) {
 			this.removed = removed;
 		}
 
 	}
 
+	/**
+	 * Fetch 객체.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "Fetch")
 	public static class Fetch {
 
+		/**
+		 * Remote Repository Fetch 결과
+		 */
 		private Remote remote;
 
-		/**
-		 * @return the remote
-		 */
 		@XmlElement(name = "Remote")
 		public Remote getRemote() {
 			return remote;
 		}
 
-		/**
-		 * @param remote
-		 *            the remote to set
-		 */
 		public void setRemote(Remote remote) {
 			this.remote = remote;
 		}
 
 	}
 
+	/**
+	 * Remote 객체.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "Remote")
 	public static class Remote {
 
+		/**
+		 * Remote Repository url
+		 */
 		private String remoteURL;
 
+		/**
+		 * Remote Repository의 Branch Fetch 목록
+		 */
 		private List<Branch> branchs;
 
-		/**
-		 * @return the remoteURL
-		 */
 		@XmlElement(name = "remoteURL")
 		public String getRemoteURL() {
 			return remoteURL;
 		}
 
-		/**
-		 * @return the branchs
-		 */
 		@XmlElement(name = "Branch")
 		public List<Branch> getBranchs() {
 			return branchs;
 		}
 
-		/**
-		 * @param remoteURL
-		 *            the remoteURL to set
-		 */
 		public void setRemoteURL(String remoteURL) {
 			this.remoteURL = remoteURL;
 		}
 
-		/**
-		 * @param branchs
-		 *            the branchs to set
-		 */
 		public void setBranchs(List<Branch> branchs) {
 			this.branchs = branchs;
 		}
 
 	}
 
+	/**
+	 * Branch 객체.
+	 * 
+	 * @author DY.Oh
+	 *
+	 */
 	@XmlRootElement(name = "Branch")
 	public static class Branch {
 
+		/**
+		 * changeType (CHANGED_REF)
+		 */
 		private String changeType;
 
+		/**
+		 * Branch 명
+		 */
 		private String name;
 
+		/**
+		 * 최신 버전의 Commit Object ID
+		 */
 		private String newValue;
 
-		/**
-		 * @return the changeType
-		 */
 		@XmlElement(name = "changeType")
 		public String getChangeType() {
 			return changeType;
 		}
 
-		/**
-		 * @return the name
-		 */
 		@XmlElement(name = "name")
 		public String getName() {
 			return name;
 		}
 
-		/**
-		 * @return the newValue
-		 */
 		@XmlElement(name = "newValue")
 		public String getNewValue() {
 			return newValue;
 		}
 
-		/**
-		 * @param changeType
-		 *            the changeType to set
-		 */
 		public void setChangeType(String changeType) {
 			this.changeType = changeType;
 		}
 
-		/**
-		 * @param name
-		 *            the name to set
-		 */
 		public void setName(String name) {
 			this.name = name;
 		}
 
-		/**
-		 * @param newValue
-		 *            the newValue to set
-		 */
 		public void setNewValue(String newValue) {
 			this.newValue = newValue;
 		}

@@ -1,16 +1,34 @@
 package com.gitrnd.gdsbuilder.geoserver.service.inf;
 
+
+
 /**
- * @Description Geoserver 정보 조회 서비스 객체
+ * Geoserver 정보 조회 클래스 
  * @author SG.Lee
- * @Date 2018. 7. 17. 오전 9:45:55
- * */
+ * @Since 2018. 7. 17. 오전 9:45:55
+ */
 public class DTGeoserverInfo {
 
+	/**
+	 * Geoserver 정보타입
+	 * @author SG.LEE
+	 */
 	public enum EnGeoserverInfo {
+		/**
+		 * 서버
+		 */
 		SERVER("SERVER", "server"), 
+		/**
+		 * 작업공간
+		 */
 		WORKSPACE("WORKSPACE", "workspaces"),
+		/**
+		 * 저장소
+		 */
 		DATASTORE("DATASTORE", "datastores"),
+		/**
+		 * 레이어
+		 */
 		LAYER("LAYER", "layers"),
 		UNKNOWN(null,null);
 		String type;
@@ -21,6 +39,12 @@ public class DTGeoserverInfo {
 			this.typeName = typeName;
 		}
 		
+		/**
+		 * type명으로 부터 {@link EnGeoserverInfo} 조회
+		 * @author SG.LEE
+		 * @param type type명
+		 * @return {@link EnGeoserverInfo}
+		 */
 		public static EnGeoserverInfo getFromType(String type) {
 			for (EnGeoserverInfo format : values()) {
 				if(format == UNKNOWN)
@@ -31,6 +55,12 @@ public class DTGeoserverInfo {
 			return UNKNOWN;
 		}
 		
+		/**
+		 * typeName으로 부터 {@link EnGeoserverInfo} 조회
+		 * @author SG.LEE
+		 * @param typeName명
+		 * @return {@link EnGeoserverInfo}
+		 */
 		public static EnGeoserverInfo getFromTypeName(String typeName) {
 			for (EnGeoserverInfo format : values()) {
 				if(format == UNKNOWN)
@@ -58,19 +88,37 @@ public class DTGeoserverInfo {
 		}
 	}
 	
+	/**
+	 * 서버 URL
+	 */
 	private String serverURL ="";
+	/**
+	 * {@link EnGeoserverInfo} server, workspaces, datastores, layers
+	 */
 	private EnGeoserverInfo type;
+	/**
+	 * 작업공간
+	 */
 	private String workspace ="";
+	/**
+	 * 저장소
+	 */
 	private String datastore="";
+	/**
+	 * 레이어
+	 */
 	private String layers="";
+	/**
+	 * export format(json, xml...)
+	 */
 	private String fileFormat="";
 	
 	
 	/**
 	 * 생성자 Type이 Server일때
-	 * @param type 
-	 * @param serverURL
-	 * @param fileFormat
+	 * @param type {@link EnGeoserverInfo} Geoserver 정보 타입
+	 * @param serverURL 서버 URL
+	 * @param fileFormat Export format(json, xml...)
 	 */
 	public DTGeoserverInfo(EnGeoserverInfo type, String serverURL, String fileFormat) {
 		super();
@@ -90,10 +138,10 @@ public class DTGeoserverInfo {
 	
 	/**
 	 * 생성자 Type이 workspace일때
-	 * @param type 
-	 * @param serverURL
-	 * @param workspace
-	 * @param fileFormat
+	 * @param type {@link EnGeoserverInfo} Geoserver 정보 타입
+	 * @param serverURL 서버 URL
+	 * @param workspace 작업공간
+	 * @param fileFormat Export format(json, xml...)
 	 */
 	public DTGeoserverInfo(EnGeoserverInfo type, String serverURL, String workspace, String fileFormat) {
 		super();
@@ -116,11 +164,11 @@ public class DTGeoserverInfo {
 	
 	/**
 	 * 생성자 Type이 datastore일때
-	 * @param type
-	 * @param serverURL
-	 * @param workspace
-	 * @param datastore
-	 * @param fileFormat
+	 * @param type {@link EnGeoserverInfo} Geoserver 정보 타입
+	 * @param serverURL 서버 URL
+	 * @param workspace 작업공간
+	 * @param datastore 저장소
+	 * @param fileFormat Export format(json, xml...)
 	 */
 	public DTGeoserverInfo(EnGeoserverInfo type, String serverURL, String workspace, String datastore, String fileFormat) {
 		super();
@@ -146,12 +194,12 @@ public class DTGeoserverInfo {
 	
 	/**
 	 * 생성자 Type이 layer일때
-	 * @param type
-	 * @param serverURL
-	 * @param workspace
-	 * @param datastore
-	 * @param layers
-	 * @param fileFormat
+	 * @param type {@link EnGeoserverInfo} Geoserver 정보 타입
+	 * @param serverURL 서버 URL
+	 * @param workspace 작업공간
+	 * @param datastore 저장소
+	 * @param layers 레이어
+	 * @param fileFormat Export format(json, xml...)
 	 */
 	public DTGeoserverInfo(EnGeoserverInfo type, String serverURL, String workspace, String datastore, String layers, String fileFormat) {
 		
@@ -216,6 +264,11 @@ public class DTGeoserverInfo {
 		this.fileFormat = fileFormat;
 	}
 
+	/**
+	 * Geoserver 정보 URL 생성
+	 * @author SG.LEE
+	 * @return Geoserver 정보 요청URL
+	 */
 	public String getDTGeoserverInfoURL() {
 		StringBuffer urlBuffer = new StringBuffer();
 		if (!this.serverURL.trim().equals("")) {
@@ -223,12 +276,12 @@ public class DTGeoserverInfo {
 			if (type == EnGeoserverInfo.SERVER) {
 				urlBuffer.append("/rest/about/version." + fileFormat);
 			} else if (type == EnGeoserverInfo.WORKSPACE) {
-				urlBuffer.append("/rest/" + EnGeoserverInfo.WORKSPACE.getTypeName() + workspace + "." + fileFormat);
+				urlBuffer.append("/rest/" + EnGeoserverInfo.WORKSPACE.getTypeName()+ "/" + workspace + "." + fileFormat);
 			} else if (type == EnGeoserverInfo.DATASTORE) {
-				urlBuffer.append("/rest/" + EnGeoserverInfo.WORKSPACE.getTypeName() + workspace + "/"
+				urlBuffer.append("/rest/" + EnGeoserverInfo.WORKSPACE.getTypeName()+ "/" + workspace + "/"
 						+ EnGeoserverInfo.DATASTORE.getTypeName() + "/" + datastore + "." + fileFormat);
 			} else if (type == EnGeoserverInfo.LAYER) {
-				urlBuffer.append("/rest/" + EnGeoserverInfo.WORKSPACE.getTypeName() + workspace + "/"
+				urlBuffer.append("/rest/" + EnGeoserverInfo.WORKSPACE.getTypeName()+ "/" + workspace + "/"
 						+ EnGeoserverInfo.DATASTORE.getTypeName() + "/" + datastore + "/"
 						+ EnGeoserverInfo.LAYER.getTypeName() + "/" + layers + "." + fileFormat);
 			}

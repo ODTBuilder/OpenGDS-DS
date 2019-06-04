@@ -5,8 +5,6 @@ package com.gitrnd.gdsbuilder.geogig.command.object;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -24,23 +22,46 @@ import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigCat;
 
 /**
- * Geogig Cat Command Execution Class
+ * Geogig Cat Command 실행 클래스.
  * 
- * @author GIT
+ * @author DY.Oh
  *
  */
 public class CatObject {
 
-	private static final Log logger = LogFactory.getLog(CatObject.class);
-
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
+	/**
+	 * command
+	 */
 	private static final String command = "cat";
+	/**
+	 * objectid parameter
+	 */
 	private static final String param_objectid = "objectid=";
 
+	/**
+	 * Commit ID, Tree, Feature, Feature Type 또는 Tag 등 Object ID를 갖는 Geogig 객체에 대한
+	 * 정보를 반환함.
+	 * 
+	 * @param baseURL    Geogig Repository가 위치한 Geoserver BaseURL
+	 *                   <p>
+	 *                   (ex. http://localhost:8080/geoserver)
+	 * @param username   Geoserver 사용자 ID
+	 * @param password   Geoserver 사용자 PW
+	 * @param repository Geogig Repository명
+	 * @param objectid   Geogig Object ID
+	 * @return Command 실행 성공 - Commit ID, Tree, Feature, Feature Type 또는 Tag에 대한 정보
+	 *         반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigCat executeCommand(String baseURL, String username, String password, String repository,
 			String objectid) {
-
-		// restTemplate
 
 		HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
 		factory.setReadTimeout(5000);

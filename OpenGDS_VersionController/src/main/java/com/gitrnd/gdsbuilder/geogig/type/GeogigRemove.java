@@ -7,16 +7,27 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * @author GIT
+ * Geogig Remove Command 응답 xml 객체.
+ * 
+ * @author DY.Oh
  *
  */
 @XmlRootElement(name = "response")
 public class GeogigRemove {
 
+	/**
+	 * Geogig Command 응답 성공 여부
+	 */
 	private String success;
 
+	/**
+	 * 삭제 요청된 Layer 또는 Feature 경로
+	 */
 	private String deleted;
 
+	/**
+	 * error message
+	 */
 	private String error;
 
 	@XmlElement(name = "success")

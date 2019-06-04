@@ -2,8 +2,6 @@ package com.gitrnd.gdsbuilder.geogig.command.repository;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -20,16 +18,55 @@ import org.springframework.web.client.RestTemplate;
 import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigRemove;
 
+/**
+ * Geogig Remove Command 실행 클래스.
+ * 
+ * @author DY.Oh
+ *
+ */
 public class RemovePath {
 
-	private static final Log logger = LogFactory.getLog(RemovePath.class);
-
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
+	/**
+	 * command
+	 */
 	private static final String command = "remove";
+	/**
+	 * transactionId Parameter
+	 */
 	private static final String param_transactionId = "transactionId=";
+	/**
+	 * path Parameter
+	 */
 	private static final String param_path = "path=";
+	/**
+	 * recursive Parameter
+	 */
 	private static final String param_recursive = "recursive=";
 
+	/**
+	 * Geogig Repository의 현재 Checkout 중인 Branch내의 Feature 또는 Layer를 삭제함.
+	 * 
+	 * @param baseURL       Geogig Repository가 위치한 Geoserver BaseURL
+	 *                      <p>
+	 *                      (ex. http://localhost:8080/geoserver)
+	 * @param username      Geoserver 사용자 ID
+	 * @param password      Geoserver 사용자 PW
+	 * @param repository    Geogig Repository명
+	 * @param transactionId Geogig Repository 트랜잭션 ID
+	 *                      <p>
+	 *                      해당 트랜잭선 ID가 존재하지 않는 경우 Command 실행 실패
+	 * @param path          삭제할 Feature 또는 Layer 경로
+	 * @param recursive     Layer 내의 모든 Feature 삭제 여부
+	 * @return Command 실행 성공 - 제거돤 Feature 또는 Layer의 경로 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigRemove executeCommand(String baseURL, String username, String password, String repository,
 			String transactionId, String path, boolean recursive) {
 

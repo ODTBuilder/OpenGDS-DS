@@ -2,8 +2,6 @@ package com.gitrnd.gdsbuilder.geogig.command.repository;
 
 import java.util.Base64;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
@@ -20,17 +18,63 @@ import org.springframework.web.client.RestTemplate;
 import com.gitrnd.gdsbuilder.geogig.GeogigCommandException;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigDiff;
 
+/**
+ * Geogig Diff Command 실행 클래스.
+ * 
+ * @author DY.Oh
+ *
+ */
 public class DiffRepository {
 
-	private static final Log logger = LogFactory.getLog(DiffRepository.class);
-
+	/**
+	 * geogig
+	 */
 	private static final String geogig = "geogig";
+	/**
+	 * command
+	 */
 	private static final String command = "diff";
+	/**
+	 * oldRef parameter, 이전 버전의 Commit ID
+	 */
 	private static final String param_oldRef = "oldRefSpec=";
+	/**
+	 * newRef parameter, 최신 버전의 Commit ID
+	 */
 	private static final String param_newRef = "newRefSpec=";
-	private static final String param_pathFilter = "pathFilter="; // optional
-	private static final String param_page = "page="; // optional
+	/**
+	 * pathFilter parameter (선택적), 특정 Branch 또는 Layer 또는 Feature 경로
+	 */
+	private static final String param_pathFilter = "pathFilter=";
+	/**
+	 * page parameter (선택적), diff 이력 페이지
+	 */
+	private static final String param_page = "page=";
 
+	/**
+	 * 서로 다른 두 버전(CommitID)의 Geogig Repository의 비교 내용을 반환함.
+	 * <p>
+	 * pathFilter parameter 입력 시 해당 경로의 객체들만 비교하며 미 입력 시 Repository내에 존재하는 모든 객체를
+	 * 비교함.
+	 * 
+	 * @param baseURL     Geogig Repository가 위치한 Geoserver BaseURL
+	 *                    <p>
+	 *                    (ex. http://localhost:8080/geoserver)
+	 * @param username    Geoserver 사용자 ID
+	 * @param password    Geoserver 사용자 PW
+	 * @param repository  Geogig Repository명
+	 * @param newObjectId 최신 버전의 Commit ID
+	 * @param oldObjectId 이전 버전의 Commit ID
+	 * @param path        특정 Branch 또는 Layer 또는 Feature 경로
+	 * @param page        반환되는 diff 이력 페이지 번호.
+	 *                    <p>
+	 *                    diff 이력 개수가 30개 이상인 경우 해당.
+	 * @return Command 실행 성공 - 두 객체의 비교 결과 목록 반환
+	 *         <p>
+	 *         Command 실행 실패 - error 반환
+	 * 
+	 * @author DY.Oh
+	 */
 	public GeogigDiff executeCommand(String baseURL, String username, String password, String repository,
 			String newObjectId, String oldObjectId, String path, Integer page) {
 

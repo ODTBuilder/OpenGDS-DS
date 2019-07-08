@@ -54,15 +54,15 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gitrnd.gdsbuilder.geolayer.data.DTGeoGroupLayer;
-import com.gitrnd.gdsbuilder.geolayer.data.DTGeoGroupLayerList;
-import com.gitrnd.gdsbuilder.geolayer.data.DTGeoLayer;
-import com.gitrnd.gdsbuilder.geolayer.data.DTGeoLayerList;
 import com.gitrnd.gdsbuilder.geoserver.data.DTGeoserverManagerList;
 import com.gitrnd.gdsbuilder.geoserver.data.tree.DTGeoserverTree;
 import com.gitrnd.gdsbuilder.geoserver.data.tree.DTGeoserverTree.EnTreeType;
 import com.gitrnd.gdsbuilder.geoserver.data.tree.DTGeoserverTrees;
 import com.gitrnd.gdsbuilder.geoserver.data.tree.factory.impl.DTGeoserverTreeFactoryImpl;
+import com.gitrnd.gdsbuilder.geoserver.layer.DTGeoGroupLayer;
+import com.gitrnd.gdsbuilder.geoserver.layer.DTGeoGroupLayerList;
+import com.gitrnd.gdsbuilder.geoserver.layer.DTGeoLayer;
+import com.gitrnd.gdsbuilder.geoserver.layer.DTGeoLayerList;
 import com.gitrnd.gdsbuilder.geoserver.service.en.EnFeatureTypeList;
 import com.gitrnd.gdsbuilder.geoserver.service.inf.DTGeoserverInfo;
 
@@ -74,7 +74,7 @@ import it.geosolutions.geoserver.rest.decoder.RESTLayer;
 /**
  * {@link GeoServerRESTReader} 상속 클래스 - Geoserver 정보 및 데이터 읽기 지원 
  * @author SG.LEE
- * @Since 2017. 5. 2. 오후 2:38:58
+ * @since 2017. 5. 2. 오후 2:38:58
  */
 public class DTGeoserverReader extends GeoServerRESTReader {
 
@@ -394,7 +394,7 @@ public class DTGeoserverReader extends GeoServerRESTReader {
 	/**
 	 * Geoserver 이용가능한 레이어 존재여부(발행만 안된상태) 
 	 * @author SG.Lee
-	 * @Since 2018. 12. 19. 오후 3:34:53
+	 * @since 2018. 12. 19. 오후 3:34:53
 	 * @param workspace 작업공간
 	 * @param datastores 저장소
 	 * @param layerName 레이어명

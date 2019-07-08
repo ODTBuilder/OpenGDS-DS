@@ -1,0 +1,93 @@
+/*
+ *    OpenGDS/Builder
+ *    http://git.co.kr
+ *
+ *    (C) 2014-2017, GeoSpatial Information Technology(GIT)
+ *    
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation;
+ *    version 3 of the License.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
+
+/*
+ *  GeoServer-Manager - Simple Manager Library for GeoServer
+ *  
+ *  Copyright (C) 2007,2011 GeoSolutions S.A.S.
+ *  http://www.geo-solutions.it
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+package com.gitrnd.gdsbuilder.geoserver.layer;
+
+import org.jdom.Element;
+import org.json.simple.JSONObject;
+
+import it.geosolutions.geoserver.rest.decoder.RESTLayerGroup;
+import it.geosolutions.geoserver.rest.decoder.utils.JDOMBuilder;
+
+/**
+ * {@link RESTLayerGroup} 확장클래스
+ * Geoserver Group레이어 정보
+ * @author SG.Lee
+ * @since 2017. 2
+ * */
+public class DTGeoGroupLayer extends RESTLayerGroup{
+
+	/**
+	 * Geoserver REST Response 결과를 {@link DTGeoGroupLayer} 클래스로 변환
+	 * @author SG.LEE
+	 * @param response
+	 * @return
+	 */
+	public static DTGeoGroupLayer build(String response) {
+        Element elem = JDOMBuilder.buildElement(response);
+        return elem == null? null : new DTGeoGroupLayer(elem);
+	}
+
+	/**
+	 * {@link DTGeoGroupLayer} 생성자
+	 * @author SG.LEE
+	 * @param layerElem 단일 GroupLayer {@link Element}
+	 */
+	public DTGeoGroupLayer(Element layerElem) {
+		super(layerElem);
+	}
+
+	/**
+	 * GroupLayer 레이어의 BBOX 
+	 * @author SG.LEE
+	 * @return 영역좌표
+	 */
+	@SuppressWarnings("unchecked")
+	public JSONObject getBBox() {
+		JSONObject bbox = new JSONObject();
+		bbox.put("minx", super.getMinX());
+		bbox.put("miny", super.getMinY());
+		bbox.put("maxx", super.getMaxX());
+		bbox.put("maxy", super.getMaxY());
+		return bbox;
+	}
+}

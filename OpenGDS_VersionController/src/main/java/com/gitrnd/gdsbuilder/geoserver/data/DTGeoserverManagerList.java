@@ -46,7 +46,7 @@ public class DTGeoserverManagerList extends HashMap<String, DTGeoserverManager> 
 	/**
 	 * {@link DTGeoserverManager} 중복체크
 	 * @author SG.Lee
-	 * @Since 2018. 7. 13. 오전 11:30:21
+	 * @since 2018. 7. 13. 오전 11:30:21
 	 * @param serverName 서버이름
 	 * @param url Geoserver주소
 	 * @return boolean Geoserver 중복여부

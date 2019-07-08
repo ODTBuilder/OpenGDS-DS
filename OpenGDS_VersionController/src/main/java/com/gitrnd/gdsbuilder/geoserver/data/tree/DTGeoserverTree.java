@@ -55,11 +55,11 @@ import org.slf4j.LoggerFactory;
 import com.gitrnd.gdsbuilder.geogig.command.repository.branch.ListBranch;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigBranch;
 import com.gitrnd.gdsbuilder.geogig.type.GeogigBranch.Branch;
-import com.gitrnd.gdsbuilder.geolayer.data.DTGeoLayer;
-import com.gitrnd.gdsbuilder.geolayer.data.DTGeoLayerList;
 import com.gitrnd.gdsbuilder.geoserver.DTGeoserverManager;
 import com.gitrnd.gdsbuilder.geoserver.DTGeoserverReader;
 import com.gitrnd.gdsbuilder.geoserver.data.DTGeoserverManagerList;
+import com.gitrnd.gdsbuilder.geoserver.layer.DTGeoLayer;
+import com.gitrnd.gdsbuilder.geoserver.layer.DTGeoLayerList;
 
 import it.geosolutions.geoserver.rest.decoder.RESTDataStore;
 import it.geosolutions.geoserver.rest.decoder.RESTDataStoreList;
@@ -71,7 +71,7 @@ import it.geosolutions.geoserver.rest.decoder.RESTWorkspaceList;
  * {@link EnTreeType}에 맞는 정보를 
  * jsTree(https://www.jstree.com/) 형식에 맞게 변환해주는 클래스
  * @author SG.Lee
- * @Since 2018. 7. 12. 오후 6:56:21
+ * @since 2018. 7. 12. 오후 6:56:21
  */
 @SuppressWarnings("serial")
 public class DTGeoserverTree extends JSONArray {
@@ -148,7 +148,7 @@ public class DTGeoserverTree extends JSONArray {
 	 * {@link DTGeoserverManagerList}를 {@link DTGeoserverTree} 형태로 변환
 	 * EnTreeType.SERVER 타입일 경우
 	 * @author SG.Lee
-	 * @Since 2018. 7. 19. 오후 3:42:51
+	 * @since 2018. 7. 19. 오후 3:42:51
 	 * @param dtGeoManagers {@link DTGeoserverManagerList} 서버정보 리스트
 	 * @return {@link DTGeoserverTree}
 	 */
@@ -203,7 +203,7 @@ public class DTGeoserverTree extends JSONArray {
 	/**
 	 * {@link DTGeoserverManagerList}를 {@link DTGeoserverTree} 형태로 변환
 	 * @author SG.Lee
-	 * @Since 2018. 7. 19. 오후 3:46:01
+	 * @since 2018. 7. 19. 오후 3:46:01
 	 * @param dtGeoManagers {@link DTGeoserverManagerList} 서버정보 리스트
 	 * @param parent jstree parent ID
 	 * @param serverName 서버이름

@@ -3,7 +3,7 @@ package com.gitrnd.gdsbuilder.geoserver.service.en;
 /**
  * Geoserver WFS Output 포맷타입
  * @author SG.Lee
- * @Since 2017. 6. 5. 오후 5:45:47
+ * @since 2017. 6. 5. 오후 5:45:47
  * */
 public enum EnWFSOutputFormat {
 	GML2("GML2", "gml2"), 

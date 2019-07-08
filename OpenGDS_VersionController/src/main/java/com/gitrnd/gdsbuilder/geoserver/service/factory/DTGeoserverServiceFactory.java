@@ -15,7 +15,7 @@ public interface DTGeoserverServiceFactory {
 	/**
 	 * Geoserver WFS GetFeature 서비스
 	 * @author SG.Lee
-	 * @Since 2018. 7. 17. 오전 10:05:03
+	 * @since 2018. 7. 17. 오전 10:05:03
 	 * @param serverURL 서버URL
 	 * @param version Geoserver 버전
 	 * @param typeName namespace:featuretype
@@ -34,7 +34,7 @@ public interface DTGeoserverServiceFactory {
 	/**
 	 * Geoserver WFS GetFeature 서비스(필수 파라미터)
 	 * @author SG.Lee
-	 * @Since 2018. 7. 17. 오전 10:05:11
+	 * @since 2018. 7. 17. 오전 10:05:11
 	 * @param serverURL 서버URL
 	 * @param version Geoserver 버전
 	 * @param typeName namespace:featuretype
@@ -45,7 +45,7 @@ public interface DTGeoserverServiceFactory {
 	/**
 	 * Geoserver WMS GetMap 서비스
 	 * @author SG.Lee
-	 * @Since 2018. 7. 17. 오전 10:05:14
+	 * @since 2018. 7. 17. 오전 10:05:14
 	 * @param serverURL 서버 URL
 	 * @param version Geoserver 버전
 	 * @param format {@link EnWMSOutputFormat} PNG, PNG8, JPEG, GIF, TIFF, TIFF8, GeoTIFF, GeoTIFF8, SVG, PDF, GEORSS, KML, KMZ
@@ -72,7 +72,7 @@ public interface DTGeoserverServiceFactory {
 	/**
 	 * Geoserver WMS GetMap 서비스(필수파라미터) 
 	 * @author SG.Lee
-	 * @Since 2018. 7. 17. 오전 10:05:17
+	 * @since 2018. 7. 17. 오전 10:05:17
 	 * @param serverURL 서버 URL
 	 * @param version Geoserver 버전
 	 * @param format {@link EnWMSOutputFormat} PNG, PNG8, JPEG, GIF, TIFF, TIFF8, GeoTIFF, GeoTIFF8, SVG, PDF, GEORSS, KML, KMZ
@@ -91,7 +91,7 @@ public interface DTGeoserverServiceFactory {
 	/**
 	 * Geoserver 정보 조회 
 	 * @author SG.Lee
-	 * @Since 2018. 7. 17. 오전 10:05:19
+	 * @since 2018. 7. 17. 오전 10:05:19
 	 * @param type {@link EnGeoserverInfo} Geoserver 정보 타입
 	 * @param serverURL 서버 URL
 	 * @param fileFormat Export format(json, xml...)
@@ -102,7 +102,7 @@ public interface DTGeoserverServiceFactory {
 	/**
 	 * Geoserver 정보 조회  
 	 * @author SG.Lee
-	 * @Since 2018. 7. 17. 오전 10:05:21
+	 * @since 2018. 7. 17. 오전 10:05:21
 	 * @param type {@link EnGeoserverInfo} Geoserver 정보 타입
 	 * @param serverURL 서버 URL
 	 * @param workspace 작업공간
@@ -114,7 +114,7 @@ public interface DTGeoserverServiceFactory {
 	/**
 	 * Geoserver 정보 조회  
 	 * @author SG.Lee
-	 * @Since 2018. 7. 17. 오전 10:05:24
+	 * @since 2018. 7. 17. 오전 10:05:24
 	 * @param type {@link EnGeoserverInfo} Geoserver 정보 타입
 	 * @param serverURL 서버 URL
 	 * @param workspace 작업공간
@@ -127,7 +127,7 @@ public interface DTGeoserverServiceFactory {
 	/**
 	 * Geoserver 정보 조회  
 	 * @author SG.Lee
-	 * @Since 2018. 7. 17. 오전 10:05:26
+	 * @since 2018. 7. 17. 오전 10:05:26
 	 * @param type {@link EnGeoserverInfo} Geoserver 정보 타입
 	 * @param serverURL 서버 URL
 	 * @param workspace 작업공간

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.gitrnd.gdsbuilder.geoserver.data.DTGSGeogigDatastoreEncoder;
 import com.gitrnd.gdsbuilder.geoserver.net.DTHTTPUtils;
 import com.gitrnd.gdsbuilder.geoserver.service.en.EnLayerBboxRecalculate;
-import com.gitrnd.gdsbuilder.type.geoserver.layer.GeoLayerInfo;
+import com.gitrnd.gdsbuilder.type.geoserver.GeoLayerInfo;
 
 import it.geosolutions.geoserver.rest.GeoServerRESTPublisher;
 import it.geosolutions.geoserver.rest.HTTPUtils;

@@ -3,7 +3,7 @@ package com.gitrnd.gdsbuilder.geoserver.service.en;
 /**
  * Geoserver Service 요청타입
  * @author SG.Lee
- * @Since 2017. 6. 5. 오후 5:45:47
+ * @since 2017. 6. 5. 오후 5:45:47
  * */
 public enum EnGeoserverService {
 	WFS("WFS", "wfs"), 

@@ -10,6 +10,7 @@ import it.geosolutions.geoserver.rest.manager.GeoServerRESTStyleManager;
 
 /**
  * {@link GeoServerRESTManager} 상속클래스 - Geoserver API 전반적인 관리 클래스
+ * 
  * @author SG.LEE
  *
  */
@@ -33,7 +34,7 @@ public class DTGeoserverManager extends GeoServerRESTManager {
 	private final GeoServerRESTStyleManager styleManager;
 
 	/**
-	 * GeoServerRESTStructuredGridCoverageReaderManager Geoserver 그리드 
+	 * GeoServerRESTStructuredGridCoverageReaderManager Geoserver 그리드
 	 */
 	private final GeoServerRESTStructuredGridCoverageReaderManager structuredGridCoverageReader;
 
@@ -54,11 +55,12 @@ public class DTGeoserverManager extends GeoServerRESTManager {
 
 	/**
 	 * {@link DTGeoserverManager} 생성자
+	 * 
 	 * @author SG.LEE
-	 * @param restURL Geoserver URL
+	 * @param restURL  Geoserver URL
 	 * @param username Geoserver ID
 	 * @param password Geoserver PW
-	 * @throws MalformedURLException
+	 * @throws MalformedURLException {@link MalformedURLException}
 	 */
 	public DTGeoserverManager(String restURL, String username, String password) throws MalformedURLException {
 		super(new URL(restURL), username, password);
@@ -78,6 +80,7 @@ public class DTGeoserverManager extends GeoServerRESTManager {
 
 	/**
 	 * Get Geoserver URL
+	 * 
 	 * @author SG.LEE
 	 * @return Geoserver URL
 	 */
@@ -87,6 +90,7 @@ public class DTGeoserverManager extends GeoServerRESTManager {
 
 	/**
 	 * Get Geoserver ID
+	 * 
 	 * @author SG.LEE
 	 * @return Geoserver ID
 	 */
@@ -96,6 +100,7 @@ public class DTGeoserverManager extends GeoServerRESTManager {
 
 	/**
 	 * Get Geoserver PW
+	 * 
 	 * @author SG.LEE
 	 * @return Geoserver PW
 	 */
@@ -103,36 +108,47 @@ public class DTGeoserverManager extends GeoServerRESTManager {
 		return password;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see it.geosolutions.geoserver.rest.GeoServerRESTManager#getPublisher()
 	 */
 	public DTGeoserverPublisher getPublisher() {
 		return publisher;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see it.geosolutions.geoserver.rest.GeoServerRESTManager#getReader()
 	 */
 	public DTGeoserverReader getReader() {
 		return reader;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see it.geosolutions.geoserver.rest.GeoServerRESTManager#getStoreManager()
 	 */
 	public GeoServerRESTStoreManager getStoreManager() {
 		return storeManager;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see it.geosolutions.geoserver.rest.GeoServerRESTManager#getStyleManager()
 	 */
 	public GeoServerRESTStyleManager getStyleManager() {
 		return styleManager;
 	}
 
-	/* (non-Javadoc)
-	 * @see it.geosolutions.geoserver.rest.GeoServerRESTManager#getStructuredGridCoverageReader()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see it.geosolutions.geoserver.rest.GeoServerRESTManager#
+	 * getStructuredGridCoverageReader()
 	 */
 	public GeoServerRESTStructuredGridCoverageReaderManager getStructuredGridCoverageReader() {
 		return structuredGridCoverageReader;

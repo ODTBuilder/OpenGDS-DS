@@ -21,7 +21,7 @@ import com.gitrnd.gdsbuilder.net.ProxyServer;
 /**
  * 프록시요청을 지원하는 클래스
  * @author SG.Lee
- * @Since 2017. 5. 29. 오전 11:07:49
+ * @since 2017. 5. 29. 오전 11:07:49
  * */
 public class ProxyServerImpl implements ProxyServer{
 	private HttpServletRequest request=null;

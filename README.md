@@ -3,7 +3,7 @@
 
 
 <a name="korean"></a>
-OpenGDS/DS (다중 버저닝 관리도구)
+OpenGDS/DS (다중 버저닝 관리 자바 )
 =======
  이 프로젝트는 국토공간정보연구사업 중 [공간정보 SW 활용을 위한 오픈소스 가공기술 개발]과제의 연구성과 입니다.<br>
 오픈소스 분산 버전 관리 시스템인 Geogig을 사용하여 개발한 공간자료 편집 이력 관리 및 협업 지원 분산 버전 관리 시스템(Distributed Version Control System)이며 OpenGDS/Builder(공간자료 편집도구)와 연동하여 공간데이터 편집 및 버전관리가 가능합니다.<br>  

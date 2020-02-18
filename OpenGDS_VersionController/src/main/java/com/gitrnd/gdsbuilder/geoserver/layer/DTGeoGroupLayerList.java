@@ -96,7 +96,7 @@ public class DTGeoGroupLayerList extends ArrayList<DTGeoGroupLayer> implements S
 	 * @since 2017. 5. 10. 오후 10:08:58
 	 * @param groupName - 그룹이름
 	 * @return DTGeoGroupLayer
-	 * @throws
+	 * @throws DTGeoGroupLayer
 	 * */
 	public DTGeoGroupLayer getDTGeoGroupLayer(String groupName){
 		for(DTGeoGroupLayer groupLayer : this){

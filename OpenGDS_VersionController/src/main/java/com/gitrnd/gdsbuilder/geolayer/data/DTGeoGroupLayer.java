@@ -60,7 +60,7 @@ public class DTGeoGroupLayer extends RESTLayerGroup{
 	 * Geoserver REST Response 결과를 {@link DTGeoGroupLayer} 클래스로 변환
 	 * @author SG.LEE
 	 * @param response
-	 * @return
+	 * @return DTGeoGroupLayer
 	 */
 	public static DTGeoGroupLayer build(String response) {
         Element elem = JDOMBuilder.buildElement(response);

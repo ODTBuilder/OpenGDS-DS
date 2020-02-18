@@ -114,7 +114,7 @@ public class DTGeoserverReader extends GeoServerRESTReader {
 	/**
 	 * GET Geoserver ID
 	 * @author SG.LEE
-	 * @return
+	 * @return username
 	 */
 	public String getUsername() {
 		return username;
@@ -132,7 +132,7 @@ public class DTGeoserverReader extends GeoServerRESTReader {
 	/**
 	 * GET Geoserver PW
 	 * @author SG.LEE
-	 * @return
+	 * @return password
 	 */
 	public String getPassword() {
 		return password;
@@ -150,7 +150,7 @@ public class DTGeoserverReader extends GeoServerRESTReader {
 	/**
 	 * GET Geoserver URL
 	 * @author SG.LEE
-	 * @return
+	 * @return String
 	 */
 	public String getBaseurl() {
 		return baseurl;
